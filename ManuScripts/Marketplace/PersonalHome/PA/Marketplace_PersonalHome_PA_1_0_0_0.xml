@@ -1,0 +1,1120 @@
+﻿<ManuScript>
+  <properties manuscriptID="Marketplace_PersonalHome_PA_1_0_0_0" versionID="Marketplace_PersonalHome_PA_1_0_0_0" versionDate="2011-01-01" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="United States [english]" caption="Personal Home PA (1.0.0.0)" inherited="Carrier_ProductBase_PersonalHome_1_0_0_0" image="" dataSchema="" usePersistedState="0">
+    <notes />
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalHome" />
+      <keyInfo name="state" value="PA" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2011-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2011-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Pages" />
+      <keyInfo name="cultures" value="" />
+      <keyInfo name="currencyCodes" value="" />
+      <keyInfo name="states" value="None" />
+      <keyInfo name="type" value="None" />
+      <keyInfo name="layer" value="DuckCreek" />
+    </keys>
+  </properties>
+  <model defaultValue="data.SubmissionExecute">
+    <object id="data" abstract="1">
+      <object id="Policy" abstract="1">
+        <object id="Line" abstract="1">
+          <object id="Risk" abstract="1">
+            <object id="SectionICoverages" abstract="1">
+              <object id="MiningSubsidence" path="coverage[Type=&quot;MiningSubsidence&quot;]">
+                <minOccurs value="1" />
+                <maxOccurs value="1" />
+                <object id="MiningSubsidenceInput">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <public id="MiningSubsidenceInput.Indicator" path="Indicator" type="boolean">
+                    <definition>
+                      <caption value="Mining Subsidence" />
+                      <maxLength value="1" />
+                    </definition>
+                  </public>
+                </object>
+                <object id="MiningSubsidenceOutput">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <public id="MiningSubsidenceOutput.Premium" path="Premium" type="float" class="Premium:excludeInChangeSummary">
+                    <definition>
+                      <caption value="Mining Subsidence Output Premium" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <calculation>
+                          <argument op="eq" idref="MiningSubsidencePrivate.BaseRate" type="float" />
+                        </calculation>
+                      </value>
+                    </rules>
+                    <worksheet>
+                      <summarize idref="True" />
+                    </worksheet>
+                  </public>
+                  <public id="MiningSubsidenceOutput.PremiumChange" path="change" type="float" class="excludeInChangeSummary">
+                    <definition>
+                      <caption value="Mining Subsidence Output Premium Change" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                  </public>
+                  <public id="MiningSubsidenceOutput.PremiumWritten" path="written" type="float" class="excludeInChangeSummary">
+                    <definition>
+                      <caption value="Mining Subsidence Output Premium Written" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <written useShared="1">
+                          <writtenRef idref="MiningSubsidenceOutput.Premium" type="float" infoType="term" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.MinimumPremiumDefault" type="int" infoType="minimum" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.FullyEarnedDefault" type="boolean" infoType="fullyEarned" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.FlatChargeDefault" type="boolean" infoType="flatCharge" />
+                        </written>
+                      </value>
+                    </rules>
+                  </public>
+                </object>
+                <object id="MiningSubsidencePrivate">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <private id="MiningSubsidencePrivate.BaseRate" caption="" type="float">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="MiningSubsidenceInput.Indicator" type="boolean" />
+                            <operand type="int" value="0" />
+                          </comparison>
+                        </condition>
+                        <then value="0" />
+                        <else>
+                          <lookup>
+                            <tableRef value="MiningSubsidenceRates" />
+                            <fieldRef value="Value" />
+                            <keyRef idref="CoverageADwellingInput.Limit" type="int" name="Limit" />
+                            <keyRef idref="AdditionalOtherInterestPrivate.CalculatedAge" type="int" name="Age" />
+                          </lookup>
+                        </else>
+                      </if>
+                    </value>
+                    <worksheet>
+                      <caption value="Mining Subsidence Base Rate" />
+                    </worksheet>
+                  </private>
+                </object>
+              </object>
+              <object id="SectionICoveragesOutput" abstract="1">
+                <public id="SectionICoveragesOutput.SectionIPremium" path="SectionIPremium" type="float" class="excludeInChangeSummary" override="1">
+                  <definition>
+                    <caption value="Section I Premium" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                    <maxLength idref="MaxLength.Premium" />
+                  </definition>
+                  <rules>
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="BusinessPropertyOutput.Premium" type="float" />
+                        <argument op="add" idref="AdditionsAlterationsOutput.Premium" type="float" />
+                        <argument op="add" idref="CreditCardOutput.Premium" type="float" />
+                        <argument op="add" idref="EarthquakeOutput.Premium" type="float" />
+                        <argument op="add" idref="IdentityFraudExpenseCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="LossAssessmentOutput.Premium" type="float" />
+                        <argument op="add" idref="OtherStructuresRentedToOthersOutput.Premium" type="float" />
+                        <argument op="add" idref="PermittedIncidentalOccupancyOtherStructuresOutput.Premium" type="float" />
+                        <argument op="add" idref="PersonalPropertyOtherResidenceOutput.Premium" type="float" />
+                        <argument op="add" idref="RefrigeratedPersonalPropertyOutput.Premium" type="float" />
+                        <argument op="add" idref="ReplacementCostDwellingOutput.Premium" type="float" />
+                        <argument op="add" idref="SpecialComputerCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="SpecialPersonalPropertyCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="UnitsRegularlyRentedToOthersOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledElectronicApparatusOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledGunsOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledJewelryOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledMoneyOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledSecuritiesOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledSilverwareOutput.Premium" type="float" />
+                        <argument op="add" idref="WaterBackupAndSumpOverflowOutput.Premium" type="float" />
+                        <argument op="add" idref="WaterBackupOfSewersOrDrainsOutput.Premium" type="float" />
+                        <argument op="add" idref="WatercraftBlanketHullCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="LimitedFungiBacteriaOutput.Premium" type="float" />
+                        <argument op="add" idref="OrdinanceOrLawOutput.Premium" type="float" />
+                        <argument op="add" idref="CarportsPoolCagesOutput.Premium" type="float" />
+                        <argument op="add" idref="MiningSubsidenceOutput.Premium" type="float" />
+                      </calculation>
+                    </value>
+                  </rules>
+                </public>
+                <public id="SectionICoveragesOutput.SectionIPremiumChange" path="SectionIPremium/@change" type="float" class="excludeInChangeSummary" override="1">
+                  <definition>
+                    <caption value="Section I Coverages Output Section I Premium Change" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                    <maxLength idref="MaxLength.Premium" />
+                  </definition>
+                  <rules>
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="AdditionsAlterationsOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="BusinessPropertyOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="CreditCardOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="EarthquakeOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="IdentityFraudExpenseCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="LossAssessmentOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="OtherStructuresRentedToOthersOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="PermittedIncidentalOccupancyOtherStructuresOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="PersonalPropertyOtherResidenceOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="RefrigeratedPersonalPropertyOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="ReplacementCostDwellingOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="SpecialComputerCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="SpecialPersonalPropertyCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnitsRegularlyRentedToOthersOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledElectronicApparatusOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledGunsOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledJewelryOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledMoneyOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledSecuritiesOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledSilverwareOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="WaterBackupAndSumpOverflowOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="WaterBackupOfSewersOrDrainsOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="WatercraftBlanketHullCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="LimitedFungiBacteriaOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="OrdinanceOrLawOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="CarportsPoolCagesOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="MiningSubsidenceOutput.PremiumChange" type="float" />
+                      </calculation>
+                    </value>
+                  </rules>
+                </public>
+                <public id="SectionICoveragesOutput.SectionIPremiumWritten" path="SectionIPremium/@written" type="float" class="excludeInChangeSummary" override="1">
+                  <definition>
+                    <caption value="Section I Coverages Output Section I Premium Written" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                    <maxLength idref="MaxLength.Premium" />
+                  </definition>
+                  <rules>
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="AdditionsAlterationsOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="BusinessPropertyOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="CreditCardOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="EarthquakeOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="IdentityFraudExpenseCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="LossAssessmentOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="OtherStructuresRentedToOthersOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="PermittedIncidentalOccupancyOtherStructuresOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="PersonalPropertyOtherResidenceOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="RefrigeratedPersonalPropertyOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="ReplacementCostDwellingOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="SpecialComputerCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="SpecialPersonalPropertyCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnitsRegularlyRentedToOthersOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledElectronicApparatusOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledGunsOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledJewelryOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledMoneyOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledSecuritiesOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledSilverwareOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="WaterBackupAndSumpOverflowOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="WaterBackupOfSewersOrDrainsOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="WatercraftBlanketHullCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="LimitedFungiBacteriaOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="OrdinanceOrLawOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="CarportsPoolCagesOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="MiningSubsidenceOutput.PremiumWritten" type="float" />
+                      </calculation>
+                    </value>
+                  </rules>
+                </public>
+              </object>
+            </object>
+            <object id="RiskCoverages" abstract="1">
+              <object id="RiskCreditsAndSurcharges" abstract="1">
+                <object id="HurricaneDeductible" path="hurricanedeductible">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <object id="HurricaneDeductibleInput">
+                    <minOccurs value="1" />
+                    <maxOccurs value="1" />
+                    <public id="HurricaneDeductibleInput.Indicator" path="Indicator" type="boolean">
+                      <definition>
+                        <caption value="Hurricane Deductible Input Indicator" />
+                      </definition>
+                      <rules>
+                        <value>
+                          <comparison compare="and">
+                            <comparison compare="ne">
+                              <operand idref="DwellingInput.HurricaneDeductible" />
+                              <operand type="string" value="" />
+                            </comparison>
+                            <comparison compare="ne">
+                              <operand idref="DwellingInput.HurricaneDeductible" />
+                              <operand type="string" value="N" />
+                            </comparison>
+                          </comparison>
+                        </value>
+                      </rules>
+                    </public>
+                  </object>
+                  <object id="HurricaneDeductibleOutput">
+                    <minOccurs value="1" />
+                    <maxOccurs value="1" />
+                    <public id="HurricaneDeductibleOutput.Amount" path="Amount" type="float">
+                      <definition>
+                        <caption value="Hurricane Deductible Output Amount" />
+                        <formatMask idref="FormatMask.PremiumPennies" />
+                        <readOnly idref="True" />
+                        <maxLength idref="MaxLength.Premium" />
+                      </definition>
+                      <rules>
+                        <value>
+                          <if>
+                            <condition>
+                              <comparison compare="eq">
+                                <operand idref="FireResistiveDiscountInput.Indicator" type="boolean" />
+                                <operand idref="False" type="int" />
+                              </comparison>
+                            </condition>
+                            <then value="0" />
+                            <else>
+                              <calculation>
+                                <argument op="eq" idref="DwellingOutputNonShredded.BasePremiumAccumulativeValue" type="float" />
+                                <argument op="multiply">
+                                  <calculation>
+                                    <argument op="eq" idref="HurricaneDeductiblePrivate.Factor" type="float" />
+                                    <argument op="subtract" type="int" value="1" />
+                                    <argument op="multiply" round="1" roundType="round" type="int" value="1" />
+                                  </calculation>
+                                </argument>
+                              </calculation>
+                            </else>
+                          </if>
+                        </value>
+                        <affects>
+                          <reference idref="FireResistiveDiscountPrivate.SetBasePremium" effect="postEffect" />
+                        </affects>
+                      </rules>
+                      <worksheet>
+                        <comparison idref="True" type="int" />
+                        <summarize idref="True" />
+                      </worksheet>
+                    </public>
+                  </object>
+                  <object id="HurricaneDeductiblePrivate">
+                    <minOccurs value="1" />
+                    <maxOccurs value="1" />
+                    <private id="HurricaneDeductiblePrivate.Factor" caption="" type="float">
+                      <value>
+                        <lookup>
+                          <tableRef value="HurricaneDeductibles" />
+                          <fieldRef value="Value" />
+                          <keyRef idref="DwellingInput.HurricaneDeductible" type="string" name="Limit" />
+                        </lookup>
+                      </value>
+                      <worksheet>
+                        <caption value="Town/Row Surcharge Factor" />
+                      </worksheet>
+                    </private>
+                    <private id="HurricaneDeductiblePrivate.SetBasePremium" caption="" type="float">
+                      <value>
+                        <calculation>
+                          <argument op="eq" idref="DwellingOutputNonShredded.BasePremiumAccumulativeValue" type="float" />
+                          <argument op="add" idref="HurricaneDeductibleOutput.Amount" type="float" />
+                        </calculation>
+                      </value>
+                      <affects>
+                        <reference idref="DwellingOutputNonShredded.BasePremiumAccumulativeValue" effect="setValue" />
+                      </affects>
+                    </private>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object id="Dwelling" abstract="1">
+              <object id="DwellingInput" abstract="1">
+                <public id="DwellingInput.HurricaneDeductible" path="HurricaneDeductible" type="string">
+                  <definition>
+                    <caption value="Hurricane Deductible" />
+                    <options>
+                      <option value="N" caption="No Coverage" />
+                      <option value="2%" caption="2%" />
+                      <option value="5%" caption="5%" />
+                      <option value="10%" caption="10%" />
+                    </options>
+                    <maxLength value="Hurricane Deductible" />
+                  </definition>
+                  <rules>
+                    <default value="N" />
+                  </rules>
+                </public>
+              </object>
+              <object id="DwellingPrivate" abstract="1">
+                <private id="DwellingPrivate.DeductibleCalculationHurricane" caption="" type="float">
+                  <value>
+                    <calculation>
+                      <argument op="eq" idref="DwellingOutputNonShredded.AdjustedBasePremiumAccumulativeValue" type="float" />
+                      <argument op="multiply">
+                        <calculation>
+                          <argument op="eq" idref="DeductiblePrivate.AllPerilsHurricaneDeductibleFactor" type="float" />
+                          <argument op="subtract" type="int" value="1" />
+                        </calculation>
+                      </argument>
+                      <argument op="multiply" round="1" roundType="round" type="int" value="1" />
+                    </calculation>
+                  </value>
+                </private>
+                <object id="DeductiblePrivate" abstract="1">
+                  <private id="DeductiblePrivate.AllPerilsWindDeductibleFactor" caption="" type="float" override="1">
+                    <value>
+                      <lookup>
+                        <tableRef value="DeductibleFactors" />
+                        <fieldRef value="Factor" />
+                        <keyRef idref="DwellingInput.Deductible" type="int" name="Deductible" />
+                        <keyRef idref="DwellingInput.WindDeductible" type="string" name="Wind Deductible" />
+                      </lookup>
+                    </value>
+                  </private>
+                  <private id="DeductiblePrivate.AllPerilsHurricaneDeductibleFactor" caption="" type="float">
+                    <value>
+                      <lookup>
+                        <tableRef value="HurricaneDeductibleFactors" />
+                        <fieldRef value="Factor" />
+                        <keyRef idref="DwellingInput.Deductible" type="int" name="Deductible" />
+                        <keyRef idref="DwellingInput.HurricaneDeductible" type="string" name="Hurricane Deductible" />
+                      </lookup>
+                    </value>
+                  </private>
+                </object>
+              </object>
+              <object id="DwellingOutput" abstract="1">
+                <public id="DwellingOutput.DeductibleCalculation" path="DeductibleCalculation" type="float" override="1">
+                  <definition>
+                    <caption value="Deductible Adjustment" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                    <maxLength idref="MaxLength.Premium" />
+                  </definition>
+                  <rules>
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="DwellingOutputNonShredded.AdjustedBasePremiumAccumulativeValue" type="float" />
+                        <argument op="multiply">
+                          <calculation>
+                            <argument op="eq" idref="DeductiblePrivate.Factor" type="float" />
+                            <argument op="subtract" type="int" value="1" />
+                          </calculation>
+                        </argument>
+                        <argument op="multiply" round="1" roundType="round" type="int" value="1" />
+                        <argument op="add" idref="DwellingPrivate.DeductibleCalculationHurricane" type="float" />
+                      </calculation>
+                    </value>
+                    <affects>
+                      <reference idref="DeductiblePrivate.SetAdjustedBasePremium" effect="postEffect" />
+                    </affects>
+                  </rules>
+                  <worksheet>
+                    <summarize idref="True" />
+                  </worksheet>
+                </public>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <table id="MiningSubsidenceRates" tableType="local" separator=",">
+        <fields>
+          <field type="int" name="Value" />
+        </fields>
+        <rowKeys name="Limit" type="int" find="interpolate">
+          <key value="5000" caption="" />
+          <key value="10000" caption="" />
+          <key value="15000" caption="" />
+          <key value="20000" caption="" />
+          <key value="25000" caption="" />
+          <key value="30000" caption="" />
+          <key value="35000" caption="" />
+          <key value="40000" caption="" />
+          <key value="45000" caption="" />
+          <key value="50000" caption="" />
+          <key value="55000" caption="" />
+          <key value="60000" caption="" />
+          <key value="65000" caption="" />
+          <key value="70000" caption="" />
+          <key value="75000" caption="" />
+          <key value="80000" caption="" />
+          <key value="85000" caption="" />
+          <key value="90000" caption="" />
+          <key value="95000" caption="" />
+          <key value="100000" caption="" />
+          <key value="105000" caption="" />
+          <key value="110000" caption="" />
+          <key value="115000" caption="" />
+          <key value="120000" caption="" />
+          <key value="125000" caption="" />
+          <key value="130000" caption="" />
+          <key value="135000" caption="" />
+          <key value="140000" caption="" />
+          <key value="145000" caption="" />
+          <key value="150000" caption="" />
+          <key value="155000" caption="" />
+          <key value="160000" caption="" />
+          <key value="165000" caption="" />
+          <key value="170000" caption="" />
+          <key value="175000" caption="" />
+          <key value="180000" caption="" />
+          <key value="185000" caption="" />
+          <key value="190000" caption="" />
+          <key value="195000" caption="" />
+          <key value="200000" caption="" />
+          <key value="205000" caption="" />
+          <key value="210000" caption="" />
+          <key value="215000" caption="" />
+          <key value="220000" caption="" />
+          <key value="225000" caption="" />
+          <key value="230000" caption="" />
+          <key value="235000" caption="" />
+          <key value="240000" caption="" />
+          <key value="245000" caption="" />
+          <key value="250000" caption="" />
+          <key value="255000" caption="" />
+          <key value="260000" caption="" />
+          <key value="265000" caption="" />
+          <key value="270000" caption="" />
+          <key value="275000" caption="" />
+          <key value="280000" caption="" />
+          <key value="285000" caption="" />
+          <key value="290000" caption="" />
+          <key value="295000" caption="" />
+          <key value="300000" caption="" />
+          <key value="305000" caption="" />
+          <key value="310000" caption="" />
+          <key value="315000" caption="" />
+          <key value="320000" caption="" />
+          <key value="325000" caption="" />
+          <key value="330000" caption="" />
+          <key value="335000" caption="" />
+          <key value="340000" caption="" />
+          <key value="345000" caption="" />
+          <key value="350000" caption="" />
+          <key value="355000" caption="" />
+          <key value="360000" caption="" />
+          <key value="365000" caption="" />
+          <key value="370000" caption="" />
+          <key value="375000" caption="" />
+          <key value="380000" caption="" />
+          <key value="385000" caption="" />
+          <key value="390000" caption="" />
+          <key value="395000" caption="" />
+          <key value="400000" caption="" />
+          <key value="405000" caption="" />
+          <key value="410000" caption="" />
+          <key value="415000" caption="" />
+          <key value="420000" caption="" />
+          <key value="425000" caption="" />
+          <key value="430000" caption="" />
+          <key value="435000" caption="" />
+          <key value="440000" caption="" />
+          <key value="445000" caption="" />
+          <key value="450000" caption="" />
+          <key value="455000" caption="" />
+          <key value="460000" caption="" />
+          <key value="465000" caption="" />
+          <key value="470000" caption="" />
+          <key value="475000" caption="" />
+          <key value="480000" caption="" />
+          <key value="485000" caption="" />
+          <key value="490000" caption="" />
+          <key value="495000" caption="" />
+          <key value="500000" caption="" />
+        </rowKeys>
+        <colKeys name="Age" type="int" find="range">
+          <key value="&lt;64" caption="" />
+          <key value="65&gt;" caption="" />
+        </colKeys>
+        <data>
+          <row value="10.00,9.00" />
+          <row value="12.50,11.25" />
+          <row value="15.00,13.50" />
+          <row value="17.50,15.75" />
+          <row value="20.00,18.00" />
+          <row value="22.50,20.25" />
+          <row value="25.00,22.50" />
+          <row value="27.50,24.75" />
+          <row value="30.00,27.00" />
+          <row value="32.50,29.25" />
+          <row value="35.00,31.50" />
+          <row value="37.50,33.75" />
+          <row value="40.00,36.00" />
+          <row value="42.50,38.25" />
+          <row value="45.00,40.50" />
+          <row value="47.50,42.75" />
+          <row value="50.00,45.00" />
+          <row value="52.50,47.25" />
+          <row value="55.00,49.50" />
+          <row value="57.50,51.75" />
+          <row value="60.00,54.00" />
+          <row value="62.50,56.25" />
+          <row value="65.00,58.50" />
+          <row value="67.50,60.75" />
+          <row value="70.00,63.00" />
+          <row value="72.50,65.25" />
+          <row value="75.00,67.50" />
+          <row value="77.50,69.75" />
+          <row value="80.00,72.00" />
+          <row value="82.50,74.25" />
+          <row value="85.00,76.50" />
+          <row value="87.50,78.75" />
+          <row value="90.00,81.00" />
+          <row value="92.50,83.25" />
+          <row value="95.00,85.50" />
+          <row value="97.50,87.75" />
+          <row value="100.00,90.00" />
+          <row value="102.50,92.25" />
+          <row value="105.00,94.50" />
+          <row value="107.50,96.75" />
+          <row value="110.00,99.00" />
+          <row value="112.50,101.25" />
+          <row value="115.00,103.50" />
+          <row value="117.50,105.75" />
+          <row value="120.00,108.00" />
+          <row value="122.50,110.25" />
+          <row value="125.00,112.50" />
+          <row value="127.50,114.75" />
+          <row value="130.00,117.00" />
+          <row value="132.50,119.25" />
+          <row value="135.00,121.50" />
+          <row value="137.50,123.75" />
+          <row value="140.00,126.00" />
+          <row value="142.50,128.25" />
+          <row value="145.00,130.50" />
+          <row value="147.50,132.75" />
+          <row value="150.00,135.00" />
+          <row value="152.50,137.25" />
+          <row value="155.00,139.50" />
+          <row value="157.50,141.75" />
+          <row value="160.00,144.00" />
+          <row value="162.50,146.25" />
+          <row value="165.00,148.50" />
+          <row value="167.50,150.75" />
+          <row value="170.00,153.00" />
+          <row value="172.50,155.25" />
+          <row value="175.00,157.50" />
+          <row value="177.50,159.75" />
+          <row value="180.00,162.00" />
+          <row value="182.50,164.25" />
+          <row value="185.00,166.50" />
+          <row value="187.50,168.75" />
+          <row value="190.00,171.00" />
+          <row value="192.50,173.25" />
+          <row value="195.00,175.50" />
+          <row value="197.50,177.75" />
+          <row value="200.00,180.00" />
+          <row value="202.50,182.25" />
+          <row value="205.00,184.50" />
+          <row value="207.50,186.75" />
+          <row value="210.00,189.00" />
+          <row value="212.50,191.25" />
+          <row value="215.00,193.50" />
+          <row value="217.50,195.75" />
+          <row value="220.00,198.00" />
+          <row value="222.50,200.25" />
+          <row value="225.00,202.50" />
+          <row value="227.50,204.75" />
+          <row value="230.00,207.00" />
+          <row value="232.50,209.25" />
+          <row value="235.00,211.50" />
+          <row value="237.50,213.75" />
+          <row value="240.00,216.00" />
+          <row value="242.50,218.25" />
+          <row value="245.00,220.50" />
+          <row value="247.50,222.75" />
+          <row value="250.00,225.00" />
+          <row value="252.50,227.25" />
+          <row value="255.00,229.50" />
+          <row value="257.50,231.75" />
+        </data>
+      </table>
+      <object id="Account" abstract="1">
+        <object id="AdditionalOtherInterest" abstract="1">
+          <object id="AdditionalOtherInterestPrivate" abstract="1">
+            <private id="AdditionalOtherInterestPrivate.CalculatedAge" caption="" type="int">
+              <value>
+                <dateDifference unit="years">
+                  <dateArgument idref="PolicyInput.EffectiveDate" />
+                  <dateArgument idref="AccountInput.Birthdate" />
+                </dateDifference>
+              </value>
+            </private>
+          </object>
+        </object>
+        <object id="AccountInput" abstract="1">
+          <public id="AccountInput.Birthdate" path="Birthdate" type="date" override="1">
+            <definition>
+              <caption value="Birthdate" />
+              <required>
+                <comparison compare="or">
+                  <operand idref="PolicyPrivate.IsNotQuote" type="boolean" />
+                  <operand idref="AccountPrivate.IsRequired" type="boolean" />
+                </comparison>
+              </required>
+            </definition>
+          </public>
+        </object>
+      </object>
+      <table id="DiscountSurchargeFactors" tableType="local" separator="," override="1">
+        <fields>
+          <field type="int" name="Value" />
+        </fields>
+        <rowKeys name="key1" type="int" find="eq">
+          <key value="x" caption="" />
+        </rowKeys>
+        <data>
+          <row value="" />
+        </data>
+      </table>
+      <table id="HurricaneDeductibles" tableType="local" separator=",">
+        <fields>
+          <field type="int" name="Value" />
+        </fields>
+        <rowKeys name="Limit" type="int" find="eq">
+          <key value="N" caption="" />
+          <key value="2%" caption="" />
+          <key value="5%" caption="" />
+          <key value="10%" caption="" />
+        </rowKeys>
+        <data>
+          <row value="0" />
+          <row value="0.02" />
+          <row value="0.05" />
+          <row value="0.10" />
+        </data>
+      </table>
+      <table id="HurricaneDeductibleFactors" tableType="local" separator=",">
+        <fields>
+          <field type="int" name="Factor" />
+        </fields>
+        <rowKeys name="Deductible" type="int" find="eq">
+          <key value="100" />
+          <key value="250" />
+          <key value="500" default="1" caption="" />
+          <key value="750" />
+          <key value="1000" />
+          <key value="2500" />
+          <key value="5000" />
+          <key value="7500" />
+          <key value="10000" />
+          <key value="100250" />
+        </rowKeys>
+        <colKeys name="Hurricane Deductible" type="string" find="eq">
+          <key value="N" caption="" default="1" />
+          <key value="1%" caption="" />
+          <key value="2%" caption="" />
+          <key value="5%" caption="" />
+          <key value="10%" caption="" />
+        </colKeys>
+        <data>
+          <row value="1.25,,,," />
+          <row value="1.13,1.08,1.04,1.02,1.00" />
+          <row value="1.00,0.98,0.95,0.93,0.90" />
+          <row value="0.97,0.95,0.93,0.90,0.87" />
+          <row value="0.94,0.92,0.90,0.87,0.75" />
+          <row value="0.81,0.79,0.77,0.75,0.71" />
+          <row value="0.76,0.74,0.73,0.71,0.67" />
+          <row value="0.72,0.71,0.69,0.67,0.63" />
+          <row value="0.68,0.67,0.64,0.63,0.60" />
+          <row value=",,,," />
+        </data>
+      </table>
+    </object>
+  </model>
+  <revisions />
+  <annotations>
+    <comments idref="MiningSubsidenceInput.Indicator" inherited="Marketplace_PersonalHome_1_0_0_0">
+      <comment>Increases the limit of liability that applies to Credit card, Fund Transfer Card, Forgery and Counterfeit Money.</comment>
+    </comments>
+  </annotations>
+  <topics>
+    <topic name="MainInterview" abstract="1">
+      <page pageVersion="2.0" name="Account" caption="Applicant" prevPage="" validRef="AccountPage.Show" override="1">
+        <group object="Account" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat">
+            <section direction="down" captionPosition="before" showCaption="repeat">
+              <section direction="down" captionPosition="before" showCaption="repeat">
+                <nameValues />
+                <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel">
+                  <section direction="across" captionPosition="above" showCaption="repeat">
+                    <reference idref="AccountInput.FirstName" capClass="x_Width125" fldClass="x_Width125" />
+                    <reference idref="AccountInput.MiddleName" caption="MI" fldClass="x_MiddleInitialField x_Width50" capClass="x_Width50" />
+                    <reference idref="AccountInput.LastName" capClass="x_Width125" fldClass="x_Width125" />
+                    <reference idref="AccountInput.Suffix" />
+                    <action command="custom" validRef="AccountPage.ManualPartySearch_Show" displayType="hyperlink">
+                      <nameValues>
+                        <nameValue value="partyStart:partySearch" name="postAction" />
+                        <nameValue value="Party Search" name="popUpTitle" />
+                        <nameValue value="800" name="popUpWidth" />
+                        <nameValue value="600" name="popUpHeight" />
+                        <nameValue value="loneIcon" name="type" />
+                        <nameValue value="magnifier.png" name="icon" />
+                        <nameValue value="Search" name="qtip" />
+                        <nameValue value="1" name="_performStoreData" />
+                        <nameValue value="1" name="popUp" />
+                        <nameValue value="1" name="hideCloseButton" />
+                        <nameValue value="partyAttach" name="PartyReturnAction" />
+                        <nameValue value="AccountPrivate.PartyImportAccountEmail" name="FieldsToExecuteOnSelect" />
+                      </nameValues>
+                    </action>
+                    <action command="custom" validRef="AccountPage.AutomaticPartySearch_Show" displayType="hyperlink">
+                      <nameValues>
+                        <nameValue value="partyStart:searchResults" name="postAction" />
+                        <nameValue value="Auto Search" name="popUpTitle" />
+                        <nameValue value="800" name="popUpWidth" />
+                        <nameValue value="500" name="popUpHeight" />
+                        <nameValue value="1" name="_performStoreData" />
+                        <nameValue value="_partyReturnAction,partyAttach,_mappingId,PartySearch" name="ExpressActionParameters" />
+                        <nameValue value="loneIcon" name="type" />
+                        <nameValue value="magnifier.png" name="icon" />
+                        <nameValue value="Search" name="qtip" />
+                        <nameValue value="1" name="popUp" />
+                        <nameValue value="1" name="hideCloseButton" />
+                      </nameValues>
+                    </action>
+                    <action command="custom" caption="Add co-applicant" validRef="False">
+                      <nameValues />
+                      <request verb="ManuScript.addObjectRecordRq">
+                        <nameValues>
+                          <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="manuscript" dataType="attribute" />
+                          <nameValue value="Person" name="objectID" dataType="attribute" />
+                        </nameValues>
+                      </request>
+                    </action>
+                    <nameValues />
+                  </section>
+                  <section direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width90" fldClass="x_Width90">
+                    <reference idref="AccountInput.Birthdate" />
+                    <reference idref="PersonInput.SSN" />
+                  </section>
+                  <section direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width90" fldClass="x_Width90">
+                    <reference idref="PersonInput.MaritalStatus" />
+                    <reference idref="PersonInput.Occupation" />
+                  </section>
+                  <section direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width90" fldClass="x_Width90">
+                    <reference idref="AccountInput.PrimaryPhone" caption="Home Phone" />
+                    <reference idref="PersonInput.WorkPhone" />
+                  </section>
+                  <section direction="across" captionPosition="before" showCaption="repeat">
+                    <reference idref="AccountInput.Email" />
+                    <reference idref="AccountInput.EmailNotRequired" onBlur="1" />
+                  </section>
+                  <section direction="down" captionPosition="before" showCaption="repeat">
+                    <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel">
+                      <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width90">
+                        <reference idref="AccountInput.Address1" onBlur="1">
+                          <nameValues>
+                            <nameValue idref="Geocode.AddressReadOnly" name="readOnly" />
+                          </nameValues>
+                        </reference>
+                        <reference idref="AccountInput.Address2">
+                          <nameValues>
+                            <nameValue idref="Geocode.AddressReadOnly" name="readOnly" />
+                          </nameValues>
+                        </reference>
+                      </section>
+                      <section direction="across" captionPosition="above" showCaption="repeat">
+                        <reference idref="AccountInput.City" caption="City:">
+                          <nameValues>
+                            <nameValue idref="Geocode.AddressReadOnly" name="readOnly" />
+                          </nameValues>
+                        </reference>
+                        <reference idref="AccountInput.State" onBlur="1">
+                          <nameValues>
+                            <nameValue idref="Geocode.AddressReadOnly" name="readOnly" />
+                          </nameValues>
+                        </reference>
+                        <reference idref="AccountInput.ZipCode" onBlur="1">
+                          <nameValues>
+                            <nameValue idref="Geocode.AddressReadOnly" name="readOnly" />
+                          </nameValues>
+                        </reference>
+                        <reference idref="AccountInput.County" compute="1">
+                          <nameValues />
+                        </reference>
+                        <section direction="across" captionPosition="above" showCaption="repeat" validRef="Geocode.IsVerified">
+                          <reference idref="AccountPBBI.Latitude" />
+                          <reference idref="AccountPBBI.Longitude" />
+                          <reference idref="Geocode.Confidence" />
+                        </section>
+                        <tableLayout direction="down" captionPosition="before" showCaption="none" validRef="PitneyBowesOutput.GeocodingEnabled" caption="Geocoding Status">
+                          <section direction="across" captionPosition="before" showCaption="repeat" class="x_Width600">
+                            <reference idref="Geocode.GeocodeStatusDisplay" compute="1" />
+                            <action command="custom" caption="Verify" pageRef="GeocodeResults" topic="Geocode" validRef="Geocode.ShowPBBIVerifyAddress" displayType="hyperlink">
+                              <nameValues>
+                                <nameValue value="integrationStart:integrationStart" name="postAction" />
+                                <nameValue value="1" name="popUp" />
+                                <nameValue value="Geocode Results" name="popUpTitle" />
+                                <nameValue value="800" name="popUpWidth" />
+                                <nameValue value="500" name="popUpHeight" />
+                                <nameValue value="1" name="hideCloseButton" />
+                                <nameValue value="Geocode.GeocodeRq" name="preEventField" />
+                                <nameValue value="PBBI Account Geocoding" name="MappingID" />
+                                <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="CallingManuScriptID" />
+                                <nameValue value="Geocode.SetLastVerifiedToToday,UserInterface.StorePolicy" name="FieldsToExecuteOnSelect" />
+                                <nameValue idref="False" name="IsParentPopup" />
+                                <nameValue idref="AccountPrivate.ContextPath" name="ContextPath" />
+                                <nameValue idref="Geocode.ManuscriptID" name="manuscript" />
+                                <nameValue value="1" name="_performStoreData" />
+                                <nameValue idref="AccountOutput.ID" name="ImportContextPath" />
+                              </nameValues>
+                            </action>
+                            <action command="custom" caption="Edit verified address" validRef="Geocode.ShowPBBIEditAddress" displayType="hyperlink" preCommand="Geocode.ClearLastVerified" postCommand="UserInterface.StorePolicy" />
+                            <action command="custom" caption="View Map" validRef="InteractiveMap.ShowPBBIInteractiveMapLink" displayType="hyperlink">
+                              <nameValues>
+                                <nameValue value="hyperlink" name="type" />
+                                <nameValue value="InteractiveMap.ViewMapPreEvent" name="preEventField" />
+                                <nameValue idref="InteractiveMap.JavaScript" name="actionUrl" />
+                              </nameValues>
+                            </action>
+                          </section>
+                        </tableLayout>
+                      </section>
+                      <nameValues>
+                        <nameValue value="Property Address" name="panelHeader" />
+                      </nameValues>
+                    </section>
+                    <nameValues />
+                  </section>
+                  <nameValues>
+                    <nameValue value="Primary Insured" name="panelHeader" />
+                  </nameValues>
+                  <section direction="down" captionPosition="before" showCaption="repeat">
+                    <reference idref="MailingAddressInfo.MailingAddressSame" capClass="x_Width375" onBlur="1" />
+                    <section direction="down" captionPosition="before" showCaption="repeat" validRef="PersonPrivate.ShowMailingAddress" cc="GrayPanel" collapsible="1" startClosed="1">
+                      <section direction="down" captionPosition="above" showCaption="repeat">
+                        <reference idref="MailingAddressInfo.MailingAddress1" />
+                        <reference idref="MailingAddressInfo.MailingAddress2" />
+                      </section>
+                      <section direction="across" captionPosition="above" showCaption="repeat">
+                        <reference idref="MailingAddressInfo.MailingCity" />
+                        <reference idref="MailingAddressInfo.MailingState" />
+                        <reference idref="MailingAddressInfo.MailingZipcode" />
+                      </section>
+                      <nameValues>
+                        <nameValue value="Primary Insured Mailing Address" name="panelHeader" />
+                        <nameValue value="Primary Insured Mailing Address" name="toggleCaption" />
+                      </nameValues>
+                    </section>
+                  </section>
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="AccountPrivate.CoApplicantExists">
+                <group iterMax="*" iterStep="1" object="Person" restriction="AccountPrivate.NonPrimaryInsuredXPath">
+                  <section direction="down" captionPosition="above" showCaption="repeat" cc="GrayPanel" startClosed="1">
+                    <section direction="down" captionPosition="above" showCaption="repeat" collapsible="1" startClosed="1">
+                      <section direction="across" captionPosition="above" showCaption="repeat">
+                        <reference idref="PersonInput.FirstName" capClass="x_Width125" fldClass="x_Width125" />
+                        <reference idref="PersonInput.MiddleName" fldClass="x_MiddleInitialField x_Width50" caption="MI" capClass="x_Width50" />
+                        <reference idref="PersonInput.LastName" />
+                      </section>
+                      <section direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width90" fldClass="x_Width90">
+                        <reference idref="PersonInput.BirthDate" />
+                        <reference idref="PersonInput.SSN" />
+                      </section>
+                      <section direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width90" fldClass="x_Width90">
+                        <reference idref="PersonInput.MaritalStatus" />
+                        <reference idref="PersonInput.Occupation" />
+                      </section>
+                      <section direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width90" fldClass="x_Width90">
+                        <reference idref="PersonInput.WorkPhone" />
+                        <reference idref="PersonInput.EmailAddress" />
+                      </section>
+                      <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width90">
+                        <reference idref="PersonInput.RelationToApplicant" />
+                      </section>
+                      <nameValues>
+                        <nameValue value="Co-Applicant" name="toggleCaption" />
+                      </nameValues>
+                    </section>
+                    <section direction="down" captionPosition="before" showCaption="repeat">
+                      <reference idref="MailingAddressInfo.MailingAddressSame" capClass="x_Width375" onBlur="1" />
+                      <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel" validRef="PersonPrivate.ShowMailingAddress" collapsible="1" startClosed="1">
+                        <section direction="down" captionPosition="above" showCaption="repeat">
+                          <reference idref="MailingAddressInfo.MailingAddress1" />
+                          <reference idref="MailingAddressInfo.MailingAddress2" />
+                        </section>
+                        <section direction="across" captionPosition="above" showCaption="repeat">
+                          <reference idref="MailingAddressInfo.MailingCity" />
+                          <reference idref="MailingAddressInfo.MailingState" />
+                          <reference idref="MailingAddressInfo.MailingZipcode" />
+                        </section>
+                        <nameValues>
+                          <nameValue value="Co-Applicant Mailing Address" name="panelHeader" />
+                          <nameValue value="Co-Applicant Mailing Address" name="toggleCaption" />
+                        </nameValues>
+                      </section>
+                    </section>
+                    <section direction="across" captionPosition="above" showCaption="repeat">
+                      <action command="delete" caption="Delete Co-applicant" displayType="action">
+                        <nameValues />
+                      </action>
+                    </section>
+                    <nameValues>
+                      <nameValue value="Co-Applicant" name="panelHeader" />
+                      <nameValue value="Co-applicant" name="toggleCaption" />
+                    </nameValues>
+                  </section>
+                </group>
+              </section>
+              <section direction="down" captionPosition="before" showCaption="repeat">
+                <action command="custom" caption="Add co-applicant" validRef="AccountPage.ShowAddCoApplicantButton">
+                  <nameValues />
+                  <request verb="ManuScript.addObjectRecordRq">
+                    <nameValues>
+                      <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="manuscript" dataType="attribute" />
+                      <nameValue value="Person" name="objectID" dataType="attribute" />
+                    </nameValues>
+                  </request>
+                </action>
+              </section>
+              <nameValues />
+            </section>
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="AccountPage.ReadOnly" name="readOnly" />
+          <nameValue value="1" name="usePartyMappings" />
+          <nameValue idref="True" name="calculate" />
+        </nameValues>
+      </page>
+      <page name="DwellingCoverage" caption="Dwelling Coverage" pageVersion="2" prevPage="RiskSchedule" validRef="DwellingPage.Show" override="1">
+        <group object="Risk" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel" caption="Coverage Information" icon="chart_bar.png">
+            <section direction="down" captionPosition="above" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0F2_3" cc="DriverPanel">
+              <section direction="across" captionPosition="before" showCaption="repeat" fldClass="x_Width10" capClass="x_Bold">
+                <reference idref="Spacer" caption="Coverage" capClass="x_Width120" />
+                <reference idref="Spacer" caption="Limit" capClass="x_Width70" />
+                <reference idref="Spacer" caption="Included Limit" capClass="x_Width100" />
+                <reference idref="Spacer" caption="Deductible" capClass="x_Width60" />
+                <reference idref="Spacer" caption="Wind Deductible" fldClass="x_Width15" />
+                <reference idref="Spacer" caption="Hurricane Deductible" capClass="x_Width5" />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="CoverageADwellingInput.Limit" compute="1" onBlur="1" capClass="x_Width125" fldClass="x_Width225" caption="Dwelling Limit">
+                  <nameValues>
+                    <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                  </nameValues>
+                </reference>
+                <reference idref="CoverageCPersonalPropertyHO46Input.Limit" caption="Personal Property" compute="1" onBlur="1" capClass="x_Width125" fldClass="x_Width225">
+                  <nameValues>
+                    <nameValue idref="DwellingPrivate.FormIsDwelling" name="eliminate" />
+                  </nameValues>
+                </reference>
+                <reference idref="DwellingInput.Deductible" caption=" " fldClass="x_Width65" />
+                <reference idref="DwellingInput.WindDeductible" caption=" " fldClass="x_Width100" />
+                <reference idref="DwellingInput.HurricaneDeductible" caption=" " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="DwellingPrivate.FormIsDwelling">
+                <reference idref="CoverageBOtherStructuresInput.Limit" compute="1" caption="Other Structures" capClass="x_Width125" fldClass="x_Width100" onBlur="1" />
+                <reference idref="CoverageBOtherStructuresOutput.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="DwellingPrivate.FormIsDwelling">
+                <reference idref="CoverageCPersonalPropertyHO3Input.Limit" compute="1" caption="Personal Property" capClass="x_Width125" fldClass="x_Width100" onBlur="1" />
+                <reference idref="CoverageCPersonalPropertyHO3Output.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="CoverageDLossOfUseInput.Limit" compute="1" capClass="x_Width125" fldClass="x_Width100" caption="Loss Of Use" onBlur="1" />
+                <reference idref="CoverageDLossOfUseOutput.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width125">
+                <reference idref="CoverageELiabilityInput.Limit" onBlur="1" caption="Personal Liability">
+                  <nameValues />
+                </reference>
+                <reference idref="CoverageFMedicalInput.Limit" onBlur="1" caption="Medical Payments">
+                  <nameValues />
+                </reference>
+              </section>
+              <nameValues />
+            </section>
+            <section direction="down" captionPosition="before" showCaption="repeat" class="x_Width600" cc="DriverPanel">
+              <section direction="down" captionPosition="before" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0FB_3">
+                <tableLayout direction="across" captionPosition="above" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F35_3">
+                  <tableLayout direction="down" captionPosition="before" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F36_3">
+                    <reference idref="ReplacementCostContentsInput.Indicator" compute="1" />
+                    <reference idref="ReplacementCostDwellingInput.Indicator" compute="1" onBlur="1">
+                      <nameValues>
+                        <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="ReplacementCostDwellingInput.ReplacementCostValue" compute="1">
+                      <nameValues>
+                        <nameValue idref="ReplacementCostDwellingPrivate.HideReplacementCostValue" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="CreditCardInput.Limit" />
+                  </tableLayout>
+                  <tableLayout direction="down" captionPosition="before" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F37_3">
+                    <reference idref="RefrigeratedPersonalPropertyInput.Indicator" />
+                    <reference idref="WaterBackupOfSewersOrDrainsInput.Indicator">
+                      <nameValues>
+                        <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="MiningSubsidenceInput.Indicator" />
+                  </tableLayout>
+                </tableLayout>
+                <section direction="down" captionPosition="before" showCaption="repeat">
+                  <action command="custom" caption="Import Replacement Cost">
+                    <nameValues />
+                  </action>
+                </section>
+                <nameValues />
+              </section>
+              <nameValues>
+                <nameValue value="Common Coverages" name="panelHeader" />
+              </nameValues>
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="DwellingPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+    </topic>
+  </topics>
+  <documents>
+    <documentSet name="CancellationNotice" paperBinNum="0" printDefault="Selected" prevPage="DecPage" inherited="DCT_ProductBase_PersonalHome_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="CancellationNotice.doc" path="marketplace\personalhome\us\|" />
+      </document>
+      <merge>
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="Name" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="AgentName" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="Address" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgentAddress" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgentCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgentState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgentZip" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="PolicyNumber" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" />
+        <mergeField name="ExpirationDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="TotalPremium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="CancelEffectiveDate" readOnly="True" idref="CurrentTransaction.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+      </merge>
+    </documentSet>
+  </documents>
+</ManuScript>

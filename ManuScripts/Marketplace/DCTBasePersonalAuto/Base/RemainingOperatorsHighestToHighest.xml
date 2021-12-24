@@ -1,0 +1,238 @@
+﻿<ManuScript>
+  <properties manuscriptID="RemainingOperatorsHighestToHighest" versionID="RemainingOperatorsHighestToHighest" versionDate="2006-04-20" version="1" boolean="1" fieldCache="1" caption="Driver Assignment Remaining Operators Highest to Highest" inherited="" image="" dataSchema="" cultureCode="en-US" cultureName="United States [english]">
+    <contexts />
+    <notes />
+    <keys>
+      <keyInfo name="lob" value="DCTBasePersonalAuto" />
+      <keyInfo name="state" value="Base" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="masterID" value="Admin" />
+      <keyInfo name="productCode" value="DriverAssignment" />
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="version" value="1.0.0.0" />
+    </keys>
+    <resourceState status="Deployed" protected="1" />
+  </properties>
+  <model defaultValue="DriverAssignment.Assign">
+    <object id="data" path="data">
+      <minOccurs value="1" />
+      <maxOccurs value="1" />
+      <object id="Policy" path="policy">
+        <minOccurs value="1" />
+        <maxOccurs value="1" />
+        <object id="Line" path="line">
+          <minOccurs value="1" />
+          <maxOccurs value="1" />
+          <object id="Risk" path="risk">
+            <minOccurs value="1" />
+            <maxOccurs value="*" />
+            <object id="VehicleInput">
+              <minOccurs value="1" />
+              <maxOccurs value="1" />
+              <public id="VehicleInput.ID" path="@id" type="string">
+                <definition>
+                  <caption value="ID" />
+                  <maxLength idref="MaxLength.VehicleID" />
+                </definition>
+              </public>
+            </object>
+            <object id="VehicleOutput">
+              <minOccurs value="1" />
+              <maxOccurs value="1" />
+              <public id="VehicleOutput.AssignedDriver" path="vehicle/AssignedDriver" type="string" alwaysRun="1">
+                <definition>
+                  <caption value="Assigned Driver" />
+                </definition>
+              </public>
+              <public id="VehicleOutput.Premium" path="vehicle/AssignedDriverPremium" type="float" alwaysRun="1">
+                <definition>
+                  <caption value="Premium" />
+                </definition>
+              </public>
+            </object>
+            <object id="VehiclePrivate">
+              <minOccurs value="1" />
+              <maxOccurs value="1" />
+              <object id="VehicleDriverAssignment">
+                <minOccurs value="1" />
+                <maxOccurs value="1" />
+                <private id="VehicleDriverAssignment.SetAssignedDriver" caption="" type="string">
+                  <value>
+                    <if>
+                      <condition>
+                        <comparison compare="eq">
+                          <operand idref="VehicleOutput.AssignedDriver" type="string" />
+                          <operand type="string" value="" />
+                        </comparison>
+                      </condition>
+                      <then idref="VehicleDriverAssignment.HighestToHighestOperator" />
+                      <else idref="VehicleOutput.AssignedDriver" />
+                    </if>
+                  </value>
+                </private>
+                <private id="VehicleDriverAssignment.HighestToHighestOperator" caption="" type="string">
+                  <value>
+                    <if>
+                      <condition>
+                        <comparison compare="and">
+                          <comparison compare="ne">
+                            <operand idref="VehicleDriverAssignment.HighestUnAssignedDriverID" type="string" />
+                            <operand type="string" value="" />
+                          </comparison>
+                          <comparison compare="ne">
+                            <operand idref="VehicleDriverAssignment.HighestUnAssignedDriverID" type="string" />
+                            <operand type="int" value="0" />
+                          </comparison>
+                        </comparison>
+                      </condition>
+                      <then idref="VehicleDriverAssignment.HighestUnAssignedDriverID" />
+                      <else idref="VehicleDriverAssignment.LowestAssignedDriverID" />
+                    </if>
+                  </value>
+                  <affects>
+                    <reference idref="VehicleOutput.AssignedDriver" effect="setValue" />
+                  </affects>
+                </private>
+                <private id="VehicleDriverAssignment.HighestUnAssignedDriverID" caption="" type="string">
+                  <value>
+                    <iterator type="string" scope="first" action="sum" idref="Driver">
+                      <reference idref="DriverInput.ID" type="string" />
+                      <where>
+                        <comparison compare="eq">
+                          <operand idref="DriverPrivate.IsNotAssigned" type="boolean" />
+                          <operand idref="True" type="int" />
+                        </comparison>
+                      </where>
+                      <orderBy idref="DriverOutput.ClassFactor" type="float" order="descending" />
+                      <orderBy idref="DriverPrivate.CurrentIteration" type="int" order="ascending" />
+                    </iterator>
+                  </value>
+                </private>
+                <private id="VehicleDriverAssignment.LowestAssignedDriverID" caption="" type="string">
+                  <value>
+                    <iterator type="string" scope="first" action="sum" idref="Driver">
+                      <reference idref="DriverInput.ID" type="string" />
+                      <where>
+                        <comparison compare="eq">
+                          <operand idref="DriverPrivate.IsAssigned" type="float" />
+                          <operand idref="True" type="int" />
+                        </comparison>
+                      </where>
+                      <orderBy idref="DriverOutput.ClassFactor" type="float" order="ascending" />
+                    </iterator>
+                  </value>
+                </private>
+              </object>
+            </object>
+          </object>
+          <object id="Driver" path="driver">
+            <minOccurs value="1" />
+            <maxOccurs value="*" />
+            <object id="DriverInput">
+              <minOccurs value="1" />
+              <maxOccurs value="1" />
+              <public id="DriverInput.ID" path="@id" type="string">
+                <definition>
+                  <caption value="ID" />
+                  <maxLength idref="MaxLength.DriverID" />
+                </definition>
+              </public>
+            </object>
+            <object id="DriverPrivate">
+              <minOccurs value="1" />
+              <maxOccurs value="1" />
+              <private id="DriverPrivate.IsNotAssigned" caption="" type="boolean" alwaysRun="1">
+                <value>
+                  <comparison compare="eq">
+                    <operand idref="DriverPrivate.IsAssigned" type="float" />
+                    <operand idref="False" type="int" />
+                  </comparison>
+                </value>
+              </private>
+              <private id="DriverPrivate.IsAssigned" caption="" type="float" alwaysRun="1">
+                <value>
+                  <comparison compare="gt">
+                    <operand idref="DriverPrivate.AssignedCount" type="float" />
+                    <operand type="int" value="0" />
+                  </comparison>
+                </value>
+              </private>
+              <private id="DriverPrivate.AssignedCount" caption="" type="float" alwaysRun="1">
+                <value>
+                  <iterator type="float" scope="all" action="count" idref="Risk">
+                    <customQuery idref="DriverPrivate.AssignedDriverIDPath" />
+                  </iterator>
+                </value>
+              </private>
+              <private id="DriverPrivate.AssignedDriverIDPath" caption="" type="string" alwaysRun="1">
+                <value>
+                  <calculation>
+                    <argument op="eq" type="string" value="risk[vehicle[AssignedDriver='" />
+                    <argument op="add" idref="DriverInput.ID" type="string" />
+                    <argument op="add" type="string" value="']]" />
+                  </calculation>
+                </value>
+              </private>
+              <private id="DriverPrivate.CurrentIteration" caption="" type="int">
+                <value>
+                  <iterator type="int" scope="all" action="current" idref="Driver" />
+                </value>
+              </private>
+            </object>
+            <object id="DriverOutput">
+              <minOccurs value="1" />
+              <maxOccurs value="1" />
+              <public id="DriverOutput.ClassFactor" path="ClassFactor" type="float">
+                <definition>
+                  <caption value="Class Factor" />
+                </definition>
+                <rules />
+              </public>
+            </object>
+          </object>
+          <object id="DriverAssignment">
+            <minOccurs value="1" />
+            <maxOccurs value="1" />
+            <private id="DriverAssignment.Assign" caption="" type="string">
+              <value>
+                <iterator type="string" scope="all" action="sum" idref="Risk">
+                  <reference idref="VehicleDriverAssignment.SetAssignedDriver" type="string" />
+                  <orderBy idref="VehicleOutput.Premium" type="float" order="descending" />
+                </iterator>
+              </value>
+            </private>
+          </object>
+        </object>
+      </object>
+      <object id="System" path="system">
+        <minOccurs value="1" />
+        <maxOccurs value="1" />
+        <object id="Constants">
+          <minOccurs value="1" />
+          <maxOccurs value="1" />
+          <object id="Boolean">
+            <minOccurs value="1" />
+            <maxOccurs value="1" />
+            <private id="False" type="int">
+              <value value="0" />
+            </private>
+            <private id="True" type="int">
+              <value value="1" />
+            </private>
+          </object>
+          <object id="MaxLength">
+            <minOccurs value="1" />
+            <maxOccurs value="1" />
+            <private id="MaxLength.DriverID" caption="" type="int">
+              <value value="10" />
+            </private>
+            <private id="MaxLength.VehicleID" caption="" type="int">
+              <value value="10" />
+            </private>
+          </object>
+        </object>
+      </object>
+    </object>
+  </model>
+</ManuScript>

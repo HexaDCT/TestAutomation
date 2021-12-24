@@ -1,0 +1,698 @@
+﻿<ManuScript>
+  <properties manuscriptID="DCT_Marketplace_PersonalHomeForms_1_0_0_0" versionID="DCT_Marketplace_PersonalHomeForms" caption="DCT Marketplace Personal Home Forms (1.0.0.0)" versionDate="2017-07-19" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="English (United States)">
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalHomeForms" />
+      <keyInfo name="state" value="Base" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Forms" />
+      <keyInfo name="cultures" value="" />
+      <keyInfo name="currencyCodes" value="None" />
+      <keyInfo name="states" value="None" />
+      <keyInfo name="type" value="None" />
+      <keyInfo name="layer" value="DuckCreek" />
+    </keys>
+  </properties>
+  <model defaultValue="data.TotalResult">
+    <object id="data" path="data">
+      <minOccurs value="1" />
+      <maxOccurs value="1" />
+    </object>
+  </model>
+  <documents>
+    <documentSet name="Application" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="" condition="PolicyPrivate.IsApplication">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="ApplicationHeader.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="ApplicationAdditionalInterestsHeader.doc" path="Marketplace|PersonalHome|US|" condition="AccountPrivate.AdditionalOtherInterestAdded" />
+        <subdoc name="ApplicationAdditionalInterestsList.doc" path="Base|" />
+        <subdoc name="PersonalHomeApplicationRiskHeader.doc" path="Marketplace|PersonalHome|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PersonalHomeApplicationRiskList.doc" path="Marketplace|PersonalHome|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Dwelling" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="ApplicationCoverageHeader.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="PersonalHomeApplicationCoverageDwelling.doc" path="Marketplace|PersonalHome|US|" condition="DwellingPrivate.FormIsDwelling" />
+        <subdoc name="PersonalHomeApplicationCoverageRenterCondo.doc" path="Marketplace|PersonalHome|US|" condition="DwellingPrivate.FormIsCondoOrTenant" />
+        <subdoc name="PersonalHomeApplicationCoverageListPerRisk.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="PersonalHomeApplicationSPPHeader.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowSPPSummary" />
+        <subdoc name="PersonalHomeApplicationSPPList.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowSPPSummary">
+          <scope name="SPP" increment="1" startIter="1" endIter="*" />
+          <scope name="SPPCoverage" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PersonalHomeApplicationWatercraftHeader.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowWatercraftSummary" />
+        <subdoc name="PersonalHomeApplicationWatercraftList.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowWatercraftSummary">
+          <scope name="Watercraft" increment="1" startIter="1" endIter="*" />
+          <scope name="WatercraftCoverage" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="ApplicationManuScriptEndorsementList.doc" path="Marketplace|PersonalHome|US|">
+          <scope name="ManuScriptCoverage" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="ApplicationAppQuestionsHeader.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="ApplicationAppQuestions.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="ApplicationInsuranceHistoryHeader.doc" path="Marketplace|PersonalHome|US|" condition="AccountPrivate.PriorInsuranceAdded" />
+        <subdoc name="applicationinsurancehistorylist.doc" path="Marketplace|PersonalHome|US|" />
+      </document>
+      <scope name="Policy" increment="1" startIter="1" endIter="*" />
+      <scope name="Line" increment="1" startIter="1" endIter="*" />
+      <scope name="Account" increment="1" startIter="1" endIter="*" />
+      <merge>
+        <mergeField name="AgencyName" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="ProducerName" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="AgencyAddress1" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgencyAddress2" idref="AgencyInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AgencyCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgencyState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgencyZipCode" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="ApplicantName" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="Address1" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="Address2" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="ZipCode" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="PhoneNumber" idref="AccountInput.PrimaryPhone" iter="1" formatValue="" />
+        <mergeField name="CoApplicantName" idref="AccountInput.CoApplicantFirstName" iter="2" formatValue="" />
+        <mergeField name="CoApplicantLastName" idref="AccountInput.CoApplicantLastName" iter="1" formatValue="" />
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="ExpirationDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="PreviousPolicyNumber" idref="PolicyOutput.PreviousPolicyNumber" iter="1" formatValue="" />
+        <mergeField name="AddlInt#" idref="AdditionalOtherInterestPrivate.CurrentIteration" iter="1" formatValue="" />
+        <mergeField name="Name" idref="AdditionalOtherInterestInput.Name" iter="1" formatValue="" />
+        <mergeField name="AddIntAddress1" idref="AdditionalOtherInterestInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AddIntAddress2" idref="AdditionalOtherInterestInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AddIntCity" idref="AdditionalOtherInterestInput.City" iter="1" formatValue="" />
+        <mergeField name="AddIntState" idref="AdditionalOtherInterestInput.State" iter="1" formatValue="" />
+        <mergeField name="AddIntZipCode" idref="AdditionalOtherInterestInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AddlIntType" idref="AdditionalOtherInterestInput.Type" iter="1" formatValue="" />
+        <mergeField name="AddIntCOI" idref="AdditionalOtherInterestInput.CertificateOfInsurance" iter="1" formatSpecifier="coded" formatValue="0|No|1|Yes" />
+        <mergeField name="ManEndNum" />
+        <mergeField name="CarrierName" idref="PriorInsurance.CarrierName" iter="1" formatValue="" />
+        <mergeField name="InsHisEffDt" idref="PriorInsurance.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="InsHisExpDt" idref="PriorInsurance.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="InsHisLimit" idref="PriorInsurance.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="InsHisDed" idref="PriorInsurance.Deductible" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="LOBNAME" idref="LinePrivate.LOBName" iter="1" formatValue="" />
+        <mergeField name="CurrentDate" idref="DateTime.CurrentDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="CoApplicantFirstName" idref="AccountInput.CoApplicantFirstName" iter="1" formatValue="" />
+        <mergeField name="YearBuilt" idref="DwellingInput.YearBuilt" iter="1" formatValue="" />
+        <mergeField name="Family" idref="DwellingInput.NumberOfFamilies" iter="1" formatValue="" />
+        <mergeField name="FDDistance" idref="DwellingInput.DistanceToFireStation" iter="1" formatValue="" />
+        <mergeField name="PropertyType" idref="DwellingInput.UseType" iter="1" formatSpecifier="coded" formatValue="Primary|Primary|Secondary|Secondary|Seasonal|Seasonal" />
+        <mergeField name="Units" idref="DwellingInput.NumberOfUnits" iter="1" formatValue="" />
+        <mergeField name="HydrantDistance" idref="DwellingInput.DistanceToHydrant" iter="1" formatValue="" />
+        <mergeField name="ProtectionClass" idref="DwellingInput.RatedProtectionClass" iter="1" formatSpecifier="coded" formatValue="1|1|2|2|3|3|4|4|5|5|6|6|7|7|8|8|9|9|10|10|88|88|6/9|6/9|4/10|4/10|1|1|2|2|3|3|4|4|5|5|6|6|7|7|8|8|9|9|10|10|88|88|1/9|1/9|2/9|2/9|3/9|3/9|4/9|4/9|5/9|5/9|6/9|6/9|7/9|7/9|8/9|8/9|10/9|10/9|1/10|1/10|2/10|2/10|3/10|3/10|4/10|4/10|5/10|5/10|6/10|6/10|7/10|7/10|8/10|8/10|9/10|9/10" />
+        <mergeField name="PrimaryHeat" idref="DwellingInput.PrimaryHeatType" iter="1" formatValue="" />
+        <mergeField name="ConstructionType" idref="DwellingInput.Construction" iter="1" formatSpecifier="coded" formatValue="Frame|Frame|Aluminum|Aluminum|PlasticSiding|Plastic Siding|Masonry|Masonry|MasonryVeneer|Masonry Veneer|Superior|Superior" />
+        <mergeField name="Territory" idref="DwellingOutput.RatedTerritory" iter="1" />
+        <mergeField name="CovALim" idref="CoverageADwellingInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovAPrem" idref="CoverageADwellingOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovBLim" idref="CoverageBOtherStructuresInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovBPrem" idref="CoverageBOtherStructuresOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovCLim" idref="CoverageCPersonalPropertyHO3Input.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovCPrem" idref="CoverageCPersonalPropertyHO3OutputNonShredded.IncludedInCovAText" iter="1" formatValue="" />
+        <mergeField name="CovDLim" idref="CoverageDLossOfUseInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovDPrem" idref="CoverageDLossOfUseOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovELim" idref="CoverageELiabilityInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|100000|$100,000|200000|$200,000|300000|$300,000|400000|$400,000|500000|$500,000|1000000|$1,000,000" />
+        <mergeField name="CovEPrem" idref="CoverageELiabilityOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovFLim" idref="CoverageFMedicalInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|1000|$1,000|2000|$2,000|3000|$3,000|4000|$4,000|5000|$5,000" />
+        <mergeField name="CovFPrem" idref="CoverageFMedicalOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TotalAddProp" idref="SectionICoveragesOutput.SectionIPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TotalAddLiab" idref="SectionIICoveragesOutput.SectionIIPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TotalPremium" idref="data.TotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="DedPremAdj" idref="DwellingOutput.DeductibleCalculation" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="FireResistiveCredit" idref="FireResistiveDiscountOutput.Amount" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="NewHomeCredit" idref="NewHomeDiscountOutput.Amount" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="HomeandAutoDis" idref="AutoHomeDiscountOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ThreeAndFourFamilySurcharge" idref="ThreeAndFourFamilySurchargeOutput.Amount" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ProtDevicesCredit" idref="ProtectiveDeviceDiscountOutput.Amount" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="BurglarAlarm" idref="DwellingInput.BurglarAlarm" iter="1" formatSpecifier="coded" formatValue="Central|Central Station Reporting|PoliceStation|Police Station Reporting|Local|Local " />
+        <mergeField name="FireAlarm" idref="DwellingInput.FireAlarm" iter="1" formatSpecifier="coded" formatValue="Central|Central Station Reporting|FireDepartment|Fire Department Reporting|Local|Local / Smoke Detector" />
+        <mergeField name="Sprinkler" idref="DwellingInput.Sprinkler" iter="1" formatSpecifier="coded" formatValue="SprinklersAllAreas|Automatic - All Areas|SprinklersExcludedAreas|Automatic - Excluded Areas" />
+        <mergeField name="CovCRCostPremAmt" idref="ReplacementCostContentsOutput.Amount" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="RepRepPremAmtt" idref="ReplacementCostDwellingOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="WaterBackupPremAmt" idref="WaterBackupAndSumpOverflowOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="PPOthResAggLimit" idref="PersonalPropertyOtherResidenceInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="PPOthResPremAmt" idref="PersonalPropertyOtherResidenceOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLFirearmsAggLimit" idref="UnscheduledGunsInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLFirearmsPremAmt" idref="UnscheduledGunsOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLJewelryAggLimit" idref="UnscheduledJewelryInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLJewelryPremAmt" idref="UnscheduledJewelryOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLMoneyAggLimit" idref="UnscheduledMoneyInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLMoneyPremAmt" idref="UnscheduledMoneyOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLSecurAggLimit" idref="UnscheduledSecuritiesInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLSecurPremAmt" idref="UnscheduledSecuritiesOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLSilverAggLimit" idref="UnscheduledSilverwareInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ISLSilverPremAmt" idref="UnscheduledSilverwareOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="BusPropIncAggLimit" idref="BusinessPropertyInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="BusPropIncPremAmt" idref="BusinessPropertyOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CreditCardAggLimit" idref="CreditCardInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CreditCardPremAmt" idref="CreditCardOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="InfGuardAggLimit" idref="InflationGuardInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="InfGuardPremAmt" idref="InflationGuardOutput.Amount" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="EQDed" idref="EarthquakeInput.Deductible" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="EQPremAmt" idref="EarthquakeOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OSRTOResAggLimit" idref="OtherStructuresRentedToOthersInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OSRTOResPremAmt" idref="OtherStructuresRentedToOthersOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="PerIncOccResAggLimit" idref="PermittedIncidentalOccupancyOtherStructuresInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="PerIncOccResPremAmtt" idref="PermittedIncidentalOccupancyOtherStructuresOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="LossAssessAggLimit" idref="LossAssessmentInput.Limit" iter="1" formatSpecifier="coded" formatValue="1000|$1,000|5000|$5,000|10000|$10,000|15000|$15,000|20000|$20,000|25000|$25,000|30000|$30,000|35000|$35,000|40000|$40,000|45000|$45,000|50000|$50,000" />
+        <mergeField name="LossAssessPremAmt" idref="LossAssessmentOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="PersInjAggLimit" idref="PersonalInjuryInput.Indicator" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="PersInjPremAmt" idref="PersonalInjuryOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="BusPursAggLimit" />
+        <mergeField name="BusPursPremAmt" idref="BusinessPursuitsOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="IncFarmLiabType" idref="IncidentalFarmingPersonalLiabilityInput.Type" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="IncFarmLiabResPrem" idref="IncidentalFarmingPersonalLiabilityOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="SPPType" idref="SPPPrivate.TypeCaption" iter="1" formatValue="" />
+        <mergeField name="SPPLimits" idref="SPPInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="SPPPrem" idref="SPPCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TotalSPP" idref="SPPSubtotals.SPPTotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="PersPropHO46Lim" idref="CoverageCPersonalPropertyHO46Input.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="PersPropHO46Prem" idref="CoverageCPersonalPropertyHO46Output.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TownRowSur" idref="TownhouseRowhouseSurchargeOutput.Amount" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TotalWaterLiab" readOnly="True" idref="WatercraftSubtotals.WatercraftTotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OtherBusiness" idref="UnderwritingQuestionsInput.AnyBusinessConducted" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="CoverageDeclined" idref="UnderwritingQuestionsInput.AnyCoverageDeclinedCancelled" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="OtherInsurance" idref="UnderwritingQuestionsInput.AnyOtherInsurance" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="ForeclosureBankr" idref="UnderwritingQuestionsInput.ForeclosureBankruptcy" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="IndictedOrConvicted" idref="UnderwritingQuestionsInput.IndictedOrConvicted" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="UndergoingRenovation" idref="UnderwritingQuestionsInput.IsBuildingUndergoingRenovation" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="HouseForSale" idref="UnderwritingQuestionsInput.IsHouseForSale" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="PropertyWithin300Ft" idref="UnderwritingQuestionsInput.IsPropertyWithin300FtOfCommercialProp" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="TrampolineOnPremises" idref="UnderwritingQuestionsInput.IsThereATrampolineOnPremises" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="SpecialPersPropHO4" idref="SpecialPersonalPropertyCoverageOutput.Amount" iter="1" condition="DwellingPrivate.FormIsHO4" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="UnitOwnSpecialHO6" idref="SpecialPersonalPropertyCoverageOutput.Amount" iter="1" condition="DwellingPrivate.FormIsHO6" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Watercraft" idref="WatercraftPrivate.SummaryDescription" iter="1" formatValue="" />
+        <mergeField name="WatercraftPrem" idref="WatercraftCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+      </merge>
+    </documentSet>
+    <documentSet name="Binder" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="QUICKBINDERTop.DOC" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="QUICKBINDERCoverages.DOC" path="Marketplace|PersonalHome|US|">
+          <scope name="Line" increment="1" startIter="1" endIter="*" />
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="QUICKBINDERBottom.DOC" path="Marketplace|PersonalHome|US|" />
+      </document>
+      <merge>
+        <mergeField name="PolicyOutputPolicyNumber1" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" />
+        <mergeField name="PolicyInputEffectiveDate1" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="PolicyInputExpirationDate1" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="AccountInputName1" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress11" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress21" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AccountInputCity1" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="AccountInputState1" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="AccountInputZipCode1" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgencyInputName1" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="ProducerInputFullName1" idref="ProducerInput.FullName" iter="2" formatValue="" />
+        <mergeField name="PolicyOutputPremiumWritten1" idref="data.TotalPremiumWritten" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="AgencyInputAddress1" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgencyInputAddress2" idref="AgencyInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AgencyInputCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgencyInputState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgencyInputZipCode" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="CovALim" idref="CoverageADwellingInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovAPrem" idref="CoverageADwellingOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovBLim" idref="CoverageBOtherStructuresInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovBPrem" idref="CoverageBOtherStructuresOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovCLim" idref="DwellingPrivate.PolicyCoverageCLimit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovCPrem" idref="DwellingPrivate.PolicyCoverageCPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovDLim" idref="CoverageDLossOfUseInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovDPrem" idref="CoverageDLossOfUseOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovELim" idref="CoverageELiabilityInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovEPrem" idref="CoverageELiabilityOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovFLim" idref="CoverageFMedicalInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovFPrem" idref="CoverageFMedicalOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TotalPremium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OptPropCov" idref="SectionICoveragesOutput.SectionIPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OptLiabCov" idref="SectionIICoveragesOutput.SectionIIPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="SPP" idref="SPPSubtotals.SPPTotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Watercraft" idref="WatercraftSubtotals.WatercraftTotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="AutoHomeDiscount" idref="AutoHomeDiscountOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+      </merge>
+    </documentSet>
+    <documentSet name="Worksheet" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" prevPage="" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="Rating Worksheet.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="Dwelling Worksheet.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="SPP Worksheet Header.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowSPPSummary" />
+        <subdoc name="SPP Worksheet.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowSPPSummary" />
+        <subdoc name="Watercraft Worksheet Header.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowWatercraftSummary" />
+        <subdoc name="Watercraft Worksheet.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowWatercraftSummary" />
+      </document>
+      <scope name="Account" increment="1" startIter="1" endIter="*" />
+      <scope name="Policy" increment="1" startIter="1" endIter="*" />
+      <merge>
+        <mergeField name="AccountName" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="PolicyPremium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="LinePremium" idref="LinePurePremiums.Premium" iter="1" formatValue="" wsCond="True" readOnly="True" wsSuppressRound="1" wsDepth="1" />
+        <mergeField name="RiskPremium" idref="RiskPurePremiums.Premium" iter="1" formatValue="" wsCond="True" wsSuppressRound="1" />
+        <mergeField name="SPPPremium" idref="SPPSubtotals.SPPTotalPremium" iter="1" formatValue="" wsCond="True" wsSuppressRound="1" />
+        <mergeField name="WatercraftPremium" idref="WatercraftSubtotals.WatercraftTotalPremium" iter="1" formatValue="" wsCond="True" wsSuppressRound="1" />
+        <mergeField name="LOB" idref="LinePrivate.LOBName" iter="1" formatValue="" />
+        <mergeField name="Form" idref="DwellingInput.Form" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="PropAddress" />
+        <mergeField name="City" />
+        <mergeField name="State" />
+        <mergeField name="ZipCode" />
+        <mergeField name="Usage" />
+        <mergeField name="StructureType" />
+        <mergeField name="YearBuilt" />
+        <mergeField name="ConstructionType" />
+        <mergeField name="ProtectionClass" />
+        <mergeField name="DwellLimit" />
+        <mergeField name="CoverageB" />
+        <mergeField name="CoverageC" />
+        <mergeField name="CoverageD" />
+        <mergeField name="CoverageE" />
+        <mergeField name="CoverageF" />
+        <mergeField name="CoverageABase" />
+        <mergeField name="DwellingForm" />
+        <mergeField name="FormFac" />
+        <mergeField name="CovAFormFacAccum" />
+        <mergeField name="ProtClass" />
+        <mergeField name="ProtectionConstFac" />
+        <mergeField name="CovAKeyPremium" />
+        <mergeField name="DwellLimitFac" />
+        <mergeField name="BaseRateBeforeCov" />
+        <mergeField name="FireResisFac" />
+        <mergeField name="FireResisPrem" />
+        <mergeField name="BaseWithFireResisAccum" />
+        <mergeField name="ThreeFourFamFac" />
+        <mergeField name="ThreeFourFamilyPrem" />
+        <mergeField name="BaseWithThreeFourFamAccum" />
+        <mergeField name="TownRowHouseFac" />
+        <mergeField name="TownRowHousePrem" />
+        <mergeField name="BaseWithTownRowHouseAccum" />
+        <mergeField name="LossSurchargeFac" />
+        <mergeField name="LossSurchargePrem" />
+        <mergeField name="LossSurchargeAccum" />
+        <mergeField name="Deductible" />
+        <mergeField name="DeductibleFac" />
+        <mergeField name="DeductiblePrem" />
+        <mergeField name="DeductibleAccum" />
+        <mergeField name="CovCHO3Fac" />
+        <mergeField name="CovCHO3Prem" />
+        <mergeField name="CovCHO3Accum" />
+        <mergeField name="RCCFac" />
+        <mergeField name="RCCPrem" />
+        <mergeField name="RCCAccum" />
+        <mergeField name="ProtectiveDeviceFac" />
+        <mergeField name="ProtectiveDevicePrem" />
+        <mergeField name="ProtectiveDeviceAccum" />
+        <mergeField name="InflationGuardFac" />
+        <mergeField name="InflationGuardPrem" />
+        <mergeField name="InflationGuardAccum" />
+        <mergeField name="WoodStoveSchgFac" />
+        <mergeField name="WoodStoveSchgPrem" />
+        <mergeField name="WoodStoveSchgAccum" />
+        <mergeField name="NewHomeDsctFac" />
+        <mergeField name="NewHomeDsctPrem" />
+        <mergeField name="NewHomeDsctAccum" />
+        <mergeField name="NonSmokerDsctFac" />
+        <mergeField name="NonSmokerDsctPrem" />
+        <mergeField name="NonSmokerDsctAccum" />
+        <mergeField name="CoverageAPrem" />
+        <mergeField name="CoverageBPrem" />
+        <mergeField name="CoverageBLimit" />
+        <mergeField name="CoverageBIncludedLimit" />
+        <mergeField name="CoverageBBaseRate" />
+        <mergeField name="CoverageDPrem" />
+        <mergeField name="CoverageDLimit" />
+        <mergeField name="CoverageDIncludedLimit" />
+        <mergeField name="CoverageDBaseRate" />
+        <mergeField name="CoverageEPrem" />
+        <mergeField name="CoverageEBaseRate" />
+        <mergeField name="CoverageELimit" />
+        <mergeField name="CoverageELimitFac" />
+        <mergeField name="CoverageFBaseRate" />
+        <mergeField name="CoverageFLimit" />
+        <mergeField name="CoverageFLimitFac" />
+        <mergeField name="BusinessPropertyPrem" />
+        <mergeField name="BusinessPropertyLimit" />
+        <mergeField name="BusinessPropertyIncludedLimit" />
+        <mergeField name="BusinessPropertyBaseRate" />
+        <mergeField name="AddAltPrem" />
+        <mergeField name="AddAltLimit" />
+        <mergeField name="AddAltIncludedLimit" />
+        <mergeField name="AddAltEachAddlRate" />
+        <mergeField name="AddAltSpecialRate" />
+        <mergeField name="CrediCardPrem" />
+        <mergeField name="CreditCardBaseRate" />
+        <mergeField name="IdentityFraudPrem" />
+        <mergeField name="IdentityFraudBaseRate" />
+        <mergeField name="LossAssessmentPrem" />
+        <mergeField name="LossAssessmentLimit" />
+        <mergeField name="LossAssessmentBaseRate" />
+        <mergeField name="OthrStructRentOtherPrem" />
+        <mergeField name="OthrStructRentOtherLimit" />
+        <mergeField name="OthrStructRentOtherIncludedLimit" />
+        <mergeField name="OthrStructRentOtherBaseRate" />
+        <mergeField name="TotalPrem" />
+      </merge>
+    </documentSet>
+    <documentSet name="Quote" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="Personal Lines Quote Letter.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="PersonalHomeQuoteLetterCoverages.doc" path="Marketplace|PersonalHome|US|" />
+      </document>
+      <scope name="Account" increment="1" startIter="1" endIter="*" />
+      <scope name="Policy" increment="1" startIter="1" endIter="*" />
+      <scope name="Line" increment="1" startIter="1" endIter="*" />
+      <merge>
+        <mergeField name="Applicant Name" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="Applicant Address1" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="Applicant Address2" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="Applicant City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="Applicant State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Applicant Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="Policy Premium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="Policy EffDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="Policy ExpDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="Producer Name" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="Applicant FirstName" idref="AccountInput.Name" iter="2" formatValue="" />
+        <mergeField name="Usage" idref="DwellingInput.UseType" iter="1" formatValue="" />
+        <mergeField name="Construction" idref="DwellingInput.Construction" iter="1" formatValue="" />
+        <mergeField name="Structure" idref="DwellingInput.BuildingType" iter="1" formatValue="" />
+        <mergeField name="Protection" idref="DwellingInput.RatedProtectionClass" iter="1" formatValue="" />
+        <mergeField name="YearBuilt" idref="DwellingInput.YearBuilt" iter="1" formatValue="" />
+        <mergeField name="LocationAddress" idref="LocationOutputNonShredded.AddressDisplay" iter="1" formatValue="" />
+        <mergeField name="DwellingForm" idref="DwellingInput.Form" iter="1" formatSpecifier="coded" formatValue="HO1|Homeowner - Basic|HO2|Homeowner - Broad|HO3|Homeowner|HO4|Renter|HO6|Condo" />
+        <mergeField name="CovALim" idref="CoverageADwellingInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovAPrem" idref="CoverageADwellingOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovBLim" idref="CoverageBOtherStructuresInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovBPrem" idref="CoverageBOtherStructuresOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovCLim" idref="DwellingPrivate.PolicyCoverageCLimit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovCPrem" idref="DwellingPrivate.PolicyCoverageCPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovDLim" idref="CoverageDLossOfUseInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovDPrem" idref="CoverageDLossOfUseOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovELim" idref="CoverageELiabilityInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovEPrem" idref="CoverageELiabilityOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovFLim" idref="CoverageFMedicalInput.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="CovFPrem" idref="CoverageFMedicalOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="TotalPremium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OptPropCov" idref="SectionICoveragesOutput.SectionIPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OptLiabCov" idref="SectionIICoveragesOutput.SectionIIPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="SPP" idref="SPPSubtotals.SPPTotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Watercraft" idref="WatercraftSubtotals.WatercraftTotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="QuoteNumber" idref="PolicyOutput.QuoteNumber" iter="1" formatValue="" />
+        <mergeField name="AutoHomeDiscount" idref="AutoHomeDiscountOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+      </merge>
+    </documentSet>
+    <documentSet name="PolicyForms" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" condition="PolicyPrivate.ShowPolicyForms" override="1" prevPage="">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="PolicyForms.doc" path="Marketplace|PersonalHome|US|" />
+      </document>
+    </documentSet>
+    <documentSet name="ManuScriptEndorsementForm" paperBinNum="0" printDefault="Selected" condition="LinePrivate.ManuScriptCoverageFormRule" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="">
+      <scope name="Line" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="ManuScriptEndorsementForm.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="ManuScriptEndorsementFormBottom.doc" path="Marketplace|PersonalHome|US|">
+          <scope name="ManuScriptCoverage" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+      </document>
+      <merge>
+        <mergeField name="ManuScriptDescription" idref="ManuScriptCoverageInput.Description" iter="1" formatValue="" />
+        <mergeField name="ManuScriptPremium" idref="ManuScriptCoverageOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+      </merge>
+    </documentSet>
+    <documentSet name="QuoteLetter" paperBinNum="0" printDefault="Selected" prevPage="Worksheet" inherited="DCT_ProductBase_PersonalHome_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="QuoteLetterTop.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="QuoteLetterCoverages.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="QuoteLetterBottom.doc" path="Marketplace|PersonalHome|US|" />
+      </document>
+      <merge>
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="ZipCode" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="Usage" idref="DwellingInput.UseType" iter="1" formatValue="" />
+        <mergeField name="StructureType" idref="DwellingInput.BuildingType" iter="1" formatValue="" />
+        <mergeField name="YearBuilt" idref="DwellingInput.YearBuilt" iter="1" formatValue="" />
+        <mergeField name="ConstructionType" idref="DwellingInput.Construction" iter="1" formatValue="" />
+        <mergeField name="ProtectionClass" idref="DwellingInput.RatedProtectionClass" iter="1" formatValue="" />
+        <mergeField name="CoverageA" idref="CoverageADwellingInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumA" idref="CoverageADwellingOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageB" idref="CoverageBOtherStructuresInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumB" idref="CoverageBOtherStructuresOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageC" idref="CoverageCPersonalPropertyHO3Input.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumC" idref="CoverageCPersonalPropertyHO3Output.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageD" idref="CoverageDLossOfUseInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumD" idref="CoverageDLossOfUseOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageE" idref="CoverageELiabilityInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumE" idref="CoverageELiabilityOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageF" idref="CoverageFMedicalInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumF" idref="CoverageFMedicalOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="PolicyTerm" idref="PolicyInput.Term" iter="1" formatValue="" />
+        <mergeField name="TotalPremium" idref="PolicyPurePremiums.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="AgentPhone" />
+        <mergeField name="AgentName" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="Date" iter="1" formatValue="" idref="DateTime.Today" />
+        <mergeField name="TodayDate" idref="DateTime.CurrentDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="FirstName" idref="AccountInput.FirstName" iter="1" formatValue="" />
+        <mergeField name="LastName" idref="AccountInput.LastName" iter="1" formatValue="" />
+        <mergeField name="PropAddress" idref="AccountInput.Address1" iter="1" formatValue="" />
+      </merge>
+    </documentSet>
+    <printJob name="Quote" condition="PolicyPrivate.IsQuote" override="1">
+      <printDoc name="QuoteLetter" />
+    </printJob>
+    <documentSet name="CancellationNotice" paperBinNum="0" printDefault="Selected" prevPage="DecPage" inherited="DCT_ProductBase_PersonalHome_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="CancellationNotice.doc" path="personallines/CancellationNotice|" />
+      </document>
+      <merge>
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="Name" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="AgentName" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="Address" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgentAddress" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgentCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgentState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgentZip" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="PolicyNumber" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" />
+        <mergeField name="ExpirationDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="TotalPremium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="CancelEffectiveDate" readOnly="True" idref="CurrentTransaction.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+      </merge>
+    </documentSet>
+    <documentSet name="DecPage" paperBinNum="0" printDefault="Selected" prevPage="MarketplaceRatingWorksheet" inherited="DCT_ProductBase_PersonalHome_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="HO Dec Top.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="HO Dec Summary.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="Dwelling Information.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="HOPolicyDecSppTitles.doc" path="Marketplace|PersonalHome|US|" />
+        <subdoc name="HOPolicyDecSppList.doc" path="Marketplace|PersonalHome|US|" condition="LinePrivate.ShowSPPSummary">
+          <scope name="SPP" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="HOPolicyUWComm.doc" path="Marketplace|PersonalHome|US|" />
+      </document>
+      <merge>
+        <mergeField name="First" idref="AccountInput.FirstName" iter="1" formatValue="" />
+        <mergeField name="MiddleInitial" idref="AccountInput.MiddleName" iter="1" formatValue="" />
+        <mergeField name="LastName" idref="AccountInput.LastName" iter="1" formatValue="" />
+        <mergeField name="AgentName" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="AgentPhone" />
+        <mergeField name="Address" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgentAddress" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgentCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgentState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgentZip" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="PolicyNumber" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" />
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="ExpirationDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="SPPType1" />
+        <mergeField name="SPPDesc1" />
+        <mergeField name="SPPLimit1" />
+        <mergeField name="Comment" />
+        <mergeField name="LocIter" />
+        <mergeField name="LocationDesc" />
+        <mergeField name="Dwelling Usage" idref="DwellingInput.UseType" iter="1" formatValue="" />
+        <mergeField name="ConstType" idref="DwellingInput.Construction" iter="1" formatValue="" />
+        <mergeField name="StructureType" />
+        <mergeField name="ProtClass" idref="DwellingInput.RatedProtectionClass" iter="1" formatValue="" />
+        <mergeField name="YearBuilt" idref="DwellingInput.YearBuilt" iter="1" formatValue="" />
+        <mergeField name="NumFam" idref="DwellingInput.NumberOfFamilies" iter="1" formatValue="" />
+        <mergeField name="RCDwelling" />
+        <mergeField name="RCContents" />
+        <mergeField name="MultiLine" />
+        <mergeField name="NewHome" />
+        <mergeField name="BurglarAlarm" idref="DwellingInput.BurglarAlarm" iter="1" formatValue="" />
+        <mergeField name="FireAlarm" idref="DwellingInput.FireAlarm" iter="1" formatValue="" />
+        <mergeField name="CoverageA" idref="CoverageADwellingInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumA" idref="CoverageADwellingOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageB" idref="CoverageBOtherStructuresInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumB" idref="CoverageBOtherStructuresOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageC" idref="CoverageCPersonalPropertyHO3Input.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumC" idref="CoverageCPersonalPropertyHO3Output.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageD" idref="CoverageDLossOfUseInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumD" idref="CoverageDLossOfUseOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageE" idref="CoverageELiabilityInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumE" idref="CoverageELiabilityOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageF" idref="CoverageFMedicalInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PremiumF" idref="CoverageFMedicalOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="BusinessProp" idref="BusinessPropertyInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="BusinessPropPrem" idref="BusinessPropertyOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="EQDed" idref="EarthquakeInput.Deductible" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="EQDedPrem" idref="EarthquakeOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="EQLoss" />
+        <mergeField name="EQLossPrem" />
+        <mergeField name="LossAssess" idref="LossAssessmentInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="LossAssessPrem" idref="LossAssessmentOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="OtherStructure" idref="OtherStructuresRentedToOthersInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="OtherStructurePrem" idref="OtherStructuresRentedToOthersOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="PerPropOthRes" idref="PersonalPropertyOtherResidenceInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="PerPropOthResPrem" idref="PersonalPropertyOtherResidenceOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="Watercraft" idref="" iter="1" formatValue="" />
+        <mergeField name="WatercraftPrem" idref="" iter="1" />
+        <mergeField name="InflationGuard" idref="InflationGuardInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="InflationPremium" idref="InflationGuardOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="FarmPerLiab" />
+        <mergeField name="FarmPerLiabPrem" />
+        <mergeField name="IncedFarm" idref="IncidentalFarmingPersonalLiabilityInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="IncedFarmPrem" idref="IncidentalFarmingPersonalLiabilityOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+      </merge>
+    </documentSet>
+    <printJob name="_Issue" condition="False" override="1">
+      <printDoc name="DecPage" />
+      <printDoc name="PolicyForms" />
+      <printDoc name="ManuScriptEndorsementForm" />
+    </printJob>
+    <printJob name="_Cancel">
+      <printDoc name="CancellationNotice" />
+    </printJob>
+    <documentSet name="MarketplaceRatingWorksheet" paperBinNum="0" printDefault="Selected" prevPage="Worksheet" inherited="DCT_ProductBase_PersonalHome_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="Marketplace Rating Worksheet.doc" path="Marketplace|PersonalHome|US|" />
+      </document>
+      <merge>
+        <mergeField name="CoverageABase" idref="CoverageADwellingPrivate.BaseRate" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="FormFac" idref="CoverageADwellingPrivate.FormFactor" iter="1" formatValue="" />
+        <mergeField name="CovAFormFacAccum" idref="CoverageADwellingPrivate.CovABaseFormFacCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="ProtectionConstFac" idref="CoverageADwellingPrivate.ProtectionConstructionFactor" iter="1" formatValue="" />
+        <mergeField name="CovAKeyPremium" idref="CoverageADwellingPrivate.KeyPremium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="DwellingForm" idref="DwellingInput.Form" iter="1" formatValue="" />
+        <mergeField name="ProtClass" idref="DwellingInput.RatedProtectionClass" iter="1" formatValue="" />
+        <mergeField name="DwellLimit" idref="CoverageADwellingInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="DwellLimitFac" idref="CoverageADwellingPrivate.KeyFactor" iter="1" formatValue="" />
+        <mergeField name="BaseRateBeforeCov" idref="CoverageADwellingPrivate.BasePremiumBeforeCoverage" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="FireResisFac" idref="FireResistiveDiscountPrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="FireResisPrem" idref="FireResistiveDiscountOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="BaseWithFireResisAccum" idref="CoverageADwellingPrivate.BasePremiumBeforeCovWithFireResistive" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="ThreeFourFamFac" idref="ThreeAndFourFamilySurchargePrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="ThreeFourFamilyPrem" idref="ThreeAndFourFamilySurchargeOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="BaseWithThreeFourFamAccum" idref="CoverageADwellingPrivate.BasePremiumBeforeCovWithThreeFourFamily" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="TownRowHouseFac" idref="TownhouseRowhouseSurchargePrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="TownRowHousePrem" idref="TownhouseRowhouseSurchargeOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="BaseWithTownRowHouseAccum" idref="CoverageADwellingOutput.BasePremium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="LossSurchargeFac" idref="LossSurchargePrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="LossSurchargePrem" idref="LossSurchargeOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="LossSurchargeAccum" idref="CoverageADwellingPrivate.LossSurchargeCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="Deductible" idref="DwellingInput.Deductible" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="DeductibleFac" idref="DeductiblePrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="DeductiblePrem" idref="DwellingOutput.DeductibleCalculation" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="DeductibleAccum" idref="CoverageADwellingPrivate.DeductibleCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CovCHO3Fac" idref="" iter="1" formatValue="" />
+        <mergeField name="CovCHO3Prem" idref="CoverageCPersonalPropertyHO3Output.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CovCHO3Accum" idref="CoverageADwellingPrivate.CovCHO3Calc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="RCCFac" idref="ReplacementCostContentsPrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="RCCPrem" idref="ReplacementCostContentsOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="RCCAccum" idref="CoverageADwellingPrivate.ReplacementCostContentsCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="ProtectiveDeviceFac" idref="ProtectiveDeviceDiscountPrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="ProtectiveDevicePrem" idref="ProtectiveDeviceDiscountOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="ProtectiveDeviceAccum" idref="CoverageADwellingPrivate.ProtectiveDeviceDsctCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="InflationGuardFac" idref="InflationGuardPrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="InflationGuardPrem" idref="InflationGuardOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="InflationGuardAccum" idref="CoverageADwellingPrivate.InflationGuardCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="WoodStoveSchgFac" idref="WoodStoveSurchargePrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="WoodStoveSchgPrem" idref="WoodStoveSurchargeOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="WoodStoveSchgAccum" idref="CoverageADwellingPrivate.WoodStoveSurchargeCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="NewHomeDsctFac" idref="NewHomeDiscountOutput.Factor" iter="1" formatValue="" />
+        <mergeField name="NewHomeDsctPrem" idref="NewHomeDiscountOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="NewHomeDsctAccum" idref="CoverageADwellingPrivate.NewHomeDsctCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="NonSmokerDsctFac" idref="NonSmokerDiscountPrivate.Factor" iter="1" formatValue="" />
+        <mergeField name="NonSmokerDsctPrem" idref="NonSmokerDiscountOutput.Amount" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="NonSmokerDsctAccum" idref="CoverageADwellingPrivate.NonSmokerDsctCalc" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="PropAddress" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="ZipCode" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="Usage" idref="DwellingInput.UseType" iter="1" formatValue="" />
+        <mergeField name="StructureType" idref="DwellingInput.BuildingType" iter="1" formatValue="" />
+        <mergeField name="YearBuilt" idref="DwellingInput.YearBuilt" iter="1" formatValue="" />
+        <mergeField name="ConstructionType" idref="DwellingInput.Construction" iter="1" formatValue="" />
+        <mergeField name="ProtectionClass" idref="DwellingInput.RatedProtectionClass" iter="1" formatValue="" />
+        <mergeField name="CoverageA" idref="CoverageADwellingInput.Limit" iter="1" formatValue="" />
+        <mergeField name="CoverageB" idref="CoverageBOtherStructuresInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="CoverageC" idref="CoverageCPersonalPropertyHO3Input.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="CoverageD" idref="CoverageDLossOfUseInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="CoverageE" idref="CoverageELiabilityInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="CoverageF" idref="CoverageFMedicalInput.Limit" iter="1" formatSpecifier="field" formatValue="FormatMask.Limit" />
+        <mergeField name="CoverageAPrem" idref="CoverageADwellingOutput.Premium" iter="1" formatSpecifier="field" formatValue="FormatMask.PremiumPenniesDisplay" />
+        <mergeField name="CoverageBPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CoverageBOtherStructuresOutput.Premium" />
+        <mergeField name="CoverageBLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="CoverageBOtherStructuresInput.Limit" />
+        <mergeField name="CoverageBIncludedLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="CoverageBOtherStructuresOutput.IncludedLimit" />
+        <mergeField name="CoverageBBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CoverageBOtherStructuresPrivate.BaseRate" />
+        <mergeField name="CoverageDPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CoverageDLossOfUseOutput.Premium" />
+        <mergeField name="CoverageDLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="CoverageDLossOfUseInput.Limit" />
+        <mergeField name="CoverageDIncludedLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="CoverageDLossOfUseOutput.IncludedLimit" />
+        <mergeField name="CoverageDBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CoverageDLossOfUsePrivate.BaseRate" />
+        <mergeField name="CoverageEPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CoverageELiabilityOutput.Premium" />
+        <mergeField name="CoverageEBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CoverageELiabilityPrivate.BaseRate" />
+        <mergeField name="CoverageELimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="CoverageELiabilityInput.Limit" />
+        <mergeField name="CoverageELimitFac" idref="CoverageELiabilityPrivate.LiabilityLimitFactor" iter="1" formatValue="" />
+        <mergeField name="CoverageFBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CoverageFMedicalPrivate.BaseRate" />
+        <mergeField name="CoverageFLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="CoverageFMedicalInput.Limit" />
+        <mergeField name="CoverageFLimitFac" />
+        <mergeField name="BusinessPropertyPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="BusinessPropertyOutput.Premium" />
+        <mergeField name="BusinessPropertyLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="BusinessPropertyInput.Limit" />
+        <mergeField name="BusinessPropertyIncludedLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="BusinessPropertyPrivate.IncludedLimit" />
+        <mergeField name="BusinessPropertyBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="BusinessPropertyPrivate.BaseRate" />
+        <mergeField name="AddAltPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="AdditionsAlterationsOutput.Premium" />
+        <mergeField name="AddAltLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="AdditionsAlterationsInput.Limit" />
+        <mergeField name="AddAltIncludedLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="AdditionsAlterationsPrivate.IncludedLimit" />
+        <mergeField name="AddAltEachAddlRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="AdditionsAlterationsPrivate.EachAdditionalRate" />
+        <mergeField name="AddAltSpecialRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="AdditionsAlterationsPrivate.SpecialRate" />
+        <mergeField name="CrediCardPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CreditCardOutput.Premium" />
+        <mergeField name="CreditCardBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="CreditCardPrivate.BaseRate" />
+        <mergeField name="IdentityFraudPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="IdentityFraudExpenseCoverageOutput.Premium" />
+        <mergeField name="IdentityFraudBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="IdentityFraudExpenseCoveragePrivate.BaseRate" />
+        <mergeField name="LossAssessmentPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="LossAssessmentOutput.Premium" />
+        <mergeField name="LossAssessmentLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="LossAssessmentInput.Limit" />
+        <mergeField name="LossAssessmentBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="LossAssessmentPrivate.BaseRate" />
+        <mergeField name="OthrStructRentOtherPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="OtherStructuresRentedToOthersOutput.Premium" />
+        <mergeField name="OthrStructRentOtherLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="OtherStructuresRentedToOthersInput.Limit" />
+        <mergeField name="OthrStructRentOtherIncludedLimit" formatSpecifier="field" iter="1" formatValue="FormatMask.Limit" idref="OtherStructuresRentedToOthersPrivate.IncludedLimit" />
+        <mergeField name="OthrStructRentOtherBaseRate" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="OtherStructuresRentedToOthersPrivate.BaseRate" />
+        <mergeField name="TotalPrem" formatSpecifier="field" iter="1" formatValue="FormatMask.PremiumPenniesDisplay" idref="PolicyPurePremiums.PremiumWritten" />
+      </merge>
+    </documentSet>
+    <printJob name="Worksheet" condition="False" override="1">
+      <printDoc name="MarketplaceRatingWorksheet" />
+      <printDoc name="Worksheet" />
+    </printJob>
+  </documents>
+</ManuScript>

@@ -1,0 +1,1512 @@
+﻿<ManuScript>
+  <properties manuscriptID="Marketplace_PersonalHome_CA_1_0_0_0" versionID="Marketplace_PersonalHome_CA_1_0_0_0" versionDate="2011-01-01" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="United States [english]" caption="Personal Home CA (1.0.0.0)" inherited="Carrier_ProductBase_PersonalHome_1_0_0_0" image="" dataSchema="" usePersistedState="0">
+    <notes />
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalHome" />
+      <keyInfo name="state" value="CA" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2011-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2011-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Pages" />
+      <keyInfo name="cultures" value="" />
+      <keyInfo name="currencyCodes" value="" />
+      <keyInfo name="states" value="None" />
+      <keyInfo name="type" value="None" />
+      <keyInfo name="layer" value="DuckCreek" />
+    </keys>
+  </properties>
+  <model defaultValue="data.SubmissionExecute">
+    <object id="data" abstract="1">
+      <object id="Policy" abstract="1">
+        <object id="Line" abstract="1">
+          <object id="Risk" abstract="1">
+            <object id="SectionICoverages" abstract="1">
+              <object id="Earthquake" abstract="1">
+                <object id="EarthquakeInput" path="earthquakeinput" override="1">
+                  <public id="EarthquakeInput.DwellingLimit" path="DwellingLimit" type="int">
+                    <definition>
+                      <caption value="Dwelling Limit" />
+                      <readOnly idref="True" />
+                      <formatMask idref="FormatMask.Premium" />
+                    </definition>
+                    <rules>
+                      <value idref="CoverageADwellingInput.Limit" />
+                    </rules>
+                  </public>
+                  <public id="EarthquakeInput.PersonalPropertyLimit" path="PersonalPropertyLimit" type="string">
+                    <definition>
+                      <caption value="Personal Property Limit" />
+                      <options>
+                        <option value="N" caption="No Coverage" validRef="EarthquakePrivate.PlanChoice" />
+                        <option value="5000" caption="$5,000" />
+                        <option value="25000" caption="$25,000" />
+                        <option value="50000" caption="$50,000" />
+                        <option value="75000" caption="$75,000" />
+                        <option value="100000" caption="$100,000" />
+                        <option value="150000" caption="$150,000" />
+                        <option value="250000" caption="$250,000" />
+                      </options>
+                    </definition>
+                  </public>
+                  <public id="EarthquakeInput.LossOfUseLimit" path="LossOfUseLimit" type="string">
+                    <definition>
+                      <caption value="Loss Of Use Limit" />
+                      <options>
+                        <option value="N" caption="No Coverage" validRef="EarthquakePrivate.PlanChoice" />
+                        <option value="1500" caption="$1,500" />
+                        <option value="10000" caption="$5,000" />
+                        <option value="15000" caption="$15,000" />
+                        <option value="25000" caption="$25,000" />
+                        <option value="50000" caption="$50,000" />
+                        <option value="75000" caption="$75,000" />
+                        <option value="100000" caption="$100,000" />
+                      </options>
+                    </definition>
+                  </public>
+                  <public id="EarthquakeInput.BuildingCodeLimit" path="BuildingCodeLimit" type="string">
+                    <definition>
+                      <caption value="Building Code" />
+                      <options>
+                        <option value="10000" caption="$10,000" />
+                        <option value="20000" caption="$20,000" />
+                        <option value="30000" caption="$30,000" />
+                      </options>
+                    </definition>
+                  </public>
+                  <public id="EarthquakeInput.EmergencyRepairLimit" path="EmergencyRepairLimit" type="string">
+                    <definition>
+                      <caption value="Emergency Repair" />
+                      <options>
+                        <option value="1" caption="1%" />
+                        <option value="2" caption="2%" />
+                        <option value="3" caption="3%" />
+                        <option value="4" caption="4%" />
+                        <option value="5" caption="5%" />
+                      </options>
+                    </definition>
+                  </public>
+                  <public id="EarthquakeInput.BreakablesIndicator" path="BreakablesIndicator" type="boolean">
+                    <definition>
+                      <caption value="Breakables" />
+                    </definition>
+                  </public>
+                  <public id="EarthquakeInput.ExteriorMasonryVeneerIndicator" path="ExteriorMasonryVeneerIndicator" type="boolean">
+                    <definition>
+                      <caption value="Exterior Masonry Veneer" />
+                    </definition>
+                  </public>
+                  <public id="EarthquakeInput.EarthquakeCoveragePackage" path="EarthquakeCoveragePackage" type="string">
+                    <definition>
+                      <options>
+                        <option value="Standard" caption="Standard" />
+                        <option value="Choice" caption="Choice" />
+                      </options>
+                      <caption value="Earthquake Coverages" />
+                    </definition>
+                    <rules>
+                      <affects>
+                        <reference idref="EarthquakePrivate.EarthquakeSetCoverageDefaults" effect="onChange" />
+                      </affects>
+                      <default value="Standard" />
+                    </rules>
+                  </public>
+                  <public id="EarthquakeInput.EarthquakeTotalPremiumChange" path="EarthquakeTotalPremiumChange" type="string">
+                    <definition>
+                      <readOnly idref="True" />
+                    </definition>
+                  </public>
+                  <minOccurs value="0" />
+                  <maxOccurs value="1" />
+                </object>
+                <object id="EarthquakePrivate" abstract="1">
+                  <private id="EarthquakePrivate.PersonalPropertyPremium" caption="" type="float" override="1">
+                    <value idref="EarthquakePrivate.PersonalPropertyRate" />
+                  </private>
+                  <private id="EarthquakePrivate.LossOfUsePremium" caption="" type="float" override="1">
+                    <value idref="EarthquakePrivate.LossOfUseRate" />
+                  </private>
+                  <private id="EarthquakePrivate.BuildingCodePremium" caption="" type="string">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="EarthquakeInput.Indicator" type="boolean" />
+                            <operand idref="False" type="int" />
+                          </comparison>
+                        </condition>
+                        <then value="0" />
+                        <else>
+                          <lookup>
+                            <tableRef value="EarthquakeBuildingCodeRates" />
+                            <fieldRef value="Rate" />
+                            <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Plan" />
+                            <keyRef idref="EarthquakeInput.BuildingCodeLimit" type="string" name="Limit" />
+                            <keyRef idref="DwellingInput.Construction" type="string" name="ConstructionType" />
+                          </lookup>
+                        </else>
+                      </if>
+                    </value>
+                    <worksheet>
+                      <caption value="Earthquake Building Code Rate" />
+                    </worksheet>
+                  </private>
+                  <private id="EarthquakePrivate.EmergencyRepairPremium" caption="" type="string">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="EarthquakeInput.Indicator" type="boolean" />
+                            <operand idref="False" type="int" />
+                          </comparison>
+                        </condition>
+                        <then value="0" />
+                        <else>
+                          <lookup>
+                            <tableRef value="EarthquakeEmergencyRepairRates" />
+                            <fieldRef value="Rate" />
+                            <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Plan" />
+                            <keyRef idref="EarthquakeInput.EmergencyRepairLimit" type="string" name="Limit" />
+                            <keyRef idref="DwellingInput.Construction" type="string" name="ConstructionType" />
+                          </lookup>
+                        </else>
+                      </if>
+                    </value>
+                  </private>
+                  <private id="EarthquakePrivate.BreakablesPremium" type="float" comment="" caption="Breakables Premium">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="EarthquakeInput.BreakablesIndicator" type="boolean" />
+                            <operand idref="True" type="int" />
+                          </comparison>
+                        </condition>
+                        <then value="25" />
+                        <else value="0" />
+                      </if>
+                    </value>
+                  </private>
+                  <private id="EarthquakePrivate.ExteriorMasonryVeneerPremium" caption="" type="string">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="EarthquakeInput.ExteriorMasonryVeneerIndicator" type="boolean" />
+                            <operand idref="True" type="int" />
+                          </comparison>
+                        </condition>
+                        <then value="25" />
+                        <else value="0" />
+                      </if>
+                    </value>
+                  </private>
+                  <private id="EarthquakePrivate.DwellingPremium" caption="" type="float">
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="EarthquakeInput.DwellingLimit" type="int" />
+                        <argument op="divide" type="int" value="1000" />
+                        <argument op="multiply" round="1" roundType="round" idref="EarthquakePrivate.DwellingRate" type="float" />
+                      </calculation>
+                    </value>
+                  </private>
+                  <private id="EarthquakePrivate.PersonalPropertyRate" caption="" type="float" override="1">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="EarthquakeInput.Indicator" type="boolean" />
+                            <operand idref="False" type="int" />
+                          </comparison>
+                        </condition>
+                        <then value="0" />
+                        <else>
+                          <lookup>
+                            <tableRef value="EarthquakePersonalPropertyRates" />
+                            <fieldRef value="Rate" />
+                            <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Plan" />
+                            <keyRef idref="EarthquakeInput.PersonalPropertyLimit" type="string" name="Limit" />
+                            <keyRef idref="DwellingInput.Construction" type="string" name="ConstructionType" />
+                          </lookup>
+                        </else>
+                      </if>
+                    </value>
+                    <worksheet>
+                      <caption value="Earthquake Personal Property Rate" />
+                    </worksheet>
+                  </private>
+                  <private id="EarthquakePrivate.LossPremiumDefault" caption="" type="string">
+                    <value value="" />
+                  </private>
+                  <object id="EarthquakeDefaults">
+                    <minOccurs value="1" />
+                    <maxOccurs value="1" />
+                    <private id="EarthquakeDefaults.BuildingCodeDefault" caption="" type="string">
+                      <value>
+                        <lookup>
+                          <tableRef value="EarthquakeCoverageDefaults" />
+                          <fieldRef value="Building Code" />
+                          <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Limit" />
+                        </lookup>
+                      </value>
+                      <affects>
+                        <reference idref="EarthquakeInput.BuildingCodeLimit" effect="setValue" />
+                      </affects>
+                    </private>
+                    <private id="EarthquakeDefaults.DwellingDefault" type="string" comment="" caption="Dwelling Default">
+                      <value>
+                        <lookup>
+                          <tableRef value="EarthquakeCoverageDefaults" />
+                          <fieldRef value="Dwelling" />
+                          <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Limit" />
+                        </lookup>
+                      </value>
+                      <affects>
+                        <reference idref="EarthquakeInput.DwellingLimit" effect="setValue" />
+                      </affects>
+                    </private>
+                    <private id="EarthquakeDefaults.EmergencyRepairsDefault" caption="" type="string">
+                      <value>
+                        <lookup>
+                          <tableRef value="EarthquakeCoverageDefaults" />
+                          <fieldRef value="Emergency Repairs" />
+                          <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Limit" />
+                        </lookup>
+                      </value>
+                      <affects>
+                        <reference idref="EarthquakeInput.EmergencyRepairLimit" effect="setValue" />
+                      </affects>
+                    </private>
+                    <private id="EarthquakeDefaults.PersonalPropertyDefault" caption="" type="string">
+                      <value>
+                        <lookup>
+                          <tableRef value="EarthquakeCoverageDefaults" />
+                          <fieldRef value="Personal Property" />
+                          <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Limit" />
+                        </lookup>
+                      </value>
+                      <affects>
+                        <reference idref="EarthquakeInput.PersonalPropertyLimit" effect="setValue" />
+                      </affects>
+                    </private>
+                    <private id="EarthquakeDefaults.LossOfUseDefault" caption="" type="string">
+                      <value>
+                        <lookup>
+                          <tableRef value="EarthquakeCoverageDefaults" />
+                          <fieldRef value="Loss of Use" />
+                          <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Limit" />
+                        </lookup>
+                      </value>
+                      <affects>
+                        <reference idref="EarthquakeInput.LossOfUseLimit" effect="setValue" />
+                      </affects>
+                    </private>
+                  </object>
+                  <private id="EarthquakePrivate.EarthquakeSetCoverageDefaults" caption="" type="string">
+                    <value value="" />
+                    <affects>
+                      <reference idref="EarthquakeDefaults.BuildingCodeDefault" effect="postEffect" />
+                      <reference idref="EarthquakeDefaults.DwellingDefault" effect="postEffect" />
+                      <reference idref="EarthquakeDefaults.EmergencyRepairsDefault" effect="postEffect" />
+                      <reference idref="EarthquakeDefaults.LossOfUseDefault" effect="postEffect" />
+                      <reference idref="EarthquakeDefaults.PersonalPropertyDefault" effect="postEffect" />
+                    </affects>
+                  </private>
+                  <private id="EarthquakePrivate.PlanChoice" caption="" type="string">
+                    <value>
+                      <comparison compare="eq">
+                        <operand idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" />
+                        <operand type="string" value="Choice" />
+                      </comparison>
+                    </value>
+                  </private>
+                  <private id="EarthquakePrivate.DwellingRate" caption="" type="float" override="1">
+                    <value>
+                      <if>
+                        <condition idref="DwellingPrivate.FormIsHO15" />
+                        <then idref="EarthquakePrivate.OtherStructuresRate" />
+                        <else>
+                          <lookup>
+                            <tableRef value="EarthquakeRates" />
+                            <fieldRef value="Rate" />
+                            <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Plan" />
+                            <keyRef type="string" value="Dwelling" name="Coverage" />
+                            <keyRef idref="DwellingInput.Construction" type="string" name="ConstructionType" />
+                          </lookup>
+                        </else>
+                      </if>
+                    </value>
+                    <worksheet>
+                      <caption value="Earthquake Dwelling Rate" />
+                    </worksheet>
+                  </private>
+                  <private id="EarthquakePrivate.LossOfUseRate" caption="" type="float" override="1">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="EarthquakeInput.Indicator" type="boolean" />
+                            <operand idref="False" type="int" />
+                          </comparison>
+                        </condition>
+                        <then value="0" />
+                        <else>
+                          <lookup>
+                            <tableRef value="EarthquakeLossOfUseRates" />
+                            <fieldRef value="Rate" />
+                            <keyRef idref="EarthquakeInput.EarthquakeCoveragePackage" type="string" name="Plan" />
+                            <keyRef idref="EarthquakeInput.LossOfUseLimit" type="string" name="Limit" />
+                            <keyRef idref="DwellingInput.Construction" type="string" name="ConstructionType" />
+                          </lookup>
+                        </else>
+                      </if>
+                    </value>
+                    <worksheet>
+                      <caption value="Earthquake Loss of Use Rate" />
+                    </worksheet>
+                  </private>
+                </object>
+                <object id="EarthquakeOutput" abstract="1">
+                  <public id="EarthquakeOutput.Premium" path="Premium" type="float" class="Premium:excludeInChangeSummary" override="1">
+                    <definition>
+                      <caption value="Earthquake" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <readOnly idref="True" />
+                      <maxLength idref="MaxLength.Premium" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <if>
+                          <condition>
+                            <comparison compare="eq">
+                              <operand idref="EarthquakeInput.Indicator" type="boolean" />
+                              <operand idref="False" type="int" />
+                            </comparison>
+                          </condition>
+                          <then value="0" />
+                          <else>
+                            <calculation>
+                              <argument op="eq" idref="EarthquakePrivate.DwellingPremium" type="float" />
+                              <argument op="add" idref="EarthquakePrivate.PersonalPropertyPremium" type="float" />
+                              <argument op="add" idref="EarthquakePrivate.LossOfUsePremium" type="float" />
+                              <argument op="add" idref="EarthquakePrivate.BuildingCodePremium" type="string" />
+                              <argument op="add" idref="EarthquakePrivate.EmergencyRepairPremium" type="string" />
+                              <argument op="add" idref="EarthquakePrivate.BreakablesPremium" type="float" />
+                              <argument op="add" idref="EarthquakePrivate.ExteriorMasonryVeneerPremium" type="string" />
+                              <argument op="multiply" round="1" roundType="round" idref="EarthquakePrivate.DeductibleFactor" type="float" />
+                            </calculation>
+                          </else>
+                        </if>
+                      </value>
+                      <affects>
+                        <reference idref="EarthquakeOutput.Zone" effect="postEffect" />
+                      </affects>
+                    </rules>
+                    <worksheet>
+                      <summarize idref="True" />
+                    </worksheet>
+                  </public>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <table id="EarthquakePersonalPropertyRates" tableType="local" override="1">
+        <fields>
+          <field type="int" name="Rate" />
+        </fields>
+        <rowKeys name="Plan" type="string" find="eq" pageKey="1">
+          <key value="Standard" caption="" />
+          <key value="Choice" caption="" />
+        </rowKeys>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="N" caption="" />
+          <key value="5000" caption="" />
+          <key value="25000" caption="" />
+          <key value="50000" caption="" />
+          <key value="75000" caption="" />
+          <key value="100000" caption="" />
+          <key value="150000" caption="" />
+          <key value="250000" caption="" />
+        </rowKeys>
+        <colKeys name="ConstructionType" type="string" find="range">
+          <key value="Frame,Aluminum,PlasticSiding" />
+          <key value="Masonry,MasonryVeneer" />
+          <key value="Superior" />
+        </colKeys>
+        <data>
+          <row value="0,0,0" />
+          <row value="25,35,40" />
+          <row value="50,60,75" />
+          <row value="75,85,100" />
+          <row value="100,110,125" />
+          <row value="125,135,150" />
+          <row value="150,160,175" />
+          <row value="200,210,225" />
+          <row value="0,0,0" />
+          <row value="35,40,45" />
+          <row value="60,75,80" />
+          <row value="85,100,105" />
+          <row value="110,125,130" />
+          <row value="135,150,155" />
+          <row value="160,175,180" />
+          <row value="210,225,230" />
+        </data>
+      </table>
+      <table id="EarthquakeLossOfUseRates" tableType="local" override="1" separator=",">
+        <fields>
+          <field type="int" name="Rate" />
+        </fields>
+        <rowKeys name="Plan" type="string" find="eq" pageKey="1">
+          <key value="Standard" caption="" />
+          <key value="Choice" caption="" />
+        </rowKeys>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="N" caption="" />
+          <key value="1500" caption="" />
+          <key value="10000" caption="" />
+          <key value="15000" caption="" />
+          <key value="25000" caption="" />
+          <key value="50000" caption="" />
+          <key value="75000" caption="" />
+          <key value="100000" caption="" />
+        </rowKeys>
+        <colKeys name="ConstructionType" type="string" find="range">
+          <key value="Frame,Aluminum,PlasticSiding" />
+          <key value="Masonry,MasonryVeneer" />
+          <key value="Superior" />
+        </colKeys>
+        <data>
+          <row value="0,0,0" />
+          <row value="25,35,40" />
+          <row value="50,60,75" />
+          <row value="75,85,100" />
+          <row value="100,110,125" />
+          <row value="125,135,150" />
+          <row value="150,160,175" />
+          <row value="200,210,225" />
+          <row value="0,0,0" />
+          <row value="35,40,45" />
+          <row value="60,75,80" />
+          <row value="85,100,105" />
+          <row value="110,125,130" />
+          <row value="135,150,155" />
+          <row value="160,175,180" />
+          <row value="210,225,230" />
+        </data>
+      </table>
+      <table id="EarthquakeBuildingCodeRates" tableType="local" override="1" separator=",">
+        <fields>
+          <field type="int" name="Rate" />
+        </fields>
+        <rowKeys name="Plan" type="string" find="eq" pageKey="1">
+          <key value="Standard" caption="" />
+          <key value="Choice" caption="" />
+        </rowKeys>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="10000" caption="" />
+          <key value="20000" caption="" />
+          <key value="30000" caption="" />
+        </rowKeys>
+        <colKeys name="ConstructionType" type="string" find="range">
+          <key value="Frame,Aluminum,PlasticSiding" />
+          <key value="Masonry,MasonryVeneer" />
+          <key value="Superior" />
+        </colKeys>
+        <data>
+          <row value="25,35,40" />
+          <row value="50,60,75" />
+          <row value="75,85,100" />
+          <row value="35,40,45" />
+          <row value="60,75,80" />
+          <row value="85,100,105" />
+        </data>
+      </table>
+      <table id="EarthquakeRates" tableType="local" override="1">
+        <fields>
+          <field type="int" name="Rate" />
+        </fields>
+        <rowKeys name="Plan" type="string" find="eq" pageKey="1">
+          <key value="Standard" caption="" />
+          <key value="Choice" caption="" />
+        </rowKeys>
+        <rowKeys name="Coverage" type="string" find="eq">
+          <key value="Dwelling" caption="" />
+          <key value="PersonalProperty" caption="" />
+          <key value="OtherStructures" caption="" />
+          <key value="LossOfUse" caption="" />
+          <key value="LossAssessment" caption="" />
+          <key value="BuildingCode" caption="" />
+        </rowKeys>
+        <colKeys name="ConstructionType" type="string" find="range">
+          <key value="Frame,Aluminum,PlasticSiding" />
+          <key value="Masonry,MasonryVeneer" />
+          <key value="Superior" />
+        </colKeys>
+        <data>
+          <row value="0.42,1.78,0.62" />
+          <row value="0.29,1.01,0.29" />
+          <row value="0.29,1.28,0.48" />
+          <row value="0.29,1.28,0.48" />
+          <row value="0.24,1.02,0.24" />
+          <row value="0.29,1.28,0.48" />
+          <row value="0.52,1.87,0.72" />
+          <row value="0.39,1.10,0.39" />
+          <row value="0.39,1.38,0.58" />
+          <row value="0.39,1.38,0.58" />
+          <row value="0.34,1.12,0.34" />
+          <row value="0.29,1.28,0.48" />
+        </data>
+      </table>
+      <table id="EarthquakeEmergencyRepairRates" tableType="local" override="1" separator=",">
+        <fields>
+          <field type="int" name="Rate" />
+        </fields>
+        <rowKeys name="Plan" type="string" find="eq" pageKey="1">
+          <key value="Standard" caption="" />
+          <key value="Choice" caption="" />
+        </rowKeys>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="1" caption="" />
+          <key value="2" caption="" />
+          <key value="3" caption="" />
+          <key value="4" caption="" />
+          <key value="5" caption="" />
+        </rowKeys>
+        <colKeys name="ConstructionType" type="string" find="range">
+          <key value="Frame,Aluminum,PlasticSiding" />
+          <key value="Masonry,MasonryVeneer" />
+          <key value="Superior" />
+        </colKeys>
+        <data>
+          <row value="25,35,40" />
+          <row value="50,60,75" />
+          <row value="75,85,100" />
+          <row value="100,110,125" />
+          <row value="125,135,150" />
+          <row value="60,75,80" />
+          <row value="85,100,105" />
+          <row value="110,125,130" />
+          <row value="135,150,155" />
+          <row value="125,135,150" />
+        </data>
+      </table>
+      <table id="EarthquakeCoverageDefaults" tableType="local" separator=",">
+        <fields>
+          <field type="int" name="Dwelling" />
+          <field type="int" name="Personal Property" />
+          <field type="int" name="Loss of Use" />
+          <field type="int" name="Building Code" />
+          <field type="int" name="Emergency Repairs" />
+        </fields>
+        <rowKeys name="Limit" type="int" find="eq">
+          <key value="Standard" caption="" />
+          <key value="Choice" caption="" />
+        </rowKeys>
+        <data>
+          <row value="10%,25000,1500,10000,1" />
+          <row value="25%,150000,25000,20000,5" />
+        </data>
+      </table>
+      <table id="CoverageDefaults" tableType="local" separator="," override="1">
+        <fields>
+          <field type="int" name="Liability" />
+          <field type="int" name="Medical" />
+          <field type="int" name="Deductible" />
+          <field type="int" name="CreditCard" />
+          <field type="int" name="RefrigeratedProperty" />
+          <field type="int" name="ReplacementCostContents" />
+          <field type="int" name="ReplacementCostDwelling" />
+        </fields>
+        <rowKeys name="Coverage Package" type="string" find="eq">
+          <key value="Economy" caption="" />
+          <key value="Standard" default="1" caption="" />
+          <key value="Deluxe" caption="" />
+          <key value="Recommended" caption="" />
+          <key value="Plus" caption="" />
+          <key value="Custom" caption="" />
+        </rowKeys>
+        <data>
+          <row value="100000,1000,7500,500,0,0,0" />
+          <row value="200000,2000,2500,2500,0,0,1" />
+          <row value="300000,3000,1000,5000,1,1,1" />
+          <row value="500000,5000,500,10000,1,1,1" />
+          <row value="200000,2000,2500,2500,0,0,0" />
+          <row value=",,,,,," />
+        </data>
+      </table>
+    </object>
+  </model>
+  <revisions />
+  <topics>
+    <topic name="MainInterview" abstract="1">
+      <page name="Endorsements" caption="Endorsements" pageVersion="2.0" validRef="Endorsements.Show" inherited="DCT_ProductBase_1_0_0_0" prevPage="ScheduledPersonalProperty" override="1">
+        <group object="Line" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="once">
+            <group iterMax="*" iterStep="1" object="ManuScriptCoverage">
+              <tableLayout direction="across" captionPosition="above" showCaption="once" caption="Manuscript Endorsements">
+                <reference idref="ManuScriptCoverageInput.Description" />
+                <reference idref="ManuScriptCoverageInput.BaseRate" caption="Premium" />
+                <action command="delete" validRef="Endorsements.ShowDelete" caption="Remove">
+                  <nameValues />
+                </action>
+                <action command="markForDelete" caption="Remove" validRef="Endorsements.ShowMarkForDelete">
+                  <nameValues />
+                </action>
+              </tableLayout>
+              <action command="add" caption="Add Manuscript Endorsement" validRef="Endorsements.ShowAdd">
+                <nameValues />
+              </action>
+            </group>
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="Endorsements.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="EarthquakeCoverage" caption="Earthquake Coverage" pageVersion="2" prevPage="DwellingCoverage">
+        <group object="Earthquake" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel">
+            <section direction="across" captionPosition="before" showCaption="repeat">
+              <reference idref="EarthquakeInput.Deductible" onBlur="1" />
+            </section>
+            <section direction="down" captionPosition="above" showCaption="none" validRef="EarthquakeInput.Indicator">
+              <reference idref="Spacer" />
+              <widget widgetType="comparison" showCaption="repeat" widgetFormat="radio" idref="EarthquakeInput.EarthquakeCoveragePackage" onBlur="1" affectedValueRef="data.TotalPremiumWritten" class="x_PaddingBottom35 x_PaddingLeft60" restoreSession="1" formatMaskOverride="$???,???,???.00" affectedRatingRef="data.TotalPremium" />
+            </section>
+            <nameValues>
+              <nameValue value="Earthquake Coverage" name="panelHeader" />
+            </nameValues>
+            <section direction="down" captionPosition="before" showCaption="repeat" validRef="EarthquakeInput.Indicator">
+              <reference idref="EarthquakeInput.DwellingLimit" caption="Dwelling Limit" compute="1" />
+              <reference idref="EarthquakeInput.PersonalPropertyLimit" caption="Personal Property Limit" />
+              <reference idref="EarthquakeInput.LossOfUseLimit" />
+              <reference idref="EarthquakeInput.BuildingCodeLimit" caption="Building Code Limit" />
+              <reference idref="EarthquakeInput.EmergencyRepairLimit" caption="Emergency Repair Limit" />
+              <reference idref="EarthquakeInput.BreakablesIndicator" />
+              <reference idref="EarthquakeInput.ExteriorMasonryVeneerIndicator" />
+            </section>
+          </section>
+        </group>
+      </page>
+      <page pageVersion="2.0" name="InsuranceHistory" caption="Insurance History" prevPage="Underwriting" validRef="InsuranceHistoryPage.Show" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Policy" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" caption="Insurance History" cc="GrayPanel" icon="report.png">
+            <reference idref="Spacer" caption="Please list prior insurance" capClass="x_FontCaption" />
+            <group iterMax="*" iterStep="1" object="PriorInsurance">
+              <grid direction="across" captionPosition="above" showCaption="once" capClass="x_Bold" readOnly="1">
+                <reference idref="PriorInsurance.CarrierName">
+                  <nameValues>
+                    <nameValue value="250" name="columnWidth" />
+                  </nameValues>
+                </reference>
+                <reference idref="PriorInsurance.EffectiveDate" />
+                <reference idref="PriorInsurance.ExpirationDate" />
+                <reference idref="PriorInsurance.Limit" />
+                <reference idref="PriorInsurance.Deductible" />
+                <nameValues />
+                <action command="specificIter" caption="Detail" pageRef="PriorInsuranceDetail" topic="PriorInsuranceDetail">
+                  <nameValues>
+                    <nameValue value="1" name="popUp" />
+                    <nameValue value="50" name="columnWidth" />
+                  </nameValues>
+                </action>
+                <action command="delete" caption="Delete">
+                  <nameValues>
+                    <nameValue value="50" name="columnWidth" />
+                  </nameValues>
+                </action>
+              </grid>
+              <action command="add" caption="Add Carrier" validRef="LockPolicy.False" pageRef="PriorInsuranceDetail" topic="PriorInsuranceDetail">
+                <nameValues>
+                  <nameValue value="1" name="popUp" />
+                  <nameValue value="1" name="hideCloseButton" />
+                </nameValues>
+              </action>
+            </group>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="InsuranceHistoryPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="ClaimsHistory" caption="Claims History" pageVersion="2.0" validRef="ClaimsHistoryPage.Show" prevPage="InsuranceHistory" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Line" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" caption="Loss History" icon="report.png" cc="GrayPanel">
+            <tableLayout direction="down" captionPosition="above" showCaption="repeat" uid="t_l5C970B41454544308D62F2F3C6B3D1AF2_3" class="x_Information">
+              <reference idref="Spacer" caption="Any prior losses, whether paid or not paid by insurance over the last 5 years at this location or any other location." />
+            </tableLayout>
+            <section direction="down" captionPosition="before" showCaption="repeat">
+              <group iterMax="*" iterStep="1" object="Loss">
+                <grid direction="across" captionPosition="above" showCaption="once" readOnly="1">
+                  <reference idref="LossInput.LossType" />
+                  <reference idref="LossInput.CategoryCode" />
+                  <reference idref="LossInput.DateOfLoss" />
+                  <reference idref="LossInput.AmountPaid" />
+                  <reference idref="LossInput.InDispute" />
+                  <action command="specificIter" caption="Detail" pageRef="LossHistoryDetail" topic="LossHistoryDetail">
+                    <nameValues>
+                      <nameValue value="1" name="popUp" />
+                      <nameValue value="50" name="columnWidth" />
+                    </nameValues>
+                  </action>
+                  <action command="delete" caption="Delete">
+                    <nameValues>
+                      <nameValue value="50" name="columnWidth" />
+                    </nameValues>
+                  </action>
+                </grid>
+                <action command="add" caption="Add Loss" pageRef="LossHistoryDetail" topic="LossHistoryDetail">
+                  <nameValues>
+                    <nameValue value="1" name="popUp" />
+                    <nameValue value="1" name="hideCloseButton" />
+                  </nameValues>
+                </action>
+              </group>
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="ClaimsHistoryPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="InstallmentSchedule" caption="Installment Schedule" pageVersion="2" topicRef="InstallmentSchedule" pageRef="InstallmentSchedule" manuscriptIdRef="PolicyAdmin.BillingInstallmentScheduleManuScriptID" prevPage="BillingSummary" validRef="InstallmentSchedulePage.Show" inherited="DCT_ProductBase_PersonalLines_1_0_0_0" override="1" />
+      <page name="BillingSummary" caption="Billing Summary" pageVersion="2" topicRef="BillingSummary" pageRef="BillingSummary" manuscriptIdRef="PolicyAdmin.BillingWorkflowManuScriptID" prevPage="PaymentDetails" validRef="BillingSummaryPage.Show" inherited="DCT_ProductBase_PersonalLines_1_0_0_0" override="1" />
+      <page name="PaymentDetails" caption="Payment Details" pageVersion="2" topicRef="BillingSetup" pageRef="PaymentDetails" manuscriptIdRef="PolicyAdmin.BillingWorkflowManuScriptID" prevPage="Pricing" validRef="PaymentDetailsPage.Show" inherited="DCT_ProductBase_PersonalLines_1_0_0_0" override="1" />
+      <page name="Pricing" pageVersion="2.0" caption="Pricing" calculate="2" idref="ExecutePremiums.Value" validRef="PricingPage.Show" worksheet="PricingPage.IncludeWorksheetData" prevPage="Coverage" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Policy" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="once" cc="GrayPanel" icon="money_dollar.png" caption="Pricing">
+            <section direction="down" captionPosition="before" showCaption="repeat">
+              <action command="custom" validRef="PricingPage.ShowWorksheetButton" caption="Rating Worksheet">
+                <nameValues>
+                  <nameValue value="printjob:Worksheet" name="PDFPage" />
+                  <nameValue idref="True" name="suppressRefresh" />
+                </nameValues>
+              </action>
+              <action command="custom" caption="Quote Letter" validRef="PolicyPrivate.IsQuote">
+                <nameValues>
+                  <nameValue value="printjob:Quote" name="PDFPage" />
+                  <nameValue idref="True" name="suppressRefresh" />
+                </nameValues>
+              </action>
+              <action command="custom" caption="Application" validRef="PolicyPrivate.IsApplication">
+                <nameValues>
+                  <nameValue value="printjob:Application" name="PDFPage" />
+                  <nameValue idref="True" name="suppressRefresh" />
+                </nameValues>
+              </action>
+            </section>
+            <section direction="down" captionPosition="before" showCaption="repeat">
+              <tableLayout direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="PolicyAdmin.UseDCTFormsAndMessages" onBlur="1" fldClass="x_Width50" capClass="x_Width90" />
+                <action command="custom" caption="View Forms" validRef="PolicyAdmin.UseDCTFormsAndMessages">
+                  <nameValues>
+                    <nameValue value="previewAsyncPrintJob" name="postAction" />
+                    <nameValue idref="PrintingAndForms.PrintJobNames" name="printJob" />
+                    <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="printJobManuScript" />
+                  </nameValues>
+                </action>
+              </tableLayout>
+            </section>
+            <section direction="across" captionPosition="above" showCaption="repeat" cc="lightpanel" fldClass="x_Width140">
+              <reference idref="PolicyPremiums.Premium" caption="Premium" />
+              <reference idref="PolicyPremiums.PremiumChange" caption="Premium Change" />
+              <reference idref="PolicyPremiums.PremiumPrior" compute="0" />
+              <reference idref="PolicyPremiums.PremiumWritten" caption="Premium Written" />
+              <nameValues />
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="PricingPage.ReadOnly" name="readOnly" />
+          <nameValue idref="True" name="calculate" />
+        </nameValues>
+      </page>
+      <page name="Coverage" caption="Coverage Summary" pageVersion="2.0" prevPage="ClaimsHistory" validRef="CoveragePage.Show" calculate="2" idref="ExecutePremiums.Value" worksheet="PricingPage.IncludeWorksheetData" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Policy" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel">
+            <section direction="across" captionPosition="above" showCaption="repeat" uid="s_p76CC320193BB42169212919040353B781E_3" cc="WhiteRounded" fldClass="x_Width140">
+              <reference idref="PolicyPremiums.Premium" />
+              <nameValues />
+              <reference idref="PolicyPremiums.PremiumChange" caption="Premium Change" />
+              <reference idref="PolicyPremiums.PremiumPrior" />
+              <reference idref="PolicyPremiums.PremiumWritten" caption="Premium Written" />
+            </section>
+            <section direction="down" captionPosition="before" showCaption="repeat">
+              <widget widgetType="comparison" showCaption="repeat" widgetFormat="slider" formatMaskOverride="$???,???,???.00" idref="LineInput.CoveragePackage" affectedValueRef="data.TotalPremiumChange" onBlur="1" restoreSession="1" class="x_PaddingBottom35 x_PaddingLeft60" affectedRatingRef="ExecutePremiums.Value" />
+            </section>
+            <section direction="down" captionPosition="above" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7821_3" validRef="DwellingPrivate.FormIsDwelling" cc="LightPanel" caption="Coverage Calculator" icon="calculator.png">
+              <nameValues />
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="CoverageADwellingInput.Limit" onBlur="1" compute="1">
+                    <nameValues>
+                      <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                    </nameValues>
+                  </reference>
+                </section>
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="CoverageADwellingInput.Limit" onBlur="1" compute="1">
+                    <nameValues>
+                      <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                    </nameValues>
+                  </reference>
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat">
+                  <reference idref="DwellingOutput.AdjustedBasePremium" fldClass="x_AlignRight x_Width120" caption="$" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_Width240">
+                  <reference idref="Spacer" caption="All-Peril Deductible" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none">
+                  <widget widgetType="comparison" showCaption="repeat" widgetFormat="extended" formatMaskOverride="$???,???,???.00" idref="DwellingInput.Deductible" affectedValueRef="data.TotalPremiumWritten" onBlur="1" caption=" " restoreSession="1" selectedFormatMask=" " />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="CoverageBOtherStructuresInput.Limit" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="CoverageBOtherStructuresInput.Limit" onBlur="1" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_TextAlignRight">
+                  <reference idref="CoverageBOtherStructuresOutput.Premium" caption="$" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="CoverageCPersonalPropertyHO3Input.Limit" onBlur="1" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="CoverageCPersonalPropertyHO3Input.Limit" onBlur="1" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none">
+                  <reference idref="CoverageCPersonalPropertyHO3OutputNonShredded.IncludedInCovAText" compute="1" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="CoverageDLossOfUseInput.Limit" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="CoverageDLossOfUseInput.Limit" onBlur="1" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat">
+                  <reference idref="CoverageDLossOfUseOutput.Premium" caption="$" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_Width240">
+                  <reference idref="Spacer" caption="Personal Liability Limit (E)" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <widget widgetType="comparison" showCaption="repeat" widgetFormat="extended" idref="CoverageELiabilityInput.Limit" affectedValueRef="data.TotalPremiumWritten" restoreSession="1" onBlur="1" selectedFormatMask=" " />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat" fldClass="x_TextAlignRight">
+                  <reference idref="CoverageELiabilityOutput.Premium" caption="$" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_Width240">
+                  <reference idref="Spacer" caption="Medical Payments Limit (F)" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <widget widgetType="comparison" showCaption="repeat" widgetFormat="extended" idref="CoverageFMedicalInput.Limit" affectedValueRef="data.TotalPremiumWritten" restoreSession="1" onBlur="1" selectedFormatMask=" " />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_TextAlignRight">
+                  <reference idref="CoverageFMedicalOutput.Premium" caption="$" />
+                </section>
+                <nameValues />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="Spacer" caption="Optional Property Coverage" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="Spacer" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_TextAlignRight">
+                  <reference idref="SectionICoveragesOutput.SectionIPremium" compute="1" caption="$" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="Spacer" caption="Optional Liability Coverage" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="Spacer" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_TextAlignRight">
+                  <reference idref="SectionIICoveragesOutput.SectionIIPremium" compute="1" caption="$" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="Spacer" caption="Scheduled Personal Property" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="Spacer" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_TextAlignRight">
+                  <reference idref="SPPSubtotals.SPPTotalPremium" caption="$" />
+                </section>
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p76CC320193BB42169212919040353B7822_3">
+                <nameValues />
+                <section direction="across" captionPosition="before" showCaption="only" class="x_Width240">
+                  <reference idref="Spacer" caption="Watercraft" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="none" class="x_Width200">
+                  <reference idref="Spacer" />
+                </section>
+                <section direction="across" captionPosition="before" showCaption="repeat" class="x_TextAlignRight">
+                  <reference idref="WatercraftSubtotals.WatercraftTotalPremium" caption="$" />
+                </section>
+              </section>
+            </section>
+            <section direction="across" captionPosition="before" showCaption="repeat" uid="t_p78DA1FADCF4D4A85AE3668C0CC74E2D94_3" caption="Coverage Calculator" cc="lightPanel" icon="calculator.png" validRef="DwellingPrivate.FormIsCondoOrTenant">
+              <nameValues />
+              <tableLayout direction="across" captionPosition="above" showCaption="once">
+                <section direction="down" captionPosition="before" showCaption="repeat" uid="t_p78DA1FADCF4D4A85AE3668C0CC74E2D95_3" capClass="x_Width250" fldClass="x_Width200">
+                  <reference idref="CoverageCPersonalPropertyHO46Input.Limit" compute="1" onBlur="1">
+                    <nameValues>
+                      <nameValue idref="DwellingPrivate.FormIsDwelling" name="eliminate" />
+                    </nameValues>
+                  </reference>
+                  <reference idref="CoverageDLossOfUseInput.Limit" compute="1" onBlur="1" />
+                  <reference idref="CoverageELiabilityInput.Limit" compute="1" onBlur="1" />
+                  <reference idref="CoverageFMedicalInput.Limit" compute="1" onBlur="1" />
+                  <nameValues />
+                  <reference idref="Spacer" caption="Optional Property Coverage" />
+                  <reference idref="Spacer" caption="Optional Liability Coverage" />
+                  <reference idref="Spacer" caption="Scheduled Personal Property" />
+                  <reference idref="Spacer" caption="Watercraft" />
+                </section>
+                <section direction="down" captionPosition="before" showCaption="repeat" readOnly="1" uid="t_p78DA1FADCF4D4A85AE3668C0CC74E2D9F_3" fldClass="x_Width100" capClass="x_Width5">
+                  <reference idref="CoverageCPersonalPropertyHO46Output.Premium" compute="1" caption="$">
+                    <nameValues>
+                      <nameValue idref="DwellingPrivate.FormIsDwelling" name="eliminate" />
+                    </nameValues>
+                  </reference>
+                  <reference idref="CoverageDLossOfUseOutput.Premium" compute="1" caption="$" />
+                  <reference idref="CoverageELiabilityOutput.Premium" compute="1" caption="$" />
+                  <reference idref="CoverageFMedicalOutput.Premium" compute="1" caption="$" />
+                  <nameValues />
+                  <reference idref="SectionICoveragesOutput.SectionIPremium" compute="1" caption="$" />
+                  <reference idref="SectionIICoveragesOutput.SectionIIPremium" compute="1" caption="$" />
+                  <reference idref="SPPSubtotals.SPPTotalPremium" caption="$" />
+                  <reference idref="WatercraftSubtotals.WatercraftTotalPremium" caption="$" />
+                </section>
+              </tableLayout>
+            </section>
+            <section direction="across" captionPosition="before" showCaption="repeat" cc="lightPanel">
+              <reference idref="AutoHomeDiscountInput.Selected" onBlur="1" capClass="x_Width350" fldClass="x_Width100" />
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="AutoHomeDiscountOutput.Indicator">
+                <reference idref="AutoHomeDiscountOutput.Premium" caption="$" />
+              </section>
+            </section>
+            <section direction="down" captionPosition="before" showCaption="repeat">
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="PolicyAdmin.UseDCTFormsAndMessages" onBlur="1" fldClass="x_Width50" capClass="x_Width90" />
+                <action command="custom" caption="View Forms" validRef="PolicyAdmin.UseDCTFormsAndMessages">
+                  <nameValues>
+                    <nameValue value="previewAsyncPrintJob" name="postAction" />
+                    <nameValue idref="PrintingAndForms.PrintJobNames" name="printJob" />
+                    <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="printJobManuScript" />
+                  </nameValues>
+                </action>
+              </section>
+            </section>
+            <section direction="across" captionPosition="above" showCaption="repeat" uid="s_p76CC320193BB42169212919040353B7843_3">
+              <action command="goto" caption="Premium Detail" pageRef="RatingSummary" topic="RatingSummary">
+                <nameValues>
+                  <nameValue name="popUp" value="1" />
+                  <nameValue value="800" name="popUpHeight" />
+                </nameValues>
+              </action>
+              <action command="custom" caption="Rating Detail" pageRef="RatingWorksheet" topic="RatingWorksheet" validRef="CoveragePage.ShowRatingDetailButton">
+                <nameValues />
+              </action>
+              <action command="custom" validRef="PricingPage.ShowWorksheetButton" caption="Rating Worksheet">
+                <nameValues>
+                  <nameValue value="printjob:Worksheet" name="PDFPage" />
+                  <nameValue idref="True" name="suppressRefresh" />
+                </nameValues>
+              </action>
+              <action command="custom" caption="Quote Letter" validRef="PolicyPrivate.IsQuote">
+                <nameValues>
+                  <nameValue value="printjob:Quote" name="PDFPage" />
+                  <nameValue idref="True" name="suppressRefresh" />
+                </nameValues>
+              </action>
+              <action command="custom" caption="Application" validRef="PolicyPrivate.IsApplication">
+                <nameValues>
+                  <nameValue value="printjob:Application" name="PDFPage" />
+                  <nameValue idref="True" name="suppressRefresh" />
+                </nameValues>
+              </action>
+              <action command="goto" caption="Side-by-Side Comparision" pageRef="Shopping" topic="Shopping">
+                <nameValues>
+                  <nameValue value="GenerateShopping.Value" name="preEventField" />
+                </nameValues>
+              </action>
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="CoveragePage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="Underwriting" pageVersion="2.0" validRef="UnderwritingPage.Show" prevPage="AdditionalOtherInterests" caption="Underwriting" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="UnderwritingQuestions" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" caption="Additional Information" icon="book_edit.png" cc="GrayPanel">
+            <section direction="down" captionPosition="before" showCaption="repeat" uid="s_l5C970B41454544308D62F2F3C6B3D1AF2_3" class="x_LongApplicationStyleQuestions">
+              <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width450" fldClass="x_Width150" cc="LightGray">
+                <reference idref="UnderwritingQuestionsInput.AnyCoverageDeclinedCancelled" />
+                <reference idref="UnderwritingQuestionsInput.IndictedOrConvicted" />
+                <reference idref="UnderwritingQuestionsInput.ForeclosureBankruptcy" />
+                <nameValues>
+                  <nameValue value="Insured History" name="panelHeader" />
+                </nameValues>
+              </section>
+              <section direction="down" captionPosition="before" showCaption="repeat" uid="s_l5C970B41454544308D62F2F3C6B3D1AF3_3" class="x_LongApplicationStyleQuestions" fldClass="x_Width150" capClass="x_Width450" cc="LightGray">
+                <reference idref="UnderwritingQuestionsInput.IsBuildingUndergoingRenovation" />
+                <reference idref="UnderwritingQuestionsInput.IsHouseForSale" />
+                <reference idref="UnderwritingQuestionsInput.IsPropertyWithin300FtOfCommercialProp" />
+                <reference idref="UnderwritingQuestionsInput.IsThereATrampolineOnPremises" onBlur="1" />
+                <nameValues>
+                  <nameValue value="Dwelling History" name="panelHeader" />
+                </nameValues>
+                <reference idref="UnderwritingQuestionsInput.IsHouseInGatedCommunity" />
+                <reference idref="UnderwritingQuestionsInput.IsolatedProperty" />
+                <section direction="down" captionPosition="before" showCaption="repeat" class="x_LongApplicationStyleQuestions" capClass="x_Width450" fldClass="x_Width150">
+                  <reference idref="UnderwritingQuestionsInput.AnyAnimalsOrExoticPets" onBlur="1" />
+                  <nameValues />
+                  <section direction="down" captionPosition="before" showCaption="repeat" validRef="UnderwritingQuestionsInput.AnyAnimalsOrExoticPets" class="x_LongApplicationStyleQuestions" capClass="x_Width400" fldClass="x_Width150 x_FloatRight" cc="PlainWhite">
+                    <reference idref="AnimalPetSubQuestions.ViciousAnimal" />
+                    <reference idref="AnimalPetSubQuestions.Reptilesamphibians" />
+                    <reference idref="AnimalPetSubQuestions.LivestockSaddleAnimals" />
+                    <reference idref="AnimalPetSubQuestions.IneligibleDogBreeds" />
+                    <nameValues />
+                  </section>
+                </section>
+                <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width450" fldClass="x_Width150">
+                  <nameValues />
+                  <reference idref="UnderwritingQuestionsInput.SwimmingPool" compute="0" onBlur="1" />
+                  <section direction="down" captionPosition="before" showCaption="repeat" validRef="UnderwritingQuestionsPrivate.IsAnySwimmingPool" cc="PlainWhite">
+                    <tableLayout direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width150" fldClass="x_Width150">
+                      <reference idref="SwimmingPoolSubQuestions.PoolType" />
+                      <reference idref="SwimmingPoolSubQuestions.ApprovedFence" />
+                    </tableLayout>
+                    <tableLayout direction="across" captionPosition="before" showCaption="repeat" capClass="x_Width150" fldClass="x_Width150">
+                      <reference idref="SwimmingPoolSubQuestions.DivingBoard" />
+                      <reference idref="SwimmingPoolSubQuestions.Slide" />
+                    </tableLayout>
+                    <nameValues />
+                  </section>
+                </section>
+                <section direction="down" captionPosition="before" showCaption="repeat" uid="s_l5C970B41454544308D62F2F3C6B3D1AF34_3" capClass="x_Width450" fldClass="x_Width150">
+                  <reference idref="UnderwritingQuestionsInput.AnyOtherInsurance" onBlur="1" />
+                  <nameValues />
+                  <section direction="down" captionPosition="before" showCaption="none" validRef="UnderwritingQuestionsPrivate.IsAnyOtherInsurance" class="x_SubQuestionStyle" uid="s_l40B86D00503646DFB18F9B72929ADA1C36_3" cc="PlainWhite">
+                    <group iterMax="*" iterStep="1" object="OtherInsurancePolicies">
+                      <tableLayout direction="across" captionPosition="above" showCaption="once">
+                        <reference idref="OtherInsurancePolicies.PolicyNumber" caption=" " />
+                        <action command="delete" caption="Delete">
+                          <nameValues />
+                        </action>
+                      </tableLayout>
+                      <action command="add" caption="Add another policy">
+                        <nameValues />
+                      </action>
+                    </group>
+                    <nameValues />
+                  </section>
+                </section>
+                <section direction="down" captionPosition="before" showCaption="repeat" uid="s_l5C970B41454544308D62F2F3C6B3D1AF3C_3" capClass="x_Width450" fldClass="x_Width150">
+                  <reference idref="UnderwritingQuestionsInput.AnyBusinessConducted" onBlur="1">
+                    <nameValues />
+                  </reference>
+                  <nameValues />
+                  <section direction="down" captionPosition="before" showCaption="repeat" validRef="UnderwritingQuestionsPrivate.IsAnyBusinessConducted" class="x_SubQuestionStyle" uid="s_l40B86D00503646DFB18F9B72929ADA1C3E_3" capClass="x_Width400" fldClass="x_Width150" cc="PlainWhite">
+                    <reference idref="BusinessSubQuestions.BusinessConductedTypeOfBusiness">
+                      <nameValues />
+                    </reference>
+                    <reference idref="BusinessSubQuestions.BusinessConductedOwnership">
+                      <nameValues />
+                    </reference>
+                    <reference idref="BusinessSubQuestions.BusinessConductedLocation">
+                      <nameValues />
+                    </reference>
+                    <reference idref="BusinessSubQuestions.BusinessConductedCustomers">
+                      <nameValues />
+                    </reference>
+                    <reference idref="BusinessSubQuestions.BusinessConductedNonResidentEmployees">
+                      <nameValues />
+                    </reference>
+                    <reference idref="BusinessSubQuestions.BusinessConductedCommercialCoverageInForce">
+                      <nameValues />
+                    </reference>
+                    <nameValues />
+                  </section>
+                </section>
+              </section>
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="UnderwritingPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="AdditionalOtherInterests" caption="Additional Interests" pageVersion="2.0" validRef="AdditionalOtherInterestsPage.Show" prevPage="Endorsements" inherited="DCT_ProductBase_PersonalLines_1_0_0_0" override="1">
+        <group object="Account" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="once" cc="GrayPanel" icon="user.png" caption="Additional Interests">
+            <group iterMax="*" iterStep="1" object="AdditionalOtherInterest">
+              <grid direction="across" captionPosition="above" showCaption="once" readOnly="1">
+                <reference idref="AdditionalOtherInterestInput.Description" compute="1" caption="Additional Interest" />
+                <action command="specificIter" caption="Details" pageRef="AdditionalOtherInterestDetail" topic="AdditionalOtherInterestDetail">
+                  <nameValues>
+                    <nameValue value="1" name="popUp" />
+                    <nameValue value="Additional Other Interest Detail" name="popUpTitle" />
+                    <nameValue value="600" name="popUpWidth" />
+                    <nameValue value="500" name="popUpHeight" />
+                  </nameValues>
+                  <request verb="Session.beginTransactionRq" />
+                </action>
+                <action command="delete" validRef="LockPolicy.False" caption="Delete">
+                  <nameValues />
+                </action>
+              </grid>
+              <action command="add" caption="Add Additional Other Interest" pageRef="AdditionalOtherInterestDetail" topic="AdditionalOtherInterestDetail" validRef="LockPolicy.False">
+                <nameValues>
+                  <nameValue value="1" name="popUp" />
+                  <nameValue value="Additional Other Interest Detail" name="popUpTitle" />
+                  <nameValue value="600" name="popUpWidth" />
+                  <nameValue value="500" name="popUpHeight" />
+                </nameValues>
+                <request verb="Session.beginTransactionRq" />
+              </action>
+            </group>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="AdditionalOtherInterestsPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="ScheduledPersonalProperty" caption="SPP" pageVersion="2" prevPage="Watercraft" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Line" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" caption="Scheduled Personal Property" cc="GrayPanel" icon="camera.png">
+            <group iterMax="*" iterStep="1" object="SPP">
+              <tableLayout direction="across" captionPosition="above" showCaption="once" cc="LightGray">
+                <reference idref="SPPInput.Type" onBlur="1" />
+                <reference idref="SPPInput.Description" />
+                <reference idref="SPPInput.Limit" onBlur="1">
+                  <nameValues>
+                    <nameValue idref="True" name="removeZero" />
+                  </nameValues>
+                </reference>
+                <reference idref="SPPInput.Vaulted" compute="1" caption="Vltd" />
+                <reference idref="SPPInput.BreakageCoverage" compute="1" caption="Bkg" />
+                <reference idref="SPPInput.Blanket" compute="1" caption="Blkt" />
+                <action command="delete" caption="Del" validRef="LinePrivate.ShowDelete">
+                  <nameValues />
+                </action>
+                <action command="markForDelete" caption="Del" validRef="LinePrivate.ShowDeleteMark">
+                  <nameValues />
+                </action>
+                <action command="specificIter" validRef="SPPPrivate.ShowApprisal" pageRef="AddAttachment" topic="AddAttachment" displayType="hyperlink" caption="Appraisal">
+                  <nameValues>
+                    <nameValue idref="SPPPrivate.SPPAttachIcon" name="icon" />
+                    <nameValue value="loneIcon" name="type" />
+                  </nameValues>
+                </action>
+              </tableLayout>
+              <action command="add" caption="Add Item">
+                <nameValues />
+              </action>
+            </group>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="AllPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="Watercraft" caption="Watercraft" pageVersion="2" prevPage="AdditionalCoverage" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Line" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel" caption="Watercraft" icon="anchor.png">
+            <group iterMax="*" iterStep="1" object="Watercraft">
+              <tableLayout direction="across" captionPosition="above" showCaption="once" cc="LightGray">
+                <reference idref="WatercraftInput.Type" fldClass="x_Width150" onBlur="1" />
+                <reference idref="WatercraftInput.Length" fldClass="x_Width100">
+                  <nameValues>
+                    <nameValue idref="True" name="removeZero" />
+                  </nameValues>
+                </reference>
+                <reference idref="WatercraftInput.Horsepower" fldClass="x_Width110">
+                  <nameValues>
+                    <nameValue idref="True" name="removeZero" />
+                  </nameValues>
+                </reference>
+                <reference idref="WatercraftInput.MilesPerHour" fldClass="x_Width110" compute="1">
+                  <nameValues>
+                    <nameValue idref="True" name="removeZero" />
+                  </nameValues>
+                </reference>
+                <action command="delete" caption="Delete" validRef="LinePrivate.ShowDelete">
+                  <nameValues />
+                </action>
+                <action command="markForDelete" caption="Delete" validRef="LinePrivate.ShowDeleteMark">
+                  <nameValues />
+                </action>
+              </tableLayout>
+              <action command="add" caption="Add Watercraft">
+                <nameValues />
+              </action>
+            </group>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="AllPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="AdditionalCoverage" caption="Additional Coverage" pageVersion="2" prevPage="EarthquakeCoverage" validRef="AdditionalCoveragePage.Show" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Risk" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" caption="Additional Coverage Information" cc="GrayPanel" icon="chart_bar.png">
+            <section direction="down" captionPosition="before" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0F11_3" class="x_ShortApplicationStyleQuestions">
+              <section direction="across" captionPosition="above" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0F12_3" startClosed="1" cc="LightGray">
+                <nameValues>
+                  <nameValue value="Additional Property Coverages" name="toggleCaption" />
+                  <nameValue value="Additional Property Coverages" name="panelHeader" />
+                </nameValues>
+                <tableLayout direction="across" captionPosition="above" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F34_3">
+                  <tableLayout direction="down" captionPosition="before" showCaption="repeat" uid="t_r258BDD8531104DB69C8028AEB2698E0F13_3" capClass="x_WiderCaptions" fldClass="x_Width130">
+                    <reference idref="AdditionsAlterationsInput.Type" />
+                    <reference idref="AdditionsAlterationsInput.Limit" />
+                    <reference idref="BusinessPropertyInput.Limit" />
+                    <reference idref="IdentityFraudExpenseCoverageInput.Indicator" />
+                    <reference idref="InflationGuardInput.Limit" compute="1" />
+                    <reference idref="LossAssessmentInput.Limit" />
+                    <reference idref="OtherStructuresRentedToOthersInput.Limit" compute="1">
+                      <nameValues>
+                        <nameValue idref="DwellingPrivate.FormIsDwelling" name="removeZero" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="PermittedIncidentalOccupancyOtherStructuresInput.Limit">
+                      <nameValues>
+                        <nameValue idref="True" name="removeZero" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="PersonalPropertyOtherResidenceInput.Limit">
+                      <nameValues>
+                        <nameValue idref="True" name="removeZero" />
+                      </nameValues>
+                    </reference>
+                    <nameValues />
+                    <reference idref="LimitedFungiBacteriaInput.Limit" />
+                    <reference idref="OrdinanceOrLawInput.Limit" />
+                    <reference idref="CarportsPoolCagesInput.Limit" onBlur="1" compute="1" />
+                    <reference idref="CarportsPoolCagesInput.Description">
+                      <nameValues>
+                        <nameValue idref="CarportsPoolCagesPrivate.HideDescription" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                  </tableLayout>
+                  <tableLayout direction="down" captionPosition="before" showCaption="repeat" uid="t_r258BDD8531104DB69C8028AEB2698E0F1E_3" capClass="x_WiderCaptions">
+                    <reference idref="SpecialComputerCoverageInput.Indicator" />
+                    <reference idref="SpecialPersonalPropertyCoverageInput.Indicator" />
+                    <reference idref="UnitsRegularlyRentedToOthersInput.Indicator" />
+                    <reference idref="UnscheduledElectronicApparatusInput.Limit" />
+                    <reference idref="UnscheduledGunsInput.Limit" />
+                    <reference idref="UnscheduledJewelryInput.Limit" />
+                    <reference idref="UnscheduledMoneyInput.Limit" />
+                    <reference idref="UnscheduledSecuritiesInput.Limit" />
+                    <reference idref="UnscheduledSilverwareInput.Limit" />
+                    <reference idref="WaterBackupAndSumpOverflowInput.Indicator" />
+                    <reference idref="WatercraftBlanketHullCoverageInput.Limit" />
+                    <nameValues />
+                  </tableLayout>
+                </tableLayout>
+              </section>
+            </section>
+            <section direction="across" captionPosition="above" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0F28_3" startClosed="1" class="x_ShortApplicationStyleQuestions" cc="LightGray">
+              <section direction="down" captionPosition="before" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0F29_3" class="x_ShortApplicationStyleQuestions">
+                <tableLayout direction="across" captionPosition="above" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F38_3">
+                  <tableLayout direction="down" captionPosition="before" showCaption="repeat" uid="t_r258BDD8531104DB69C8028AEB2698E0F39_3">
+                    <reference idref="IncidentalFarmingPersonalLiabilityInput.Type" />
+                    <reference idref="PersonalInjuryInput.Indicator" />
+                  </tableLayout>
+                  <tableLayout direction="down" captionPosition="before" showCaption="repeat" uid="t_r258BDD8531104DB69C8028AEB2698E0F3A_3">
+                    <reference idref="ResidenceEmployeesInput.NumberOfEmployees">
+                      <nameValues>
+                        <nameValue idref="True" name="removeZero" />
+                      </nameValues>
+                    </reference>
+                  </tableLayout>
+                </tableLayout>
+                <nameValues />
+              </section>
+              <nameValues>
+                <nameValue value="Additional Liability Coverages" name="toggleCaption" />
+                <nameValue value="Additional Liability Coverages" name="panelHeader" />
+              </nameValues>
+            </section>
+            <tableLayout direction="across" captionPosition="above" showCaption="repeat" uid="t_r258BDD8531104DB69C8028AEB2698E0F2E_3">
+              <nameValues />
+              <action command="goto" caption="Add/Edit Additional Residence(s)" pageRef="AdditionalResidence" topic="AdditionalResidence">
+                <nameValues>
+                  <nameValue name="popUp" value="1" />
+                </nameValues>
+              </action>
+              <action command="goto" caption="Add/Edit Business Pursuits" pageRef="BusinessPursuits" topic="BusinessPursuits">
+                <nameValues>
+                  <nameValue name="popUp" value="1" />
+                </nameValues>
+              </action>
+            </tableLayout>
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="AdditionalCoveragePage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+      <page name="DwellingCoverage" caption="Dwelling Coverage" pageVersion="2" prevPage="RiskSchedule" validRef="DwellingPage.Show" inherited="Marketplace_PersonalHome_1_0_0_0" override="1">
+        <group object="Risk" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel" caption="Coverage Information" icon="chart_bar.png">
+            <section direction="down" captionPosition="above" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0F2_3" cc="DriverPanel">
+              <section direction="across" captionPosition="before" showCaption="repeat" fldClass="x_Width10" capClass="x_Bold">
+                <reference idref="Spacer" caption="Coverage" capClass="x_Width120" />
+                <reference idref="Spacer" caption="Limit" capClass="x_Width60" />
+                <reference idref="Spacer" caption="Included Limit" capClass="x_Width80" />
+                <reference idref="Spacer" caption="Deductible" capClass="x_Width60" />
+                <reference idref="Spacer" caption="Wind Deductible" />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="CoverageADwellingInput.Limit" compute="1" onBlur="1" capClass="x_Width125" fldClass="x_Width185" caption="Dwelling Limit">
+                  <nameValues>
+                    <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                  </nameValues>
+                </reference>
+                <reference idref="CoverageCPersonalPropertyHO46Input.Limit" caption="Personal Property" compute="1" onBlur="1" capClass="x_Width125" fldClass="x_Width225">
+                  <nameValues>
+                    <nameValue idref="DwellingPrivate.FormIsDwelling" name="eliminate" />
+                  </nameValues>
+                </reference>
+                <reference idref="DwellingInput.Deductible" fldClass="x_Width80" caption=" " />
+                <reference idref="DwellingInput.WindDeductible" fldClass="x_Width100" caption="  " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="DwellingPrivate.FormIsDwelling">
+                <reference idref="CoverageBOtherStructuresInput.Limit" compute="1" caption="Other Structures" capClass="x_Width125" fldClass="x_Width100" onBlur="1" />
+                <reference idref="CoverageBOtherStructuresOutput.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="DwellingPrivate.FormIsDwelling">
+                <reference idref="CoverageCPersonalPropertyHO3Input.Limit" compute="1" caption="Personal Property" capClass="x_Width125" fldClass="x_Width100" onBlur="1" />
+                <reference idref="CoverageCPersonalPropertyHO3Output.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="CoverageDLossOfUseInput.Limit" compute="1" capClass="x_Width125" fldClass="x_Width100" caption="Loss Of Use" onBlur="1" />
+                <reference idref="CoverageDLossOfUseOutput.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width125">
+                <reference idref="CoverageELiabilityInput.Limit" onBlur="1" caption="Personal Liability">
+                  <nameValues />
+                </reference>
+                <reference idref="CoverageFMedicalInput.Limit" onBlur="1" caption="Medical Payments">
+                  <nameValues />
+                </reference>
+              </section>
+              <nameValues />
+            </section>
+            <section direction="down" captionPosition="before" showCaption="repeat" class="x_Width600" cc="DriverPanel">
+              <section direction="down" captionPosition="before" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0FB_3">
+                <tableLayout direction="across" captionPosition="above" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F35_3">
+                  <tableLayout direction="down" captionPosition="before" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F36_3">
+                    <reference idref="ReplacementCostContentsInput.Indicator" compute="1" />
+                    <reference idref="ReplacementCostDwellingInput.Indicator" compute="1" onBlur="1">
+                      <nameValues>
+                        <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="ReplacementCostDwellingInput.ReplacementCostValue" compute="1">
+                      <nameValues>
+                        <nameValue idref="ReplacementCostDwellingPrivate.HideReplacementCostValue" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="CreditCardInput.Limit" />
+                  </tableLayout>
+                  <tableLayout direction="down" captionPosition="before" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F37_3">
+                    <reference idref="RefrigeratedPersonalPropertyInput.Indicator" />
+                    <reference idref="WaterBackupOfSewersOrDrainsInput.Indicator">
+                      <nameValues>
+                        <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                  </tableLayout>
+                </tableLayout>
+                <section direction="down" captionPosition="before" showCaption="repeat">
+                  <action command="custom" caption="Import Replacement Cost">
+                    <nameValues />
+                  </action>
+                </section>
+                <nameValues />
+              </section>
+              <nameValues>
+                <nameValue value="Common Coverages" name="panelHeader" />
+              </nameValues>
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="DwellingPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+    </topic>
+  </topics>
+  <documents>
+    <documentSet name="CancellationNotice" paperBinNum="0" printDefault="Selected" prevPage="DecPage" inherited="DCT_ProductBase_PersonalHome_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="CancellationNotice.doc" path="marketplace\personalhome\us\|" />
+      </document>
+      <merge>
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="Name" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="AgentName" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="Address" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgentAddress" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgentCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgentState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgentZip" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="PolicyNumber" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" />
+        <mergeField name="ExpirationDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="TotalPremium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="CancelEffectiveDate" readOnly="True" idref="CurrentTransaction.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+      </merge>
+    </documentSet>
+  </documents>
+</ManuScript>

@@ -1,0 +1,436 @@
+﻿<ManuScript>
+  <properties manuscriptID="Marketplace_PersonalHome_OK_1_0_0_0" versionID="Marketplace_PersonalHome_OK_1_0_0_0" versionDate="2011-01-01" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="United States [english]" caption="Personal Home OK (1.0.0.0)" inherited="Carrier_ProductBase_PersonalHome_1_0_0_0" image="" dataSchema="" usePersistedState="0">
+    <notes />
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalHome" />
+      <keyInfo name="state" value="OK" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2011-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2011-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Pages" />
+      <keyInfo name="cultures" value="" />
+      <keyInfo name="currencyCodes" value="" />
+      <keyInfo name="states" value="None" />
+      <keyInfo name="type" value="None" />
+      <keyInfo name="layer" value="DuckCreek" />
+    </keys>
+  </properties>
+  <model defaultValue="data.SubmissionExecute">
+    <object id="data" abstract="1">
+      <object id="Policy" abstract="1">
+        <object id="Line" abstract="1">
+          <object id="Risk" abstract="1">
+            <object id="SectionICoverages" abstract="1">
+              <object id="MiningSubsidence" path="coverage[Type=&quot;MiningSubsidence&quot;]">
+                <minOccurs value="1" />
+                <maxOccurs value="1" />
+                <object id="MiningSubsidenceInput">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <public id="MiningSubsidenceInput.Indicator" path="Indicator" type="boolean">
+                    <definition>
+                      <caption value="Mining Subsidence" />
+                      <maxLength value="1" />
+                    </definition>
+                  </public>
+                </object>
+                <object id="MiningSubsidenceOutput">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <public id="MiningSubsidenceOutput.Premium" path="Premium" type="float" class="Premium:excludeInChangeSummary">
+                    <definition>
+                      <caption value="Mining Subsidence Output Premium" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <if>
+                          <condition>
+                            <comparison compare="eq">
+                              <operand idref="CreditCardInput.Indicator" type="boolean" />
+                              <operand idref="False" type="int" />
+                            </comparison>
+                          </condition>
+                          <then value="0" />
+                          <else>
+                            <calculation>
+                              <argument op="eq" idref="MiningSubsidencePrivate.BaseRate" type="float" />
+                            </calculation>
+                          </else>
+                        </if>
+                      </value>
+                    </rules>
+                    <worksheet>
+                      <summarize idref="True" />
+                    </worksheet>
+                  </public>
+                  <public id="MiningSubsidenceOutput.PremiumChange" path="change" type="float" class="excludeInChangeSummary">
+                    <definition>
+                      <caption value="Mining Subsidence Output Premium Change" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                  </public>
+                  <public id="MiningSubsidenceOutput.PremiumWritten" path="written" type="float" class="excludeInChangeSummary">
+                    <definition>
+                      <caption value="Mining Subsidence Output Premium Written" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <written useShared="1">
+                          <writtenRef idref="MiningSubsidenceOutput.Premium" type="float" infoType="term" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.MinimumPremiumDefault" type="int" infoType="minimum" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.FullyEarnedDefault" type="boolean" infoType="fullyEarned" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.FlatChargeDefault" type="boolean" infoType="flatCharge" />
+                        </written>
+                      </value>
+                    </rules>
+                  </public>
+                </object>
+                <object id="MiningSubsidencePrivate">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <private id="MiningSubsidencePrivate.BaseRate" caption="" type="float">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="MiningSubsidenceInput.Indicator" type="boolean" />
+                            <operand type="int" value="0" />
+                          </comparison>
+                        </condition>
+                        <then value="0" />
+                        <else>
+                          <lookup>
+                            <tableRef value="MiningSubsidenceRates" />
+                            <fieldRef value="Value" />
+                            <keyRef type="string" value="" name="Limit" />
+                          </lookup>
+                        </else>
+                      </if>
+                    </value>
+                    <worksheet>
+                      <caption value="Credit Card Base Rate" />
+                    </worksheet>
+                  </private>
+                </object>
+              </object>
+              <object id="SectionICoveragesOutput" abstract="1">
+                <public id="SectionICoveragesOutput.SectionIPremium" path="SectionIPremium" type="float" class="excludeInChangeSummary" override="1">
+                  <definition>
+                    <caption value="Section I Premium" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                    <maxLength idref="MaxLength.Premium" />
+                  </definition>
+                  <rules>
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="BusinessPropertyOutput.Premium" type="float" />
+                        <argument op="add" idref="AdditionsAlterationsOutput.Premium" type="float" />
+                        <argument op="add" idref="CreditCardOutput.Premium" type="float" />
+                        <argument op="add" idref="EarthquakeOutput.Premium" type="float" />
+                        <argument op="add" idref="IdentityFraudExpenseCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="LossAssessmentOutput.Premium" type="float" />
+                        <argument op="add" idref="OtherStructuresRentedToOthersOutput.Premium" type="float" />
+                        <argument op="add" idref="PermittedIncidentalOccupancyOtherStructuresOutput.Premium" type="float" />
+                        <argument op="add" idref="PersonalPropertyOtherResidenceOutput.Premium" type="float" />
+                        <argument op="add" idref="RefrigeratedPersonalPropertyOutput.Premium" type="float" />
+                        <argument op="add" idref="ReplacementCostDwellingOutput.Premium" type="float" />
+                        <argument op="add" idref="SpecialComputerCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="SpecialPersonalPropertyCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="UnitsRegularlyRentedToOthersOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledElectronicApparatusOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledGunsOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledJewelryOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledMoneyOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledSecuritiesOutput.Premium" type="float" />
+                        <argument op="add" idref="UnscheduledSilverwareOutput.Premium" type="float" />
+                        <argument op="add" idref="WaterBackupAndSumpOverflowOutput.Premium" type="float" />
+                        <argument op="add" idref="WaterBackupOfSewersOrDrainsOutput.Premium" type="float" />
+                        <argument op="add" idref="WatercraftBlanketHullCoverageOutput.Premium" type="float" />
+                        <argument op="add" idref="LimitedFungiBacteriaOutput.Premium" type="float" />
+                        <argument op="add" idref="OrdinanceOrLawOutput.Premium" type="float" />
+                        <argument op="add" idref="CarportsPoolCagesOutput.Premium" type="float" />
+                        <argument op="add" idref="MiningSubsidenceOutput.Premium" type="float" />
+                      </calculation>
+                    </value>
+                  </rules>
+                </public>
+                <public id="SectionICoveragesOutput.SectionIPremiumChange" path="SectionIPremium/@change" type="float" class="excludeInChangeSummary" override="1">
+                  <definition>
+                    <caption value="Section I Coverages Output Section I Premium Change" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                    <maxLength idref="MaxLength.Premium" />
+                  </definition>
+                  <rules>
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="AdditionsAlterationsOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="BusinessPropertyOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="CreditCardOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="EarthquakeOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="IdentityFraudExpenseCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="LossAssessmentOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="OtherStructuresRentedToOthersOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="PermittedIncidentalOccupancyOtherStructuresOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="PersonalPropertyOtherResidenceOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="RefrigeratedPersonalPropertyOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="ReplacementCostDwellingOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="SpecialComputerCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="SpecialPersonalPropertyCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnitsRegularlyRentedToOthersOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledElectronicApparatusOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledGunsOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledJewelryOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledMoneyOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledSecuritiesOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="UnscheduledSilverwareOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="WaterBackupAndSumpOverflowOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="WaterBackupOfSewersOrDrainsOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="WatercraftBlanketHullCoverageOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="LimitedFungiBacteriaOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="OrdinanceOrLawOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="CarportsPoolCagesOutput.PremiumChange" type="float" />
+                        <argument op="add" idref="MiningSubsidenceOutput.PremiumChange" type="float" />
+                      </calculation>
+                    </value>
+                  </rules>
+                </public>
+                <public id="SectionICoveragesOutput.SectionIPremiumWritten" path="SectionIPremium/@written" type="float" class="excludeInChangeSummary" override="1">
+                  <definition>
+                    <caption value="Section I Coverages Output Section I Premium Written" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                    <maxLength idref="MaxLength.Premium" />
+                  </definition>
+                  <rules>
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="AdditionsAlterationsOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="BusinessPropertyOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="CreditCardOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="EarthquakeOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="IdentityFraudExpenseCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="LossAssessmentOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="OtherStructuresRentedToOthersOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="PermittedIncidentalOccupancyOtherStructuresOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="PersonalPropertyOtherResidenceOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="RefrigeratedPersonalPropertyOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="ReplacementCostDwellingOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="SpecialComputerCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="SpecialPersonalPropertyCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnitsRegularlyRentedToOthersOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledElectronicApparatusOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledGunsOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledJewelryOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledMoneyOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledSecuritiesOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="UnscheduledSilverwareOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="WaterBackupAndSumpOverflowOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="WaterBackupOfSewersOrDrainsOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="WatercraftBlanketHullCoverageOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="LimitedFungiBacteriaOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="OrdinanceOrLawOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="CarportsPoolCagesOutput.PremiumWritten" type="float" />
+                        <argument op="add" idref="MiningSubsidenceOutput.PremiumWritten" type="float" />
+                      </calculation>
+                    </value>
+                  </rules>
+                </public>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <table id="MiningSubsidenceRates" tableType="local" separator=",">
+        <fields>
+          <field type="int" name="Value" />
+        </fields>
+        <rowKeys name="Limit" type="int" find="range">
+          <key value="0-24999" caption="" />
+          <key value="25000-49999" caption="" />
+          <key value="50000-74999" caption="" />
+          <key value="75000-99999" caption="" />
+          <key value="100000-124999" caption="" />
+          <key value="125000-149999" caption="" />
+          <key value="150000-174999" caption="" />
+          <key value="175000-199999" caption="" />
+          <key value="200000-224999" caption="" />
+          <key value="225000-249999" caption="" />
+          <key value="250000-274999" caption="" />
+          <key value="275000-299999" caption="" />
+          <key value="300000-324999" caption="" />
+          <key value="325000-349999" caption="" />
+          <key value="350000-374999" caption="" />
+          <key value="375000-399999" caption="" />
+          <key value="400000-424999" caption="" />
+          <key value="425000-449999" caption="" />
+          <key value="450000-474999" caption="" />
+          <key value="475000-499999" caption="" />
+          <key value="500000&gt;" caption="" />
+        </rowKeys>
+        <data>
+          <row value="24.00" />
+          <row value="30.00" />
+          <row value="36.00" />
+          <row value="42.00" />
+          <row value="60.00" />
+          <row value="80.00" />
+          <row value="98.00" />
+          <row value="114.00" />
+          <row value="130.00" />
+          <row value="146.00" />
+          <row value="163.00" />
+          <row value="179.00" />
+          <row value="195.00" />
+          <row value="211.00" />
+          <row value="228.00" />
+          <row value="244.00" />
+          <row value="260.00" />
+          <row value="276.00" />
+          <row value="293.00" />
+          <row value="309.00" />
+          <row value="325.00" />
+        </data>
+      </table>
+    </object>
+  </model>
+  <revisions />
+  <annotations>
+    <comments idref="MiningSubsidenceInput.Indicator" inherited="Marketplace_PersonalHome_1_0_0_0">
+      <comment>Increases the limit of liability that applies to Credit card, Fund Transfer Card, Forgery and Counterfeit Money.</comment>
+    </comments>
+  </annotations>
+  <topics>
+    <topic name="MainInterview" abstract="1">
+      <page name="DwellingCoverage" caption="Dwelling Coverage" pageVersion="2" prevPage="RiskSchedule" validRef="DwellingPage.Show" override="1">
+        <group object="Risk" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" cc="GrayPanel" caption="Coverage Information" icon="chart_bar.png">
+            <section direction="down" captionPosition="above" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0F2_3" cc="DriverPanel">
+              <section direction="across" captionPosition="before" showCaption="repeat" fldClass="x_Width10" capClass="x_Bold">
+                <reference idref="Spacer" caption="Coverage" capClass="x_Width120" />
+                <reference idref="Spacer" caption="Limit" capClass="x_Width60" />
+                <reference idref="Spacer" caption="Included Limit" capClass="x_Width80" />
+                <reference idref="Spacer" caption="Deductible" capClass="x_Width60" />
+                <reference idref="Spacer" caption="Wind Deductible" />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="CoverageADwellingInput.Limit" compute="1" onBlur="1" capClass="x_Width125" fldClass="x_Width185" caption="Dwelling Limit">
+                  <nameValues>
+                    <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                  </nameValues>
+                </reference>
+                <reference idref="CoverageCPersonalPropertyHO46Input.Limit" caption="Personal Property" compute="1" onBlur="1" capClass="x_Width125" fldClass="x_Width225">
+                  <nameValues>
+                    <nameValue idref="DwellingPrivate.FormIsDwelling" name="eliminate" />
+                  </nameValues>
+                </reference>
+                <reference idref="DwellingInput.Deductible" fldClass="x_Width80" caption=" " />
+                <reference idref="DwellingInput.WindDeductible" fldClass="x_Width100" caption="  " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="DwellingPrivate.FormIsDwelling">
+                <reference idref="CoverageBOtherStructuresInput.Limit" compute="1" caption="Other Structures" capClass="x_Width125" fldClass="x_Width100" onBlur="1" />
+                <reference idref="CoverageBOtherStructuresOutput.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat" validRef="DwellingPrivate.FormIsDwelling">
+                <reference idref="CoverageCPersonalPropertyHO3Input.Limit" compute="1" caption="Personal Property" capClass="x_Width125" fldClass="x_Width100" onBlur="1" />
+                <reference idref="CoverageCPersonalPropertyHO3Output.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="CoverageDLossOfUseInput.Limit" compute="1" capClass="x_Width125" fldClass="x_Width100" caption="Loss Of Use" onBlur="1" />
+                <reference idref="CoverageDLossOfUseOutput.IncludedLimit" compute="1" caption=" " />
+              </section>
+              <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width125">
+                <reference idref="CoverageELiabilityInput.Limit" onBlur="1" caption="Personal Liability">
+                  <nameValues />
+                </reference>
+                <reference idref="CoverageFMedicalInput.Limit" onBlur="1" caption="Medical Payments">
+                  <nameValues />
+                </reference>
+              </section>
+              <nameValues />
+            </section>
+            <section direction="down" captionPosition="before" showCaption="repeat" class="x_Width600" cc="DriverPanel">
+              <section direction="down" captionPosition="before" showCaption="repeat" uid="s_r258BDD8531104DB69C8028AEB2698E0FB_3">
+                <tableLayout direction="across" captionPosition="above" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F35_3">
+                  <tableLayout direction="down" captionPosition="before" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F36_3">
+                    <reference idref="ReplacementCostContentsInput.Indicator" compute="1" />
+                    <reference idref="ReplacementCostDwellingInput.Indicator" compute="1" onBlur="1">
+                      <nameValues>
+                        <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="ReplacementCostDwellingInput.ReplacementCostValue" compute="1">
+                      <nameValues>
+                        <nameValue idref="ReplacementCostDwellingPrivate.HideReplacementCostValue" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="CreditCardInput.Limit" />
+                  </tableLayout>
+                  <tableLayout direction="down" captionPosition="before" showCaption="once" uid="t_r258BDD8531104DB69C8028AEB2698E0F37_3">
+                    <reference idref="RefrigeratedPersonalPropertyInput.Indicator" />
+                    <reference idref="WaterBackupOfSewersOrDrainsInput.Indicator">
+                      <nameValues>
+                        <nameValue idref="DwellingPrivate.FormIsCondoOrTenant" name="eliminate" />
+                      </nameValues>
+                    </reference>
+                    <reference idref="MiningSubsidenceInput.Indicator" />
+                  </tableLayout>
+                </tableLayout>
+                <section direction="down" captionPosition="before" showCaption="repeat">
+                  <action command="custom" caption="Import Replacement Cost">
+                    <nameValues />
+                  </action>
+                </section>
+                <nameValues />
+              </section>
+              <nameValues>
+                <nameValue value="Common Coverages" name="panelHeader" />
+              </nameValues>
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="DwellingPage.ReadOnly" name="readOnly" />
+        </nameValues>
+      </page>
+    </topic>
+  </topics>
+  <documents>
+    <documentSet name="CancellationNotice" paperBinNum="0" printDefault="Selected" prevPage="DecPage" inherited="DCT_ProductBase_PersonalHome_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="CancellationNotice.doc" path="marketplace\personalhome\us\|" />
+      </document>
+      <merge>
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="Name" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="AgentName" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="Address" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgentAddress" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgentCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgentState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgentZip" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="PolicyNumber" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" />
+        <mergeField name="ExpirationDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="TotalPremium" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="CancelEffectiveDate" readOnly="True" idref="CurrentTransaction.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+      </merge>
+    </documentSet>
+  </documents>
+</ManuScript>

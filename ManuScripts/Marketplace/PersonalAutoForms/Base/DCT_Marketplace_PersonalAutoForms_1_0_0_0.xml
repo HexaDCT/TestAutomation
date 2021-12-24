@@ -1,0 +1,583 @@
+﻿<ManuScript>
+  <properties manuscriptID="DCT_Marketplace_PersonalAutoForms_1_0_0_0" versionID="DCT_Marketplace_PersonalAutoForms" version="4" caption="DCT Marketplace Personal Auto Forms (1.0.0.0)" image="" dataSchema="" versionDate="2009-01-01" boolean="1" fieldCache="1" shortCircuitCond="0" cultureCode="en-US" cultureName="United States [english]" clearIterContext="1" usePersistedState="0">
+    <notes />
+    <resourceState status="Development" protected="1" />
+    <writtenConfig round="1" roundType="round">
+      <writtenInfo type="int" value="1" infoType="clearPremIfDeleted" />
+      <writtenRefPath idref="WrittenPremiumSharedConfiguration.PriorTermPath" type="string" infoType="priorTerm" useXPath="1" />
+      <writtenRefPath idref="WrittenPremiumSharedConfiguration.PriorWrittenPath" type="string" infoType="priorWritten" useXPath="1" />
+      <writtenRefPath idref="WrittenPremiumSharedConfiguration.ChangePath" type="string" infoType="charge" useXPath="1" />
+      <writtenRef idref="PolicyInput.EffectiveDate" type="date" infoType="effDate" />
+      <writtenRef idref="PolicyInput.ExpirationDate" type="date" infoType="exDate" />
+      <writtenRef idref="CurrentTransaction.EffectiveDate" type="date" infoType="transDate" />
+      <writtenRef idref="ConstantsPolicyAdminProcessing.ProRateType" type="int" infoType="proRateType" />
+      <writtenInfo idref="WrittenPremiumSharedConfiguration.ShortRateFactor" type="float" infoType="shortRate" />
+      <writtenInfo type="int" value="4" infoType="precision" />
+    </writtenConfig>
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalAutoForms" />
+      <keyInfo name="state" value="Base" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="productCode" value="Forms" />
+      <keyInfo name="masterID" value="None" />
+    </keys>
+    <contexts />
+  </properties>
+  <model defaultValue="data.TotalResult">
+    <object id="data" path="data">
+      <minOccurs value="1" />
+      <maxOccurs value="1" />
+    </object>
+  </model>
+  <documents>
+    <documentSet name="ManuScriptEndorsementForm" paperBinNum="0" printDefault="Selected" condition="LinePrivate.ManuScriptCoverageFormRule" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="">
+      <scope name="Line" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="ManuScriptEndorsementForm.doc" path="Base|" />
+        <subdoc name="ManuScriptEndorsementFormBottom.doc" path="Base|">
+          <scope name="ManuScriptCoverage" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+      </document>
+      <merge>
+        <mergeField name="ManuScriptDescription" idref="ManuScriptCoverageInput.Description" iter="1" formatValue="" />
+        <mergeField name="ManuScriptPremium" idref="ManuScriptCoverageOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+      </merge>
+    </documentSet>
+    <documentSet name="IDCard" prevPage="QuoteLetter" condition="LinePrivate.ShowIDCards">
+      <scope name="Risk" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="ID Card.doc" path="Marketplace|PersonalAuto|US|" />
+      </document>
+      <merge>
+        <mergeField name="PolicyInfoPolicyNumber" idref="PolicyOutput.PolicyNumber" dataField="PolicyInfoPolicyNumber" iter="1" formatValue="" />
+        <mergeField name="PolicyInfoEffectiveDate" idref="PolicyInput.EffectiveDate" dataField="PolicyInfoEffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="PolicyInfoExpirationDate" idref="PolicyInput.ExpirationDate" dataField="PolicyInfoExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="VehicleInfoYear" idref="VehicleInput.Year" dataField="VehicleInfoYear" iter="1" formatValue="" />
+        <mergeField name="VehicleInfoMake" idref="VehicleInput.Make" dataField="VehicleInfoMake" iter="1" formatValue="" />
+        <mergeField name="VehicleInfoModel" idref="VehicleInput.Model" dataField="VehicleInfoModel" iter="1" formatValue="" />
+        <mergeField name="VehicleInfoVIN" idref="VehicleInput.VIN" dataField="VehicleInfoVIN" iter="1" formatValue="" />
+        <mergeField name="AgencyAgencyName" idref="AgencyInput.Name" dataField="AgencyAgencyName" iter="1" formatValue="" />
+        <mergeField name="AgencyAddress1" idref="AgencyInput.Address1" dataField="AgencyAddress1" iter="1" formatValue="" />
+        <mergeField name="AgencyCity" idref="AgencyInput.City" dataField="AgencyCity" iter="1" formatValue="" />
+        <mergeField name="AgencyState" idref="AgencyInput.State" dataField="AgencyState" iter="1" formatValue="" />
+        <mergeField name="AgencyZIP" idref="AgencyInput.ZipCode" dataField="AgencyZIP" iter="1" formatValue="" />
+        <mergeField name="ApplicantName" idref="AccountInput.Name" dataField="ApplicantName" iter="1" formatValue="" />
+        <mergeField name="ApplicantAddress1" idref="AccountInput.Address1" dataField="ApplicantAddress1" iter="1" formatValue="" />
+        <mergeField name="ApplicantAddress2" idref="AccountInput.Address2" dataField="ApplicantAddress2" iter="1" formatValue="" />
+        <mergeField name="ApplicantCity" idref="AccountInput.City" dataField="ApplicantCity" iter="1" formatValue="" />
+        <mergeField name="ApplicantState" idref="AccountInput.State" dataField="ApplicantState" iter="1" formatValue="" />
+        <mergeField name="ApplicantZipCode" idref="AccountInput.ZipCode" dataField="ApplicantZipCode" iter="1" formatValue="" />
+      </merge>
+    </documentSet>
+    <printJob name="AutoIdentificationCard" condition="">
+      <printDoc name="IDCard" />
+    </printJob>
+    <documentSet name="Application" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="ApplicationHeader.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="ApplicationAdditionalInterestsHeader.doc" path="Marketplace|PersonalAuto|US|" condition="AccountPrivate.AdditionalOtherInterestAdded" />
+        <subdoc name="Personal Lines Application Addl Interests List.doc" path="Marketplace|PersonalAuto|US|" condition="AccountPrivate.AdditionalOtherInterestAdded">
+          <scope name="AdditionalOtherInterest" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PersonalAutoApplicationVehicleHeader.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PersonalAutoApplicationVehicleList.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PersonalAutoApplicationDriverHeader.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PersonalAutoApplicationDriverList.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Driver" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PersonalAutoApplicationViolationHeader.doc" path="Marketplace|PersonalAuto|US|" condition="LinePrivate.ShowViolations" />
+        <subdoc name="PersonalAutoApplicationViolationList.doc" path="Marketplace|PersonalAuto|US|" condition="LinePrivate.ShowViolations">
+          <scope name="Violation" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="ApplicationCoverageHeader.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PersonalAutoApplicationCoverageListPerVehicle.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+          <scope name="BodilyInjury" increment="1" startIter="1" endIter="1" />
+          <scope name="PropertyDamage" increment="1" startIter="1" endIter="1" />
+          <scope name="MedicalPayments" increment="1" startIter="1" endIter="1" />
+          <scope name="UninsuredMotorists" increment="1" startIter="1" endIter="1" />
+          <scope name="BodilyInjurySubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="MedicalPaymentsSubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="PropertyDamageSubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="UninsuredMotoristsSubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="Collision" increment="1" startIter="1" endIter="*" />
+          <scope name="OtherThanCollision" increment="1" startIter="1" endIter="*" />
+          <scope name="TowingAndLabor" increment="1" startIter="1" endIter="*" />
+          <scope name="RentalReimbursement" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="ApplicationManuScriptEndorsementList.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="ManuScriptCoverage" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="ApplicationAppQuestionsHeader.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PersonalAutoApplicationAppQuestions.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="ApplicationInsuranceHistoryHeader.doc" path="Marketplace|PersonalAuto|US|" condition="AccountPrivate.PriorInsuranceAdded" />
+        <subdoc name="Personal Lines Application Insurance History List.doc" path="Marketplace|PersonalAuto|US|" condition="AccountPrivate.PriorInsuranceAdded">
+          <scope name="PriorInsurance" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+      </document>
+      <merge>
+        <mergeField name="ApplicantName" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="Address1" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="Address2" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="ZipCode" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgencyName" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="ProducerName" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="VehYear" idref="VehicleInput.Year" iter="1" formatValue="" />
+        <mergeField name="VehMake" idref="VehicleInput.Make" iter="1" formatValue="" />
+        <mergeField name="VehModel" idref="VehicleInput.Model" iter="1" formatValue="" />
+        <mergeField name="Driver#" idref="DriverPrivate.DriverNum" iter="1" formatValue="" />
+        <mergeField name="DriverFirstName" idref="DriverInput.FirstName" iter="1" formatSpecifier="format" />
+        <mergeField name="DriverMiddleName" idref="DriverInput.MiddleName" iter="1" />
+        <mergeField name="DriverLastName" idref="DriverInput.LastName" iter="1" formatValue="" />
+        <mergeField name="DriverBDay" idref="DriverInput.DateOfBirth" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="DriverAge" idref="DriverInput.Age" iter="1" formatValue="" />
+        <mergeField name="DriverGender" idref="DriverInput.Gender" iter="1" formatValue="" />
+        <mergeField name="DriverMaritalStatus" idref="DriverInput.MaritalStatus" iter="1" formatValue="" />
+        <mergeField name="DriverRelationship" idref="DriverPrivate.RelationToApplicant" iter="1" formatSpecifier="coded" formatValue="Spouse|Spouse|Sibling|Sibling|Child|Child|Partner|Partner|OtherRelative|Other Relative|Unrelated|Unrelated" />
+        <mergeField name="DriverSSN" idref="" iter="1" />
+        <mergeField name="DriverOccupation" idref="DriverInput.Occupation" iter="1" formatSpecifier="coded" formatValue="Other|Other|FireFighter|Fire Fighter|LawEnforcement|Law Enforcement|Teacher|Teacher" />
+        <mergeField name="LicenseDate" idref="DriverInput.DateLicensed" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="LicenseNumber" idref="DriverInput.DriversLicenseNumber" iter="1" formatValue="" />
+        <mergeField name="Veh#" idref="VehicleOutput.Number" iter="1" formatValue="" condition="VehicleOutput.Number" />
+        <mergeField name="VehVIN" idref="VehicleInput.VIN" iter="1" formatValue="" />
+        <mergeField name="VehUsage" idref="VehicleInput.Usage" iter="1" />
+        <mergeField name="VehMiles" idref="VehicleInput.MilesToWork" iter="1" formatValue="" condition="VehiclePrivate.IsUsageWork" />
+        <mergeField name="VehSym" idref="VehicleOutput.Symbol" iter="1" formatValue="" />
+        <mergeField name="VehAnMil" idref="VehicleInput.AnnualMileage" iter="1" formatSpecifier="format" formatValue="###,###" />
+        <mergeField name="VehGZ" idref="VehicleInput.GaragingZip" iter="1" formatValue="" />
+        <mergeField name="AgencyAddress1" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgencyAddress2" idref="AgencyInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AgencyCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgencyState" idref="AgencyInput.Name" iter="2" formatValue="" />
+        <mergeField name="AgencyZipCode" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="GoodStudent" idref="DriverInput.GoodStudent" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" condition="DriverPrivate.IsYouthful" />
+        <mergeField name="DistantStudent" idref="DriverInput.DistantStudent" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" condition="DriverPrivate.IsYouthful" />
+        <mergeField name="DriverTraining" idref="DriverInput.DriverTraining" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" condition="DriverPrivate.IsYouthful" />
+        <mergeField name="AgentInspectedVeh" idref="UnderwritingQuestions.AgentInspectedVehicle" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="DriversLicenseSus" idref="UnderwritingQuestions.AnySuspendedLicenses" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="CarParked" idref="UnderwritingQuestions.CarParkedOnStreet" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="CoverageDeclined" idref="UnderwritingQuestions.CoverageCancelledInLast3Years" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="AutoInsurance" idref="UnderwritingQuestions.CurrentlyHaveInsurance" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="ExistingDamage" idref="UnderwritingQuestions.ExistingDamage" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="MilitaryService" idref="UnderwritingQuestions.HouseholdMemberInMilitary" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="LossesIncurred" idref="UnderwritingQuestions.OtherLossesIncurred" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="PhysicalMentalImp" idref="UnderwritingQuestions.PhysicalMentalImpairment" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" />
+        <mergeField name="BILimit" idref="BodilyInjuryInput.Limit" iter="1" formatSpecifier="coded" formatValue="25/50|$25,000/$50,000|50/100|$50,000/$100,000|100/200|$100,000/$200,000|100/300|$100,000/$300,000|300/300|$300,000/$300,000|250/500|$250,000/$500,000|60CSL|$60,000 CSL|75CSL|$75,000 CSL|100CSL|$100,000 CSL|200CSL|$200,000 CSL|300CSL|$300,000 CSL|500CSL|$500,000 CSL" />
+        <mergeField name="BIPremium" idref="BodilyInjurySubCoverageOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="BodilyInjurySubCoverageInput.Indicator" />
+        <mergeField name="PDLimit" idref="PropertyDamageInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="PDPremium" idref="PropertyDamageSubCoverageOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="PropertyDamageSubCoverageInput.Indicator" />
+        <mergeField name="MedLimit" idref="MedicalPaymentsInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|1000|$1,000|2000|$2,000|5000|$5,000|10000|$10,000" />
+        <mergeField name="MedPremium" idref="MedicalPaymentsSubCoverageOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="MedicalPaymentsSubCoverageInput.Indicator" />
+        <mergeField name="UMLimit" idref="UninsuredMotoristsInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|25/50|$25,000/$50,000|50/100|$50,000/$100,000|100/200|$100,000/$200,000|100/300|$100,000/$300,000|300/300|$300,000/$300,000|250/500|$250,000/$500,000|60CSL|$60,000 CSL|75CSL|$75,000 CSL|100CSL|$100,000 CSL|200CSL|$200,000 CSL|300CSL|$300,000 CSL|500CSL|$500,000 CSL" />
+        <mergeField name="UMPremium" idref="UninsuredMotoristsSubCoverageOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="UninsuredMotoristsSubCoverageInput.Indicator" />
+        <mergeField name="VehNum" idref="VehicleOutput.Number" iter="1" formatValue="" />
+        <mergeField name="CollDed" idref="CollisionInput.Deductible" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|100|$100|200|$200|250|$250|500|$500|1000|$1,000|1500|$1,500" />
+        <mergeField name="CollPremium" idref="CollisionOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="CollisionInput.Indicator" />
+        <mergeField name="OTCDed" idref="OtherThanCollisionInput.Deductible" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|0|$0|50|$50|100|$100|200|$200|250|$250|500|$500|1000|$1,000" />
+        <mergeField name="OTCPremium" idref="OtherThanCollisionOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="OtherThanCollisionInput.Indicator" />
+        <mergeField name="TowLimit" idref="TowingAndLaborInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|25|$25|50|$50|75|$75" />
+        <mergeField name="TowPremium" idref="TowingAndLaborOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="TowingAndLaborInput.Indicator" />
+        <mergeField name="RenLimit" idref="RentalReimbursementInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|15|$15|30|$30" />
+        <mergeField name="RenPremium" idref="RentalReimbursementOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" condition="RentalReimbursementInput.Indicator" />
+        <mergeField name="CarrierName" idref="PriorInsurance.CarrierName" iter="1" formatValue="" />
+        <mergeField name="InsHisEffDt" idref="PriorInsurance.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="InsHisExpDt" idref="PriorInsurance.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="InsHisLimit" idref="PriorInsurance.Limit" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="InsHisDed" idref="PriorInsurance.Deductible" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="ManEndNum" idref="ManuScriptCoveragePrivate.CurrentIteration" iter="1" formatValue="" />
+        <mergeField name="ManEndDesc" idref="ManuScriptCoverageInput.Description" iter="1" formatValue="" />
+        <mergeField name="ManEndPremium" idref="ManuScriptCoverageOutput.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="Viol#" idref="ViolationPrivate.CurrentIteration" iter="1" formatValue="" />
+        <mergeField name="ViolationDt" idref="ViolationInput.Date" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="ViolationType" idref="ViolationInput.Category" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="AddlInt#" idref="AdditionalOtherInterestPrivate.CurrentIteration" iter="1" formatValue="" />
+        <mergeField name="Name" idref="AdditionalOtherInterestInput.Name" iter="1" formatValue="" />
+        <mergeField name="AddIntAddress1" idref="AdditionalOtherInterestInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AddIntAddress2" idref="AdditionalOtherInterestInput.Address2" iter="1" formatValue="" condition="" />
+        <mergeField name="AddIntCity" idref="AdditionalOtherInterestInput.City" iter="1" formatValue="" />
+        <mergeField name="AddIntState" idref="AdditionalOtherInterestInput.State" iter="1" formatValue="" />
+        <mergeField name="AddIntZipCode" idref="AdditionalOtherInterestInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AddlIntType" idref="AdditionalOtherInterestInput.Type" iter="1" formatSpecifier="coded" formatValue="Mortgagee|Mortgagee|AdditionalInsured|Additional Insured|LossPayee|Loss Payee|Other|Other|PrimaryEntity|Primary Entity|SecondaryEntity|Secondary Entity" />
+        <mergeField name="AddIntCOI" idref="AdditionalOtherInterestInput.CertificateOfInsurance" iter="1" formatSpecifier="coded" formatValue="0|No|1|Yes" />
+        <mergeField name="PhoneNumber" idref="AccountInput.PrimaryPhone" iter="1" formatValue="" />
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="ExpirationDate" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="ViolationDriverFirstName" idref="ViolationPrivate.ActiveDriverName" iter="1" formatValue="" />
+        <mergeField name="LOBNAME" idref="LinePrivate.LOBName" iter="1" />
+        <mergeField name="CurrentDate" idref="DateTime.CurrentDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="VehMilesToWork" readOnly="True" idref="VehiclePrivate.MilesDrivenToWorkCaption" iter="1" formatValue="" />
+        <mergeField name="YouthfulDriverNA" idref="DriverPrivate.IsYouthful" iter="1" formatSpecifier="coded" formatValue="1| |0|N/A" />
+        <mergeField name="YearsWithCompany" idref="UnderwritingQuestions.TimeWithCurrentCompany" iter="1" readOnly="True" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="HealthInsurance" idref="UnderwritingQuestions.HealthInsuranceCovered" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" readOnly="True" />
+        <mergeField name="BusinessUsage" idref="UnderwritingQuestions.VehicleUsedInBusiness" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" readOnly="True" />
+        <mergeField name="SR22Filing" idref="UnderwritingQuestions.FinancialResponsibilityFiling" iter="1" formatSpecifier="coded" formatValue="1|Yes|0|No" readOnly="True" />
+        <mergeField name="TotalVehPremium" readOnly="True" idref="RiskPremiums.Premium" iter="1" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="FarmOperatorDiscount" readOnly="True" idref="VehiclePrivate.IsFarmOperatorDiscountApplicable" iter="1" formatValue="" />
+        <mergeField name="GoodStudentDiscount" readOnly="True" idref="VehiclePrivate.IsGoodStudentDiscountApplicable" iter="1" formatValue="" />
+        <mergeField name="InexperiencedOperatorSurcharge" readOnly="True" idref="VehiclePrivate.IsInexperiencedDriverSurchargeApplicable" iter="1" formatValue="" />
+        <mergeField name="CovgVehYear" readOnly="True" idref="VehicleInput.Year" iter="1" formatValue="" />
+        <mergeField name="CovgVehMake" readOnly="True" idref="VehicleInput.Make" iter="1" formatValue="" />
+        <mergeField name="CovgVehModel" readOnly="True" idref="VehicleInput.Model" iter="1" formatValue="" />
+      </merge>
+    </documentSet>
+    <documentSet name="Binder" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="QUICKBINDERTop.DOC" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="QUICKBINDERCoverages.DOC" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+          <scope name="Collision" increment="1" startIter="1" endIter="*" />
+          <scope name="TowingAndLabor" increment="1" startIter="1" endIter="*" />
+          <scope name="OtherThanCollision" increment="1" startIter="1" endIter="*" />
+          <scope name="RentalReimbursement" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="QUICKBINDERBottom.DOC" path="Marketplace|PersonalAuto|US|" />
+      </document>
+      <merge>
+        <mergeField name="VehNum" idref="VehicleOutput.Number" iter="1" formatValue="" />
+        <mergeField name="VehYear" idref="VehicleInput.Year" iter="1" formatValue="" />
+        <mergeField name="VehMake" idref="VehicleInput.Make" iter="1" formatValue="" />
+        <mergeField name="VehModel" idref="VehicleInput.Model" iter="1" formatValue="" />
+        <mergeField name="BI" idref="BodilyInjuryInput.Limit" iter="1" formatSpecifier="coded" formatValue="25/50|$25,000/$50,000|50/100|$50,000/$100,000|100/200|$100,000/$200,000|100/300|$100,000/$300,000|300/300|$300,000/$300,000|250/500|$250,000/$500,000|60CSL|$60,000 CSL|75CSL|$75,000 CSL|100CSL|$100,000 CSL|200CSL|$200,000 CSL|300CSL|$300,000 CSL|500CSL|$500,000 CSL" />
+        <mergeField name="PD" idref="PropertyDamageInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|10|$10,000|15|$15,000|20|$20,000|25|$25,000|50|$50,000|100|$100,000|150|$150,000|200|$200,000|250|$250,000|Incl|Included" />
+        <mergeField name="Medical" idref="MedicalPaymentsInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|1000|$1,000|2000|$2,000|5000|$5,000|10000|$10,000" />
+        <mergeField name="UM" idref="UninsuredMotoristsInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|25/50|$25,000/$50,000|50/100|$50,000/$100,000|100/200|$100,000/$200,000|100/300|$100,000/$300,000|300/300|$300,000/$300,000|250/500|$250,000/$500,000|60CSL|$60,000 CSL|75CSL|$75,000 CSL|100CSL|$100,000 CSL|200CSL|$200,000 CSL|300CSL|$300,000 CSL|500CSL|$500,000 CSL" />
+        <mergeField name="Comp" idref="OtherThanCollisionInput.Deductible" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|0|$0|50|$50|100|$100|200|$200|250|$250|500|$500|1000|$1,000" />
+        <mergeField name="Coll" idref="CollisionInput.Deductible" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|100|$100|200|$200|250|$250|500|$500|1000|$1,000|1500|$1,500" />
+        <mergeField name="Tow" idref="TowingAndLaborInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|25|$25|50|$50|75|$75" />
+        <mergeField name="Rental" idref="RentalReimbursementInput.Limit" iter="1" formatSpecifier="coded" formatValue="N|No Coverage|15|$15|30|$30" />
+        <mergeField name="PolicyOutputPolicyNumber1" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" />
+        <mergeField name="PolicyInputEffectiveDate1" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="PolicyInputExpirationDate1" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="AccountInputName1" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress11" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress21" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AccountInputCity1" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="AccountInputState1" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="AccountInputZipCode1" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgencyInputName1" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="AgencyInputAddress1" idref="AgencyInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AgencyInputAddress2" idref="AgencyInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AgencyInputCity" idref="AgencyInput.City" iter="1" formatValue="" />
+        <mergeField name="AgencyInputState" idref="AgencyInput.State" iter="1" formatValue="" />
+        <mergeField name="AgencyInputZipCode" idref="AgencyInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="ProducerInputFullName1" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="VehPremium" idref="RiskPremiums.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+      </merge>
+    </documentSet>
+    <documentSet name="Quote" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" override="1" prevPage="">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="PAUTO_Quote Letter_Top.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_Quote Letter_Garaging Info.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_Quote Letter_Vehicle Info Header.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_Quote Letter_Vehicle Info.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_Quote Letter_Driver Info Header.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_Quote Letter_Driver Info.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Driver" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_Quote Letter_Policy Coverage Info.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Line" increment="1" startIter="1" endIter="*" />
+          <scope name="BodilyInjury" increment="1" startIter="1" endIter="*" />
+          <scope name="PropertyDamage" increment="1" startIter="1" endIter="*" />
+          <scope name="MedicalPayments" increment="1" startIter="1" endIter="*" />
+          <scope name="UninsuredMotorists" increment="1" startIter="1" endIter="*" />
+          <scope name="UnderInsuredMotorists" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_Quote Letter_Vehicle Coverage Header.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_Quote Letter_Vehicle Coverages.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+          <scope name="OtherThanCollision" increment="1" startIter="1" endIter="*" />
+          <scope name="Collision" increment="1" startIter="1" endIter="*" />
+          <scope name="TowingAndLabor" increment="1" startIter="1" endIter="*" />
+          <scope name="RentalReimbursement" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_Quote Letter_Bottom.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Policy" increment="1" startIter="1" endIter="*" />
+          <scope name="Agency" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+      </document>
+      <merge>
+        <mergeField name="Applicant Name" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="Applicant Address1" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="Applicant Address2" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="Applicant City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="Applicant State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Applicant Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="Applicant FirstName" idref="AccountInput.FirstName" iter="1" formatValue="" />
+        <mergeField name="Policy Premium" idref="data.TotalPremium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Policy EffDate" idref="PolicyInput.EffectiveDate" iter="1" formatValue="" />
+        <mergeField name="Policy ExpDate" idref="PolicyInput.ExpirationDate" iter="1" formatValue="" />
+        <mergeField name="Producer Name" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="1st Name" idref="DriverInput.FirstName" iter="1" formatValue="" />
+        <mergeField name="Last Name" idref="DriverInput.LastName" iter="1" formatValue="" />
+        <mergeField name="Quote #" idref="PolicyOutput.QuoteNumber" iter="1" formatValue="" />
+        <mergeField name="BI" idref="BodilyInjuryInput.Limit" iter="1" formatSpecifier="codedField" />
+        <mergeField name="PD" idref="PropertyDamageInput.Limit" iter="1" formatSpecifier="codedField" />
+        <mergeField name="Med" idref="MedicalPaymentsInput.Limit" iter="1" formatSpecifier="codedField" />
+        <mergeField name="UM" idref="UninsuredMotoristsInput.Limit" iter="1" formatSpecifier="codedField" />
+        <mergeField name="Drv1st Name" idref="DriverInput.FirstName" iter="1" formatValue="" />
+        <mergeField name="Drv Last Name" idref="DriverInput.LastName" iter="1" formatValue="" />
+        <mergeField name="Age" idref="DriverInput.Age" iter="1" formatValue="" />
+        <mergeField name="Veh1 Yr" idref="VehicleInput.Year" iter="1" formatValue="" />
+        <mergeField name="Veh1 Mk" idref="VehicleInput.Make" iter="1" formatValue="" />
+        <mergeField name="Veh1 Mdl" idref="VehicleInput.Model" iter="1" formatValue="" />
+        <mergeField name="Premium" idref="RiskPurePremiums.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="OTC1" idref="OtherThanCollisionOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Coll1" idref="CollisionOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Rent1" idref="RentalReimbursementOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Tow1" idref="TowingAndLaborOutput.Premium" iter="1" formatSpecifier="format" formatValue="$###,###.##" />
+        <mergeField name="Veh1Yr" idref="VehicleInput.Year" iter="1" readOnly="True" formatValue="" />
+        <mergeField name="Date" idref="DateTime.CurrentDate" iter="1" formatSpecifier="format" formatValue="mm-dd-yyyy" />
+        <mergeField name="First" idref="AccountInput.FirstName" iter="1" formatValue="" />
+        <mergeField name="MiddleInitial" idref="AccountInput.MiddleName" iter="1" formatValue="" />
+        <mergeField name="LastName" idref="AccountInput.LastName" iter="1" formatValue="" />
+        <mergeField name="Address" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="City" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="State" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="Zip" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress11" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress21" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AccountInputCity1" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="AccountInputState1" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="AccountInputZipCode1" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="VehNum" idref="VehicleOutput.Number" iter="1" formatValue="" />
+        <mergeField name="VehYR" idref="VehicleInput.Year" iter="1" formatValue="" />
+        <mergeField name="VehMake" idref="VehicleInput.Make" iter="1" formatValue="" />
+        <mergeField name="VehModel" idref="VehicleInput.Model" iter="1" formatValue="" />
+        <mergeField name="VehVIN" idref="VehicleInput.VIN" iter="1" formatValue="" />
+        <mergeField name="Driver#" idref="DriverOutput.Number" iter="1" formatValue="" />
+        <mergeField name="DriverName" idref="DriverPrivate.FirstNameLastName" iter="1" formatValue="" />
+        <mergeField name="DriverDOB" idref="DriverInput.DateOfBirth" iter="1" formatSpecifier="format" formatValue="mm-dd-yyyy" />
+        <mergeField name="DLNum" idref="DriverInput.DriversLicenseNumber" iter="1" formatValue="" />
+        <mergeField name="VehNum1" idref="VehicleOutput.Number" iter="1" formatValue="" />
+        <mergeField name="CompDed" idref="OtherThanCollisionInput.Deductible" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="CollDed" idref="CollisionInput.Deductible" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="TowLim" idref="TowingAndLaborInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="RentLim" idref="RentalReimbursementInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="PolicyTerm" idref="PolicyInput.Term" iter="1" formatValue="" />
+        <mergeField name="TotalPremium" idref="PolicyPurePremiums.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="AgentPhone" idref="AgencyInput.PhoneNumber" iter="1" formatValue="" />
+        <mergeField name="AgentName" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="BILimit" idref="BodilyInjuryPrivate.LimitDisplay" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="PDLimit" idref="PropertyDamageInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="MedLimit" idref="MedicalPaymentsInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="UMLimit" idref="UninsuredMotoristsPrivate.LimitDisplay" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="UIMLimit" idref="UnderInsuredMotoristsPrivate.LimitDisplay" iter="1" formatSpecifier="codedField" formatValue="" />
+      </merge>
+    </documentSet>
+    <documentSet name="Worksheet" paperBinNum="0" printDefault="Selected" prevPage="" topicRef="RatingWorksheet" pageRef="RatingWorksheet" inherited="DCT_ProductBase_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="Personal Lines Worksheet.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="Demo Vehicle Worksheet.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+      </document>
+      <scope name="Account" increment="1" startIter="1" endIter="*" />
+      <scope name="Policy" increment="1" startIter="1" endIter="*" />
+      <merge>
+        <mergeField name="VehiclePremium" iter="1" formatValue="" wsCond="True" wsSuppressRound="1" idref="RiskPurePremiums.Premium" />
+        <mergeField name="PolicyPremium" iter="1" idref="PolicyPremiums.Premium" readOnly="True" formatSpecifier="formatField" formatValue="" />
+        <mergeField name="AccountName" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="EffectiveDate" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="LinePremium" idref="LinePurePremiums.Premium" iter="1" formatValue="" wsCond="True" wsSuppressRound="1" wsDepth="1" />
+        <mergeField name="Vehicle Description" idref="VehiclePrivate.ShortDescription" iter="1" formatValue="" />
+        <mergeField name="VehicleClassCode" idref="VehicleOutput.ClassCode" iter="1" formatValue="" />
+        <mergeField name="VehicleClassCodeCaption" idref="VehiclePrivate.ClassCodeCaption" iter="1" formatValue="" />
+        <mergeField name="LOB" readOnly="True" idref="LinePrivate.LOBName" iter="1" formatValue="" />
+      </merge>
+    </documentSet>
+    <printJob name="_Issue" condition="False" override="1">
+      <printDoc name="Declarations" />
+      <printDoc name="IDCard" />
+      <printDoc name="PolicyForms" />
+      <printDoc name="ManuScriptEndorsementForm" />
+    </printJob>
+    <printJob name="Declarations">
+      <printDoc name="Declarations" />
+    </printJob>
+    <printJob name="Binder" condition="PolicyPrivate.IsBound" override="1">
+      <printDoc name="Binder" />
+      <printDoc name="IDCard" />
+    </printJob>
+    <documentSet name="Declarations" paperBinNum="0" printDefault="Selected" prevPage="Worksheet" inherited="DCT_ProductBase_PersonalAuto_1_0_0_0" override="1">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="PAUTO_DecPage_Top.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_DecPage_Vehicles Header.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_DecPage_Vehicles.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_DecPage_Drivers Header.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_DecPage_Drivers.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Driver" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_DecPage_Policy Coverages.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_DecPage_Vehicle Coverages Header.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_DecPage_Vehicle Coverages.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+          <scope name="OtherThanCollision" increment="1" startIter="1" endIter="*" />
+          <scope name="Collision" increment="1" startIter="1" endIter="*" />
+          <scope name="TowingAndLabor" increment="1" startIter="1" endIter="*" />
+          <scope name="RentalReimbursement" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_DecPage_Policy Premiums Header.doc" path="Marketplace|PersonalAuto|US|" />
+        <subdoc name="PAUTO_DecPage_Policy Premiums.doc" path="Marketplace|PersonalAuto|US|">
+          <scope name="Risk" increment="1" startIter="1" endIter="*" />
+          <scope name="Vehicle" increment="1" startIter="1" endIter="*" />
+          <scope name="BodilyInjurySubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="PropertyDamageSubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="MedicalPaymentsSubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="UninsuredMotoristsSubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="UnderInsuredMotoristsSubCoverage" increment="1" startIter="1" endIter="*" />
+          <scope name="OtherThanCollision" increment="1" startIter="1" endIter="*" />
+          <scope name="Collision" increment="1" startIter="1" endIter="*" />
+          <scope name="TowingAndLabor" increment="1" startIter="1" endIter="*" />
+          <scope name="RentalReimbursement" increment="1" startIter="1" endIter="*" />
+        </subdoc>
+        <subdoc name="PAUTO_DecPage_Total Premium.doc" path="Marketplace|PersonalAuto|US|" />
+      </document>
+      <merge>
+        <mergeField name="PolicyOutputPolicyNumber1" idref="PolicyOutput.PolicyNumber" iter="1" formatValue="" readOnly="True" />
+        <mergeField name="PolicyInputEffectiveDate1" idref="PolicyInput.EffectiveDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="PolicyInputExpirationDate1" idref="PolicyInput.ExpirationDate" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="AccountInputName1" idref="AccountInput.Name" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress11" idref="AccountInput.Address1" iter="1" formatValue="" />
+        <mergeField name="AccountInputAddress21" idref="AccountInput.Address2" iter="1" formatValue="" />
+        <mergeField name="AccountInputCity1" idref="AccountInput.City" iter="1" formatValue="" />
+        <mergeField name="AccountInputState1" idref="AccountInput.State" iter="1" formatValue="" />
+        <mergeField name="AccountInputZipCode1" idref="AccountInput.ZipCode" iter="1" formatValue="" />
+        <mergeField name="AgencyInputName1" idref="AgencyInput.Name" iter="1" formatValue="" />
+        <mergeField name="ProducerInputFullName1" idref="ProducerInput.FullName" iter="1" formatValue="" />
+        <mergeField name="VehNum1" idref="VehicleOutput.Number" iter="1" formatValue="" />
+        <mergeField name="VehYR1" idref="VehicleInput.Year" iter="1" formatValue="" />
+        <mergeField name="VehMake1" idref="VehicleInput.Make" iter="1" formatValue="" />
+        <mergeField name="VehModel1" idref="VehicleInput.Model" iter="1" formatValue="" />
+        <mergeField name="VehVIN1" idref="VehicleInput.VIN" iter="1" formatValue="" />
+        <mergeField name="VehNum2" idref="VehicleOutput.Number" iter="1" formatValue="" />
+        <mergeField name="VehYR2" idref="VehicleInput.Year" iter="2" formatValue="" />
+        <mergeField name="VehMake2" idref="VehicleInput.Make" iter="2" formatValue="" />
+        <mergeField name="VehModel2" idref="VehicleInput.Model" iter="2" formatValue="" />
+        <mergeField name="VehVIN2" idref="VehicleInput.VIN" iter="2" formatValue="" />
+        <mergeField name="VehNum3" idref="VehicleOutput.Number" iter="3" formatValue="" />
+        <mergeField name="VehYR3" idref="VehicleInput.Year" iter="3" formatValue="" />
+        <mergeField name="VehMake3" idref="VehicleInput.Make" iter="3" formatValue="" />
+        <mergeField name="VehModel3" idref="VehicleInput.Model" iter="3" formatValue="" />
+        <mergeField name="VehVIN3" idref="VehicleInput.VIN" iter="3" formatValue="" />
+        <mergeField name="DriverNum1" idref="DriverOutput.Number" iter="1" formatValue="" />
+        <mergeField name="DriverName1" idref="DriverPrivate.FirstNameLastName" iter="1" formatValue="" />
+        <mergeField name="DriverBirthDate1" idref="DriverInput.DateOfBirth" iter="1" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="DriverNum2" idref="DriverOutput.Number" iter="2" formatValue="" />
+        <mergeField name="DriverName2" idref="DriverPrivate.FirstNameLastName" iter="2" formatValue="" />
+        <mergeField name="DriverBirthDate2" idref="DriverInput.DateOfBirth" iter="2" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="DriverNum3" idref="DriverOutput.Number" iter="3" formatValue="" />
+        <mergeField name="DriverName3" idref="DriverPrivate.FirstNameLastName" iter="3" formatValue="" />
+        <mergeField name="DriverBirthDate3" idref="DriverInput.DateOfBirth" iter="3" formatSpecifier="format" formatValue="mm/dd/yyyy" />
+        <mergeField name="VehClassCode" idref="VehicleOutput.ClassCode" iter="1" formatValue="" />
+        <mergeField name="BILimit" idref="BodilyInjuryPrivate.LimitDisplay" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="BIPremium1" idref="BodilyInjurySubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="BIPremium2" idref="BodilyInjurySubCoverageOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="BIPremium3" idref="BodilyInjurySubCoverageOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="PDLimit" idref="PropertyDamageInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="PDPremium1" idref="PropertyDamageSubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="PDPremium2" idref="PropertyDamageSubCoverageOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="PDPremium3" idref="PropertyDamageSubCoverageOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="MedLimit" idref="MedicalPaymentsInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="MedPremium1" idref="MedicalPaymentsSubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="MedPremium2" idref="MedicalPaymentsSubCoverageOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="MedPremium3" idref="MedicalPaymentsSubCoverageOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="UMLimit" idref="UninsuredMotoristsPrivate.LimitDisplay" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="UMPremium1" idref="UninsuredMotoristsSubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="UMPremium2" idref="UninsuredMotoristsSubCoverageOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="UMPremium3" idref="UninsuredMotoristsSubCoverageOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="CollDed" idref="CollisionInput.Deductible" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="ColPremium1" idref="CollisionOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="ColPremium2" idref="CollisionOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="ColPremium3" idref="CollisionOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="OTCDed" idref="OtherThanCollisionInput.Deductible" iter="1" formatSpecifier="coded" formatValue="" />
+        <mergeField name="OTCPremium1" idref="OtherThanCollisionOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="OTCPremium2" idref="OtherThanCollisionOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="OTCPremium3" idref="OtherThanCollisionOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="TowLimit" idref="TowingAndLaborInput.Limit" iter="1" formatSpecifier="coded" formatValue="" />
+        <mergeField name="TowPremium1" idref="TowingAndLaborOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="TowPremium2" idref="TowingAndLaborOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="TowPremium3" idref="TowingAndLaborOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="RentLimit" idref="RentalReimbursementInput.Limit" iter="1" formatSpecifier="coded" formatValue="" />
+        <mergeField name="RenPremium1" idref="RentalReimbursementOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="RenPremium2" idref="RentalReimbursementOutput.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="RenPremium3" idref="RentalReimbursementOutput.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="VehPremium1" idref="RiskPurePremiums.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="VehPremium2" idref="RiskPurePremiums.Premium" iter="2" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="VehPremium3" idref="RiskPurePremiums.Premium" iter="3" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="PolicyOutputPremiumWritten1" idref="PolicyPremiums.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="VehClassCode1" idref="VehicleOutput.ClassCode" iter="1" readOnly="True" formatValue="" />
+        <mergeField name="VehClassCode2" idref="VehicleOutput.ClassCode" iter="2" readOnly="True" formatValue="" />
+        <mergeField name="VehClassCode3" idref="VehicleOutput.ClassCode" iter="3" readOnly="True" formatValue="" />
+        <mergeField name="PolicyWritten" iter="1" idref="PolicyPremiums.Premium" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="VehNum" readOnly="True" idref="VehicleOutput.Number" iter="1" formatValue="" />
+        <mergeField name="VehYR" readOnly="True" idref="VehicleInput.Year" iter="1" formatValue="" />
+        <mergeField name="VehMake" readOnly="True" idref="VehicleInput.Make" iter="1" formatValue="" />
+        <mergeField name="VehModel" readOnly="True" idref="VehicleInput.Model" iter="1" formatValue="" />
+        <mergeField name="VehVIN" readOnly="True" idref="VehicleInput.VIN" iter="1" formatValue="" />
+        <mergeField name="DriverNum" readOnly="True" idref="DriverOutput.Number" iter="1" formatValue="" />
+        <mergeField name="DriverName" readOnly="True" idref="DriverPrivate.FirstNameLastName" iter="1" formatValue="" />
+        <mergeField name="DriverBirthDate" readOnly="True" idref="DriverInput.DateOfBirth" iter="1" formatValue="" />
+        <mergeField name="DLNum" readOnly="True" idref="DriverInput.DriversLicenseNumber" iter="1" formatValue="" />
+        <mergeField name="Driver#" idref="DriverOutput.Number" iter="1" formatValue="" />
+        <mergeField name="DriverDOB" idref="DriverInput.DateOfBirth" iter="1" formatSpecifier="format" formatValue="mm-dd-yyyy" />
+        <mergeField name="UIMLimit" idref="UnderInsuredMotoristsPrivate.LimitDisplay" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="CompDed" idref="OtherThanCollisionInput.Deductible" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="TowLim" idref="TowingAndLaborInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="RentLim" idref="RentalReimbursementInput.Limit" iter="1" formatSpecifier="codedField" formatValue="" />
+        <mergeField name="BIPrem" idref="BodilyInjurySubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="PDPrem" idref="PropertyDamageSubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="MedPrem" idref="MedicalPaymentsSubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="UMPrem" idref="UninsuredMotoristsSubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="UIMPrem" idref="UnderInsuredMotoristsSubCoverageOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="CompPrem" idref="OtherThanCollisionOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="CollPrem" idref="CollisionOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="TowPrem" idref="TowingAndLaborOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="RentPrem" idref="RentalReimbursementOutput.Premium" iter="1" formatSpecifier="format" formatValue="$???,??0.??" />
+        <mergeField name="VehPrem" idref="RiskPurePremiums.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+        <mergeField name="TotalPremium" idref="PolicyPurePremiums.Premium" iter="1" formatSpecifier="format" formatValue="$???,???.??" />
+      </merge>
+    </documentSet>
+    <documentSet name="PolicyForms" paperBinNum="0" printDefault="Selected" inherited="DCT_ProductBase_1_0_0_0" condition="PolicyPrivate.ShowPolicyForms" override="1" prevPage="">
+      <scope name="data" increment="1" startIter="1" endIter="*" />
+      <document>
+        <subdoc name="PolicyForms.doc" path="Marketplace|PersonalLines|US|" />
+      </document>
+    </documentSet>
+    <printJob name="Quote">
+      <printDoc name="Quote" />
+    </printJob>
+    <printJob name="Application">
+      <printDoc name="Application" />
+    </printJob>
+    <printJob name="ManuScriptEndorsementForm">
+      <printDoc name="ManuScriptEndorsementForm" />
+    </printJob>
+    <printJob name="Worksheet">
+      <printDoc name="Worksheet" />
+    </printJob>
+  </documents>
+</ManuScript>

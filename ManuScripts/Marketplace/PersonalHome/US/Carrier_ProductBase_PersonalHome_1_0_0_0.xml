@@ -1,0 +1,23 @@
+﻿<ManuScript>
+  <properties manuscriptID="Carrier_ProductBase_PersonalHome_1_0_0_0" versionID="Carrier_ProductBase_PersonalHome" versionDate="2011-01-01" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="United States [english]" caption="Personal Home (1.0.0.0)" inherited="Marketplace_PersonalHome_1_0_0_0" image="" dataSchema="" usePersistedState="0">
+    <notes />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalHome" />
+      <keyInfo name="state" value="US" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2011-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2011-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Pages, ViewModel" />
+      <keyInfo name="role" value="None" />
+    </keys>
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+  </properties>
+  <topics>
+    <topic name="MainInterview" abstract="1">
+      <page name="InstallmentSchedule" caption="Installment Schedule" pageVersion="2" topicRef="InstallmentSchedule" pageRef="InstallmentSchedule" manuscriptIdRef="PolicyAdmin.BillingInstallmentScheduleManuScriptID" prevPage="BillingSummary" validRef="False" override="1" />
+      <page name="BillingSummary" caption="Billing Summary" pageVersion="2" topicRef="BillingSummary" pageRef="BillingSummary" manuscriptIdRef="PolicyAdmin.BillingWorkflowManuScriptID" prevPage="PaymentDetails" validRef="False" override="1" />
+    </topic>
+  </topics>
+</ManuScript>

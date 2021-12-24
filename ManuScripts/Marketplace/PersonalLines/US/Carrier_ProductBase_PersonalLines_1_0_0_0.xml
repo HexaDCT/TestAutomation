@@ -1,0 +1,31 @@
+﻿<ManuScript>
+  <properties manuscriptID="Carrier_ProductBase_PersonalLines_1_0_0_0" versionID="Carrier_ProductBase_PersonalLines" versionDate="2009-03-13" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="United States [english]" caption="Carrier Product Base Personal Lines (1.0.0.0)" inherited="DCT_ProductBase_PersonalLines_1_0_0_0" image="" dataSchema="" usePersistedState="0">
+    <notes />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalLines" />
+      <keyInfo name="state" value="US" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Pages" />
+    </keys>
+    <contexts />
+    <writtenConfig round="1" roundType="round" inherited="DCT_ProductBase_PersonalLines_1_0_0_0" inheritedOverride="1">
+      <writtenRefPath idref="WrittenPremiumSharedConfiguration.PriorTermPath" type="string" infoType="priorTerm" useXPath="1" />
+      <writtenRefPath idref="WrittenPremiumSharedConfiguration.PriorWrittenPath" type="string" infoType="priorWritten" useXPath="1" />
+      <writtenRefPath idref="WrittenPremiumSharedConfiguration.ChangePath" type="string" infoType="charge" useXPath="1" />
+      <writtenRef idref="PolicyInput.EffectiveDate" type="date" infoType="effDate" />
+      <writtenRef idref="PolicyInput.ExpirationDate" type="date" infoType="exDate" />
+      <writtenRef idref="CurrentTransaction.EffectiveDate" type="date" infoType="transDate" />
+      <writtenRef idref="ConstantsPolicyAdminProcessing.ProRateType" type="int" infoType="proRateType" />
+      <writtenInfo idref="WrittenPremiumSharedConfiguration.ShortRateFactor" type="float" infoType="shortRate" />
+      <writtenInfo type="int" value="4" infoType="precision" />
+    </writtenConfig>
+  </properties>
+  <model defaultValue="data.SubmissionExecute">
+    <object id="data" abstract="1">
+    </object>
+  </model>
+</ManuScript>

@@ -1,0 +1,1268 @@
+﻿<ManuScript>
+  <properties manuscriptID="Marketplace_PersonalAuto_PA_1_0_0_0" versionID="Marketplace_PersonalAuto_PA_1_0_0_0" versionDate="2009-03-13" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="English (United States)" caption="Personal Auto (PA 1.0.0.0)" inherited="Carrier_ProductBase_PersonalAuto_1_0_0_0" image="" dataSchema="" usePersistedState="0">
+    <notes />
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalAuto" />
+      <keyInfo name="state" value="PA" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Pages" />
+      <keyInfo name="cultures" value="" />
+      <keyInfo name="currencyCodes" value="" />
+      <keyInfo name="states" value="None" />
+      <keyInfo name="type" value="None" />
+      <keyInfo name="layer" value="DuckCreek" />
+    </keys>
+  </properties>
+  <model defaultValue="data.SubmissionExecute">
+    <object id="data" abstract="1">
+      <object id="Policy" abstract="1">
+        <object id="Line" abstract="1">
+          <object id="LineCoverages" abstract="1">
+            <object id="PIP" path="coverage[Type=&quot;PIP&quot;]">
+              <minOccurs value="1" />
+              <maxOccurs value="1" />
+              <object id="PIPInput">
+                <minOccurs value="1" />
+                <maxOccurs value="1" />
+                <public id="PIPInput.Limit" path="limit[Type=&quot;PIP&quot;]/Limit" type="string">
+                  <definition>
+                    <caption value="PIP Limit" />
+                    <options>
+                      <option value="5000" caption="$5,000 per accident" />
+                      <option value="10000" caption="$10,000 per accident" />
+                      <option value="15000" caption="$15,000 per accident" />
+                      <option value="20000" caption="$20,000 per accident" />
+                      <option value="25000" caption="$25,000 per accident" />
+                    </options>
+                    <maxLength idref="MaxLength.Limit" />
+                  </definition>
+                  <rules>
+                    <default idref="PIPPrivate.Default" />
+                  </rules>
+                </public>
+              </object>
+              <object id="PIPOutput">
+                <minOccurs value="1" />
+                <maxOccurs value="1" />
+                <public id="PIPOutput.Premium" path="Premium" type="float" class="excludeChangeSummary">
+                  <definition>
+                    <caption value="PIP Premium" />
+                    <maxLength idref="MaxLength.Premium" />
+                    <formatMask idref="FormatMask.PremiumPenniesDisplay" />
+                    <readOnly idref="True" />
+                  </definition>
+                </public>
+                <public id="PIPOutput.PremiumChange" path="@change" type="float" class="excludeChangeSummary">
+                  <definition>
+                    <caption value="PIP Output Premium Change" />
+                    <maxLength idref="MaxLength.Premium" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                  </definition>
+                </public>
+                <public id="PIPOutput.PremiumWritten" path="@written" type="float" class="excludeChangeSummary">
+                  <definition>
+                    <caption value="PIP Output Premium Written" />
+                    <maxLength idref="MaxLength.Premium" />
+                    <formatMask idref="FormatMask.PremiumPennies" />
+                    <readOnly idref="True" />
+                  </definition>
+                </public>
+                <object id="PIPOutputNonShredded">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <public id="PIPOutputNonShredded.CurrentLimit" path="CurrentLimit" type="string">
+                    <definition>
+                      <caption value="PIP Output Non Shredded Current Limit" />
+                    </definition>
+                  </public>
+                </object>
+              </object>
+              <object id="PIPPrivate">
+                <minOccurs value="1" />
+                <maxOccurs value="1" />
+                <private id="PIPPrivate.Default" caption="" type="string">
+                  <value>
+                    <lookup>
+                      <tableRef value="CoverageDefaults" />
+                      <fieldRef value="PIP" />
+                      <keyRef idref="CoveragePackage.Value" type="string" name="Coverage Package" />
+                    </lookup>
+                  </value>
+                </private>
+                <private id="PIPPrivate.SetCurrentLimit" caption="" type="string" path="SetCurrentLimit">
+                  <value idref="PIPInput.Limit" />
+                  <affects>
+                    <reference idref="PIPOutputNonShredded.CurrentLimit" effect="setValue" />
+                  </affects>
+                </private>
+                <private id="PIPPrivate.SetDefault" caption="" type="string">
+                  <affects>
+                    <reference idref="PIPInput.Limit" effect="setValue" />
+                  </affects>
+                  <value>
+                    <if>
+                      <condition idref="CoveragePackagePrivate.IsCustom" />
+                      <then idref="PIPOutputNonShredded.CurrentLimit" />
+                      <else idref="PIPPrivate.Default" />
+                    </if>
+                  </value>
+                </private>
+              </object>
+            </object>
+            <object id="LineCoveragesOutput" abstract="1">
+              <public id="LineCoveragesOutput.LineCoverageTotal" path="exposure[Type=&quot;LineCoverageTotal&quot;]/fValue" type="float" override="1">
+                <definition>
+                  <caption value="Line Coverage Total" />
+                  <formatMask idref="FormatMask.PremiumPenniesDisplay" />
+                </definition>
+                <rules>
+                  <value>
+                    <calculation>
+                      <argument op="eq" idref="BodilyInjuryOutput.Premium" type="float" />
+                      <argument op="add" idref="MedicalPaymentsOutput.Premium" type="float" />
+                      <argument op="add" idref="PropertyDamageOutput.Premium" type="float" />
+                      <argument op="add" idref="UninsuredMotoristsOutput.Premium" type="float" />
+                      <argument op="add" idref="ManuScriptCoverageSubtotals.Premium" type="float" />
+                      <argument op="add" idref="PIPOutput.Premium" type="float" />
+                    </calculation>
+                  </value>
+                  <affects>
+                    <reference idref="RiskTotalPurePremiums.PremiumWritten" effect="preEffect" />
+                  </affects>
+                </rules>
+              </public>
+            </object>
+            <object id="UnderInsuredMotorists" abstract="1">
+              <object id="UnderInsuredMotoristsPrivate" abstract="1">
+                <private id="UnderInsuredMotoristsPrivate.Default" caption="" type="string" override="1">
+                  <value>
+                    <lookup>
+                      <tableRef value="CoverageDefaults" />
+                      <fieldRef value="UIM" />
+                      <keyRef idref="CoveragePackage.Value" type="string" name="Coverage Package" />
+                    </lookup>
+                  </value>
+                </private>
+              </object>
+              <object id="UnderInsuredMotoristsInput" abstract="1">
+                <public id="UnderInsuredMotoristsInput.Limit" path="limit[Type=&quot;UnderInsuredMotorist&quot;]/Limit" type="string" override="1">
+                  <definition>
+                    <caption value="Underinsured Motorists Limit" />
+                    <options>
+                      <option value="15/30" caption="$15,000 per person $30,000 per accident" validRef="UnderInsuredMotoristsPrivate.Show2550Limit" />
+                      <option value="50/100" caption="$50,000 per person $100,000 per accident" validRef="UnderInsuredMotoristsPrivate.Show50100Limit" />
+                      <option value="100/200" caption="$100,000 per person $200,000 per accident" validRef="UnderInsuredMotoristsPrivate.Show100200Limit" />
+                      <option value="100/300" caption="$100,000 per person $300,000 per accident" validRef="UnderInsuredMotoristsPrivate.Show100300Limit" />
+                      <option value="300/300" caption="$300,000 per person $300,000 per accident" validRef="UnderInsuredMotoristsPrivate.Show300300Limit" />
+                      <option value="250/500" caption="$250,000 per person $500,000 per accident" validRef="UnderInsuredMotoristsPrivate.Show250500Limit" />
+                      <option value="N" caption="No Coverage" />
+                    </options>
+                    <maxLength idref="MaxLength.Limit" />
+                  </definition>
+                  <rules>
+                    <default idref="UnderInsuredMotoristsPrivate.Default" />
+                  </rules>
+                </public>
+              </object>
+            </object>
+            <object id="BodilyInjury" abstract="1">
+              <object id="BodilyInjuryInput" abstract="1">
+                <public id="BodilyInjuryInput.Limit" path="limit[Type=&quot;BodilyInjury&quot;]/sValue" type="string" override="1">
+                  <definition>
+                    <caption value="Bodily Injury Limit" />
+                    <options>
+                      <option value="15/30" caption="$15,000 per person $30,000 per accident" />
+                      <option value="50/100" caption="$50,000 per person $100,000 per accident" />
+                      <option value="100/200" caption="$100,000 per person $200,000 per accident" />
+                      <option value="100/300" caption="$100,000 per person $300,000 per accident" />
+                      <option value="300/300" caption="$300,000 per person $300,000 per accident" />
+                      <option value="250/500" caption="$250,000 per person $500,000 per accident" />
+                    </options>
+                    <maxLength idref="MaxLength.Limit" />
+                  </definition>
+                  <rules>
+                    <default idref="BodilyInjuryPrivate.Default" />
+                  </rules>
+                </public>
+              </object>
+            </object>
+            <object id="PropertyDamage" abstract="1">
+              <object id="PropertyDamageInput" abstract="1">
+                <public id="PropertyDamageInput.Limit" path="limit[Type=&quot;PropertyDamage&quot;]/sValue" type="string" override="1">
+                  <definition>
+                    <caption value="Property Damage Limit" />
+                    <options>
+                      <option value="5" caption="$5,000" />
+                      <option value="10" caption="$10,000" />
+                      <option value="15" caption="$15,000" />
+                      <option value="20" caption="$20,000" />
+                      <option value="25" caption="$25,000" />
+                      <option value="50" caption="$50,000" validRef="BodilyInjuryPrivate.IsNot25PerOcc" />
+                      <option value="100" caption="$100,000" validRef="BodilyInjuryPrivate.IsNot50PerOcc" />
+                      <option value="150" caption="$150,000" validRef="BodilyInjuryPrivate.IsNot100PerOcc" />
+                      <option value="200" caption="$200,000" validRef="BodilyInjuryPrivate.IsNot100PerOcc" />
+                      <option value="250" caption="$250,000" validRef="BodilyInjuryPrivate.IsNot100PerOcc" />
+                    </options>
+                    <maxLength idref="MaxLength.Limit" />
+                  </definition>
+                  <rules>
+                    <default idref="PropertyDamagePrivate.Default" />
+                  </rules>
+                </public>
+              </object>
+            </object>
+            <object id="UninsuredMotorists" abstract="1">
+              <object id="UninsuredMotoristsInput" abstract="1">
+                <public id="UninsuredMotoristsInput.Limit" path="limit[Type=&quot;UninsuredMotorist&quot;]/sValue" type="string" override="1">
+                  <definition>
+                    <caption value="Uninsured Motorists Limit" />
+                    <options>
+                      <option value="15/30" caption="$15,000 per person $30,000 per accident" validRef="UninsuredMotoristsPrivate.Show2550Limit" />
+                      <option value="50/100" caption="$50,000 per person $100,000 per accident" validRef="UninsuredMotoristsPrivate.Show50100Limit" />
+                      <option value="100/200" caption="$100,000 per person $200,000 per accident" validRef="UninsuredMotoristsPrivate.Show100200Limit" />
+                      <option value="100/300" caption="$100,000 per person $300,000 per accident" validRef="UninsuredMotoristsPrivate.Show100300Limit" />
+                      <option value="300/300" caption="$300,000 per person $300,000 per accident" validRef="UninsuredMotoristsPrivate.Show300300Limit" />
+                      <option value="250/500" caption="$250,000 per person $500,000 per accident" validRef="UninsuredMotoristsPrivate.Show250500Limit" />
+                      <option value="N" caption="No Coverage" />
+                    </options>
+                    <maxLength idref="MaxLength.Limit" />
+                  </definition>
+                  <rules>
+                    <default idref="UninsuredMotoristsPrivate.Default" />
+                  </rules>
+                </public>
+              </object>
+            </object>
+          </object>
+          <object id="Risk" abstract="1">
+            <object id="RiskCoverages" abstract="1">
+              <object id="PIPSubCoverage" path="coverage[Type=&quot;PIP&quot;]">
+                <minOccurs value="1" />
+                <maxOccurs value="1" />
+                <object id="PIPSubCoverageInput" path="pipsubcoverageinput">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <public id="PIPSubCoverageInput.Indicator" path="Indicator" type="boolean">
+                    <definition>
+                      <caption value="PIP Sub Coverage Input Indicator" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <comparison compare="and">
+                          <comparison compare="ne">
+                            <operand idref="PIPInput.Limit" type="string" />
+                            <operand type="string" value="" />
+                          </comparison>
+                          <comparison compare="ne">
+                            <operand idref="PIPInput.Limit" type="string" />
+                            <operand type="string" value="N" />
+                          </comparison>
+                        </comparison>
+                      </value>
+                      <misc>
+                        <if>
+                          <condition>
+                            <comparison compare="eq">
+                              <operand idref="PIPSubCoverageOutputNonShredded.Deleted" type="boolean" />
+                              <operand idref="True" type="int" />
+                            </comparison>
+                          </condition>
+                          <then idref="False" />
+                        </if>
+                      </misc>
+                    </rules>
+                  </public>
+                  <public id="PIPSubCoverageInput.Limit" path="limit[Type=&quot;PIP&quot;]/Limit" type="string">
+                    <definition>
+                      <caption value="PIP" />
+                      <options>
+                        <option value="5000" caption="$5,000" />
+                        <option value="10000" caption="$10,000" />
+                        <option value="15000" caption="$15,000" />
+                        <option value="20000" caption="$20,000" />
+                        <option value="25000" caption="$25,000" />
+                      </options>
+                      <maxLength idref="MaxLength.Limit" />
+                    </definition>
+                    <rules>
+                      <default idref="PIPInput.Limit" />
+                      <value idref="PIPInput.Limit" />
+                      <affects>
+                        <reference idref="PIPSubCoverageInput.LimitType" effect="postEffect" />
+                      </affects>
+                    </rules>
+                  </public>
+                  <public id="PIPSubCoverageInput.LimitType" path="limit[Type=&quot;PIP&quot;]/LimitType" type="string">
+                    <definition>
+                      <caption value="Limit Type" />
+                    </definition>
+                    <rules>
+                      <value value="Accident" />
+                    </rules>
+                  </public>
+                </object>
+                <object id="PIPSubCoverageOutput">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <public id="PIPSubCoverageOutput.Premium" path="Premium" type="float" class="Premium:excludeChangeSummary" alwaysRun="1">
+                    <definition>
+                      <caption value="PIP Sub Coverage Output Premium" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <formatMask idref="FormatMask.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <if>
+                          <condition>
+                            <comparison compare="eq">
+                              <operand idref="PIPSubCoverageInput.Indicator" type="boolean" />
+                              <operand idref="False" type="int" />
+                            </comparison>
+                          </condition>
+                          <then value="0" />
+                          <else>
+                            <calculation>
+                              <argument op="eq" idref="PIPSubCoveragePrivate.BasePremium" type="float" />
+                              <argument op="multiply" round="1" roundType="round" idref="PIPSubCoveragePrivate.ClassFactor" type="float" />
+                              <argument op="multiply" round="1" roundType="round" idref="Term.TermFactor" type="float" />
+                              <argument op="multiply" round="1" roundType="round" idref="CreditsAndSurcharges.PaidInFullDiscount" type="float" />
+                              <argument op="multiply" round="1" roundType="round" idref="CreditsAndSurcharges.HomeownerDiscount" type="float" />
+                              <argument op="multiply" round="1" roundType="round" idref="LinePrivate.TierFactor" type="float" />
+                            </calculation>
+                          </else>
+                        </if>
+                      </value>
+                    </rules>
+                    <worksheet>
+                      <comparison idref="True" type="int" />
+                      <caption value="Medical Payments Premium" />
+                      <summarize idref="True" />
+                    </worksheet>
+                  </public>
+                  <public id="PIPSubCoverageOutput.PremiumChange" path="change" type="float" class="excludeChangeSummary">
+                    <definition>
+                      <caption value="PIP Sub Coverage Output Premium Change" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <readOnly idref="True" />
+                    </definition>
+                  </public>
+                  <public id="PIPSubCoverageOutput.PremiumWritten" path="written" type="float" class="excludeChangeSummary">
+                    <definition>
+                      <caption value="PIP Sub Coverage Output Premium Written" />
+                      <maxLength idref="MaxLength.Premium" />
+                      <formatMask idref="FormatMask.PremiumPennies" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <written useShared="1">
+                          <writtenRef idref="PIPSubCoverageOutput.Premium" type="float" infoType="term" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.MinimumPremiumDefault" type="int" infoType="minimum" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.FullyEarnedDefault" type="boolean" infoType="fullyEarned" />
+                          <writtenInfo idref="WrittenPremiumSharedConfiguration.FlatChargeDefault" type="boolean" infoType="flatCharge" />
+                        </written>
+                      </value>
+                    </rules>
+                  </public>
+                  <object id="PIPSubCoverageOutputNonShredded">
+                    <minOccurs value="1" />
+                    <maxOccurs value="1" />
+                    <public id="PIPSubCoverageOutputNonShredded.Deleted" path="@deleted" type="boolean">
+                      <definition>
+                        <caption value="PIP Sub Coverage Output Non Shredded Deleted" />
+                      </definition>
+                      <rules>
+                        <misc>
+                          <if>
+                            <condition>
+                              <comparison compare="eq">
+                                <operand idref="RiskOutput.Deleted" type="boolean" />
+                                <operand idref="True" type="int" />
+                              </comparison>
+                            </condition>
+                            <then idref="True" />
+                          </if>
+                        </misc>
+                      </rules>
+                    </public>
+                    <public id="PIPSubCoverageOutputNonShredded.DeletedLimit" path="limit[Type=&quot;PIP&quot;]/@deleted" type="boolean">
+                      <definition>
+                        <caption value="Deleted Limit" />
+                      </definition>
+                    </public>
+                  </object>
+                </object>
+                <object id="PIPSubCoveragePrivate">
+                  <minOccurs value="1" />
+                  <maxOccurs value="1" />
+                  <private id="PIPSubCoveragePrivate.BasePremium" caption="" type="float">
+                    <value>
+                      <calculation>
+                        <argument op="eq" idref="PIPSubCoveragePrivate.BaseRate" type="int" />
+                        <argument op="multiply" round="1" roundType="round" idref="PIPSubCoveragePrivate.LimitFactor" type="float" />
+                      </calculation>
+                    </value>
+                    <worksheet>
+                      <comparison idref="True" type="int" />
+                      <caption value="Pip Base Premium" />
+                    </worksheet>
+                  </private>
+                  <private id="PIPSubCoveragePrivate.BaseRate" type="int">
+                    <value>
+                      <lookup>
+                        <tableRef value="BasePremiums" />
+                        <fieldRef value="PIP" />
+                        <keyRef idref="VehicleInput.Territory" type="int" name="Territory" />
+                      </lookup>
+                    </value>
+                    <worksheet>
+                      <caption value="PIP Base Rate" />
+                    </worksheet>
+                  </private>
+                  <private id="PIPSubCoveragePrivate.ClassFactor" caption="" type="float">
+                    <value>
+                      <if>
+                        <condition>
+                          <comparison compare="eq">
+                            <operand idref="VehicleInput.AssignedDriver" type="string" />
+                            <operand type="string" value="" />
+                          </comparison>
+                        </condition>
+                        <then idref="PIPSubCoveragePrivate.ThenValue" />
+                        <else idref="VehicleFactors.MedicalPaymentsClassFactor" />
+                      </if>
+                    </value>
+                  </private>
+                  <private id="PIPSubCoveragePrivate.LimitFactor" type="float">
+                    <value>
+                      <lookup>
+                        <tableRef value="PIPLimitFactors" />
+                        <fieldRef value="Factor" />
+                        <keyRef idref="PIPSubCoverageInput.Limit" type="string" name="PIP Limit" />
+                      </lookup>
+                    </value>
+                    <worksheet>
+                      <caption value="Limit Factor" />
+                    </worksheet>
+                  </private>
+                  <private id="PIPSubCoveragePrivate.ThenValue" caption="" type="float">
+                    <value value="1.00" />
+                  </private>
+                </object>
+              </object>
+              <object id="BodilyInjurySubCoverage" abstract="1">
+                <object id="BodilyInjurySubCoverageInput" abstract="1">
+                  <public id="BodilyInjurySubCoverageInput.Limit" path="limit[Type=&quot;BodilyInjury&quot;]/sValue" type="string" override="1">
+                    <definition>
+                      <caption value="BI" />
+                      <options>
+                        <option value="15/30" caption="$15/$30" />
+                        <option value="50/100" caption="$50/$100" />
+                        <option value="100/200" caption="$100/$200" />
+                        <option value="100/300" caption="$100/$300" />
+                        <option value="300/300" caption="$300/$300" />
+                        <option value="250/500" caption="$250/$500" />
+                      </options>
+                      <maxLength idref="MaxLength.Limit" />
+                    </definition>
+                    <rules>
+                      <default idref="BodilyInjuryInput.Limit" />
+                      <value idref="BodilyInjuryInput.Limit" />
+                    </rules>
+                  </public>
+                </object>
+              </object>
+              <object id="PropertyDamageSubCoverage" abstract="1">
+                <object id="PropertyDamageSubCoverageInput" abstract="1">
+                  <public id="PropertyDamageSubCoverageInput.Limit" path="limit[Type=&quot;PropertyDamage&quot;]/sValue" type="string" override="1">
+                    <definition>
+                      <caption value="PD" />
+                      <options>
+                        <option value="5" caption="$5,000" />
+                        <option value="10" caption="$10,000" />
+                        <option value="15" caption="$15,000" />
+                        <option value="20" caption="$20,000" />
+                        <option value="25" caption="$25,000" />
+                        <option value="50" caption="$50,000" />
+                        <option value="100" caption="$100,000" />
+                        <option value="150" caption="$150,000" />
+                        <option value="200" caption="$200,000" />
+                        <option value="250" caption="$250,000" />
+                      </options>
+                      <maxLength idref="MaxLength.Limit" />
+                    </definition>
+                    <rules>
+                      <default idref="PropertyDamageInput.Limit" />
+                      <value idref="PropertyDamageInput.Limit" />
+                    </rules>
+                  </public>
+                </object>
+              </object>
+              <object id="UnderInsuredMotoristsSubCoverage" abstract="1">
+                <object id="UnderInsuredMotoristsSubCoverageInput" abstract="1">
+                  <public id="UnderInsuredMotoristsSubCoverageInput.Limit" path="limit[Type=&quot;UnderInsuredMotorist&quot;]/Limit" type="string" override="1">
+                    <definition>
+                      <caption value="Underinsured Motorist" />
+                      <options>
+                        <option value="15/30" caption="$15/$30" />
+                        <option value="50/100" caption="$50/$100" />
+                        <option value="100/200" caption="$100/$200" />
+                        <option value="100/300" caption="$100/$300" />
+                        <option value="300/300" caption="$300/$300" />
+                        <option value="250/500" caption="$250/$500" />
+                        <option value="N" caption="No Coverage" />
+                      </options>
+                      <maxLength idref="MaxLength.Limit" />
+                    </definition>
+                    <rules>
+                      <default idref="UnderInsuredMotoristsInput.Limit" />
+                      <value idref="UnderInsuredMotoristsInput.Limit" />
+                    </rules>
+                  </public>
+                </object>
+              </object>
+              <object id="UninsuredMotoristsSubCoverage" abstract="1">
+                <object id="UninsuredMotoristsSubCoverageInput" abstract="1">
+                  <public id="UninsuredMotoristsSubCoverageInput.Limit" path="limit[Type=&quot;UninsuredMotorist&quot;]/sValue" type="string" override="1">
+                    <definition>
+                      <caption value="UIM" />
+                      <options>
+                        <option value="15/30" caption="$15/$30" />
+                        <option value="50/100" caption="$50/$100" />
+                        <option value="100/200" caption="$100/$200" />
+                        <option value="100/300" caption="$100/$300" />
+                        <option value="300/300" caption="$300/$300" />
+                        <option value="250/500" caption="$250/$500" />
+                        <option value="N" caption="No Coverage" />
+                      </options>
+                      <maxLength idref="MaxLength.Limit" />
+                    </definition>
+                    <rules>
+                      <default idref="UninsuredMotoristsInput.Limit" />
+                      <value idref="UninsuredMotoristsInput.Limit" />
+                    </rules>
+                  </public>
+                </object>
+              </object>
+            </object>
+            <object id="RiskOutput" abstract="1">
+              <object id="RiskPremiumTotals" abstract="1">
+                <object id="RiskPurePremiums" abstract="1">
+                  <public id="RiskPurePremiums.Premium" path="PurePremium" type="float" comment="This should include all annual premiums for the coverages that are NOT including in the policy distribution." class="excludeInChangeSummary" override="1">
+                    <definition>
+                      <caption value="Risk Pure Premiums Premium" />
+                      <maxLength idref="MaxLength.fValue" />
+                      <formatMask idref="FormatMask.PremiumPenniesDisplay" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <calculation>
+                          <argument op="eq" idref="BodilyInjurySubCoverageOutput.Premium" type="float" />
+                          <argument op="add" idref="PropertyDamageSubCoverageOutput.Premium" type="float" />
+                          <argument op="add" idref="PIPSubCoverageOutput.Premium" type="float" />
+                          <argument op="add" idref="UninsuredMotoristsSubCoverageOutput.Premium" type="float" />
+                          <argument op="add" idref="UnderInsuredMotoristsSubCoverageOutput.Premium" type="float" />
+                          <argument op="add" idref="OtherThanCollisionOutput.Premium" type="float" />
+                          <argument op="add" idref="CollisionOutput.Premium" type="float" />
+                          <argument op="add" idref="RentalReimbursementOutput.Premium" type="float" />
+                          <argument op="add" idref="TowingAndLaborOutput.Premium" type="float" />
+                        </calculation>
+                      </value>
+                    </rules>
+                    <worksheet>
+                      <comparison idref="True" type="int" />
+                      <caption value="Vehicle Premium" />
+                    </worksheet>
+                  </public>
+                  <public id="RiskPurePremiums.PremiumChange" path="PurePremium/@change" type="float" comment="This should include all change premiums for the coverages that are NOT including in the policy distribution." class="excludeInChangeSummary" override="1">
+                    <definition>
+                      <caption value="Risk Pure Premiums Premium Change" />
+                      <maxLength idref="MaxLength.fValue" />
+                      <formatMask idref="FormatMask.PremiumPenniesDisplay" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <calculation>
+                          <argument op="eq" idref="BodilyInjurySubCoverageOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="PropertyDamageSubCoverageOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="PIPSubCoverageOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="UninsuredMotoristsSubCoverageOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="UnderInsuredMotoristsSubCoverageOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="OtherThanCollisionOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="CollisionOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="RentalReimbursementOutput.PremiumChange" type="float" />
+                          <argument op="add" idref="TowingAndLaborOutput.PremiumChange" type="float" />
+                        </calculation>
+                      </value>
+                    </rules>
+                  </public>
+                  <public id="RiskPurePremiums.PremiumWritten" path="PurePremium/@written" type="float" comment="This should include all written premiums for the coverages that are NOT including in the policy distribution." class="excludeInChangeSummary" override="1">
+                    <definition>
+                      <caption value="Risk Pure Premiums Premium Written" />
+                      <maxLength idref="MaxLength.fValue" />
+                      <formatMask idref="FormatMask.PremiumPenniesDisplay" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <calculation>
+                          <argument op="eq" idref="BodilyInjurySubCoverageOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="PropertyDamageSubCoverageOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="PIPSubCoverageOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="UninsuredMotoristsSubCoverageOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="UnderInsuredMotoristsSubCoverageOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="OtherThanCollisionOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="CollisionOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="RentalReimbursementOutput.PremiumWritten" type="float" />
+                          <argument op="add" idref="TowingAndLaborOutput.PremiumWritten" type="float" />
+                        </calculation>
+                      </value>
+                      <affects>
+                        <reference idref="VehicleOutput.ClassCode" effect="postEffect" />
+                      </affects>
+                    </rules>
+                    <worksheet>
+                      <comparison idref="True" type="int" />
+                    </worksheet>
+                  </public>
+                </object>
+              </object>
+            </object>
+            <object id="RiskPrivate" abstract="1">
+              <private id="RiskPrivate.ResetMarkedForDelete" caption="" type="boolean" override="1">
+                <value idref="False" />
+                <affects>
+                  <reference idref="RiskOutput.Deleted" effect="setValue" />
+                  <reference idref="BodilyInjurySubCoverageOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="CollisionOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="MedicalPaymentsSubCoverageOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="OtherThanCollisionOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="PropertyDamageSubCoverageOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="RentalReimbursementOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="TowingAndLaborOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="UnderInsuredMotoristsSubCoverageOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="UninsuredMotoristsSubCoverageOutputNonShredded.Deleted" effect="setValue" />
+                  <reference idref="VehicleOutput.Deleted" effect="setValue" />
+                  <reference idref="VehicleOutput.FarmOperatorDiscountDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.GoodStudentDiscountDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.InexperiencedOperatorSurchargeDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.AirBagDiscountDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.AntiLockBrakeDiscountDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.AntiTheftDiscountDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.BackupCameraDiscountDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.DaytimeRunningLightsDiscountDeleted" effect="setValue" />
+                  <reference idref="VehicleOutput.PassiveRestraintDiscountDeleted" effect="setValue" />
+                  <reference idref="BodilyInjurySubCoverageOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="CollisionOutputNonShredded.DeletedDeductible" effect="setValue" />
+                  <reference idref="MedicalPaymentsSubCoverageOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="OtherThanCollisionOutputNonShredded.DeletedDeductible" effect="setValue" />
+                  <reference idref="PropertyDamageSubCoverageOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="RentalReimbursementOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="TowingAndLaborOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="UnderInsuredMotoristsSubCoverageOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="UninsuredMotoristsSubCoverageOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="PIPSubCoverageOutputNonShredded.DeletedLimit" effect="setValue" />
+                  <reference idref="PIPSubCoverageOutputNonShredded.Deleted" effect="setValue" />
+                </affects>
+              </private>
+            </object>
+          </object>
+          <object id="LineOutput" abstract="1">
+            <object id="LineSubtotals" abstract="1">
+              <object id="RiskSubTotals" abstract="1">
+                <object id="RiskTotalPurePremiums" abstract="1">
+                  <public id="RiskTotalPurePremiums.PremiumWritten" path="RiskTotalPurePremiums/@written" type="float" class="excludeInChangeSummary" override="1">
+                    <definition>
+                      <caption value="Risk Total Pure Premium Written" />
+                      <maxLength idref="MaxLength.fValue" />
+                      <formatMask idref="FormatMask.PremiumPenniesDisplay" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <iterator type="float" scope="all" action="sum" includeDeleted="1" idref="Risk">
+                          <reference idref="RiskPurePremiums.PremiumWritten" type="float" />
+                          <subtotal idref="RiskPurePremiums.Premium" type="float" subtotalRef="RiskTotalPurePremiums.Premium" />
+                          <subtotal idref="RiskPurePremiums.PremiumChange" type="float" subtotalRef="RiskTotalPurePremiums.PremiumChange" />
+                          <subtotal idref="RiskTaxesAndSurcharges.TaxesSurchargesWritten" type="float" subtotalRef="RiskTotalTaxesAndSurcharges.TaxesSurchargesWritten" />
+                          <subtotal idref="RiskTaxesAndSurcharges.TaxesSurcharges" type="float" subtotalRef="RiskTotalTaxesAndSurcharges.TaxesSurcharges" />
+                          <subtotal idref="RiskTaxesAndSurcharges.TaxesSurchargesChange" type="float" subtotalRef="RiskTotalTaxesAndSurcharges.TaxesSurchargesChange" />
+                          <subtotal idref="RiskPremiums.PremiumWritten" type="float" subtotalRef="RiskTotalPremiums.PremiumWritten" />
+                          <subtotal idref="RiskPremiums.Premium" type="float" subtotalRef="RiskTotalPremiums.Premium" />
+                          <subtotal idref="RiskPremiums.PremiumChange" type="float" subtotalRef="RiskTotalPremiums.PremiumChange" />
+                          <subtotal idref="BodilyInjurySubCoverageOutput.PremiumWritten" type="float" subtotalRef="BodilyInjuryOutput.PremiumWritten" />
+                          <subtotal idref="BodilyInjurySubCoverageOutput.PremiumChange" type="float" subtotalRef="BodilyInjuryOutput.PremiumChange" />
+                          <subtotal idref="BodilyInjurySubCoverageOutput.Premium" type="float" subtotalRef="BodilyInjuryOutput.Premium" />
+                          <subtotal idref="PropertyDamageSubCoverageOutput.PremiumWritten" type="float" subtotalRef="PropertyDamageOutput.PremiumWritten" />
+                          <subtotal idref="PropertyDamageSubCoverageOutput.PremiumChange" type="float" subtotalRef="PropertyDamageOutput.PremiumChange" />
+                          <subtotal idref="PropertyDamageSubCoverageOutput.Premium" type="float" subtotalRef="PropertyDamageOutput.Premium" />
+                          <subtotal idref="MedicalPaymentsSubCoverageOutput.PremiumWritten" type="float" subtotalRef="MedicalPaymentsOutput.PremiumWritten" />
+                          <subtotal idref="MedicalPaymentsSubCoverageOutput.PremiumChange" type="float" subtotalRef="MedicalPaymentsOutput.PremiumChange" />
+                          <subtotal idref="MedicalPaymentsSubCoverageOutput.Premium" type="float" subtotalRef="MedicalPaymentsOutput.Premium" />
+                          <subtotal idref="UninsuredMotoristsSubCoverageOutput.PremiumWritten" type="float" subtotalRef="UninsuredMotoristsOutput.PremiumWritten" />
+                          <subtotal idref="UninsuredMotoristsSubCoverageOutput.PremiumChange" type="float" subtotalRef="UninsuredMotoristsOutput.PremiumChange" />
+                          <subtotal idref="UninsuredMotoristsSubCoverageOutput.Premium" type="float" subtotalRef="UninsuredMotoristsOutput.Premium" />
+                          <subtotal idref="CollisionOutput.Premium" type="float" subtotalRef="LineCoveragesOutput.TotalCollision" />
+                          <subtotal idref="OtherThanCollisionOutput.Premium" type="float" subtotalRef="LineCoveragesOutput.TotalComprehensive" />
+                          <subtotal idref="RentalReimbursementOutput.Premium" type="float" subtotalRef="LineCoveragesOutput.TotalRental" />
+                          <subtotal idref="TowingAndLaborOutput.Premium" type="float" subtotalRef="LineCoveragesOutput.TotalTowing" />
+                          <subtotal idref="PIPSubCoverageOutput.Premium" type="float" subtotalRef="PIPOutput.Premium" />
+                          <subtotal idref="PIPSubCoverageOutput.PremiumChange" type="float" subtotalRef="PIPOutput.PremiumChange" />
+                          <subtotal idref="PIPSubCoverageOutput.PremiumWritten" type="float" subtotalRef="PIPOutput.PremiumWritten" />
+                        </iterator>
+                      </value>
+                      <affects>
+                        <reference idref="DriverAssignment.CheckDriverAssignment" effect="preEffect" />
+                      </affects>
+                    </rules>
+                    <worksheet>
+                      <comparison idref="True" type="int" />
+                      <caption value="Total Risk Premium" />
+                    </worksheet>
+                  </public>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object id="LineFunctions" abstract="1">
+            <object id="CoveragePackage" abstract="1">
+              <object id="CoveragePackageDefaults" abstract="1">
+                <private id="CoveragePackageDefaults.SetCurrentValues" caption="" type="string" path="SetCurrentValues" override="1">
+                  <affects>
+                    <reference idref="BodilyInjuryPrivate.SetCurrentLimit" effect="postEffect" />
+                    <reference idref="PIPPrivate.SetCurrentLimit" effect="postEffect" />
+                    <reference idref="PropertyDamagePrivate.SetCurrentLimit" effect="postEffect" />
+                    <reference idref="UninsuredMotoristsPrivate.SetCurrentLimit" effect="postEffect" />
+                    <reference idref="UnderInsuredMotoristsPrivate.SetCurrentLimit" effect="postEffect" />
+                    <reference idref="CoveragePackageDefaults.SetCurrentRiskValues" effect="postEffect" />
+                  </affects>
+                </private>
+                <private id="CoveragePackageDefaults.SetLiabilityCoverageDefaults" caption="" type="string" override="1">
+                  <value value="" />
+                  <affects>
+                    <reference idref="BodilyInjuryPrivate.SetDefault" effect="postEffect" />
+                    <reference idref="PIPPrivate.SetDefault" effect="postEffect" />
+                    <reference idref="PropertyDamagePrivate.SetDefault" effect="postEffect" />
+                    <reference idref="UninsuredMotoristsPrivate.SetDefault" effect="postEffect" />
+                    <reference idref="UnderInsuredMotoristsPrivate.SetDefault" effect="postEffect" />
+                  </affects>
+                </private>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <table id="BasePremiums" tableType="local" separator="," override="1">
+        <fields>
+          <field type="int" name="BI" />
+          <field type="int" name="PD" />
+          <field type="int" name="MP" />
+          <field type="int" name="OTC" />
+          <field type="int" name="Coll" />
+          <field type="int" name="PIP" />
+        </fields>
+        <rowKeys name="Territory" type="int" find="eq">
+          <key value="1" default="1" />
+          <key value="2" />
+          <key value="3" />
+          <key value="4" />
+          <key value="5" />
+          <key value="6" />
+          <key value="8" />
+          <key value="9" />
+        </rowKeys>
+        <data>
+          <row value="308,58,19,95,211,19" />
+          <row value="135,26,19,84,141,19" />
+          <row value="176,35,22,108,180,22" />
+          <row value="131,26,19,84,122,19" />
+          <row value="155,28,19,87,128,19" />
+          <row value="180,35,22,108,211,22" />
+          <row value="131,26,19,84,132,19" />
+          <row value="145,28,21,92,146,21" />
+        </data>
+      </table>
+      <table id="PIPLimitFactors" tableType="local" separator=",">
+        <fields>
+          <field type="int" name="Factor" />
+        </fields>
+        <rowKeys name="PIP Limit" type="int" find="eq">
+          <key value="5000" caption="" />
+          <key value="10000" caption="" />
+          <key value="15000" caption="" />
+          <key value="20000" caption="" />
+          <key value="25000" caption="" />
+        </rowKeys>
+        <data>
+          <row value="1.00" />
+          <row value="1.20" />
+          <row value="1.49" />
+          <row value="2.20" />
+          <row value="2.40" />
+        </data>
+      </table>
+      <table id="CoverageDefaults" tableType="local" separator="," override="1">
+        <fields>
+          <field type="int" name="BI" />
+          <field type="int" name="PD" />
+          <field type="int" name="OTC" />
+          <field type="int" name="COLL" />
+          <field type="int" name="MED" />
+          <field type="int" name="Rental" />
+          <field type="int" name="TowingLabor" />
+          <field type="int" name="UM" />
+          <field type="int" name="UIM" />
+          <field type="int" name="PIP" />
+        </fields>
+        <rowKeys name="Coverage Package" type="string" find="eq">
+          <key value="Liability" />
+          <key value="Economy" />
+          <key value="Common" />
+          <key value="Plus" />
+          <key value="Custom" />
+        </rowKeys>
+        <data>
+          <row value="15/30,5,N,N,1000,N,N,15/30,15/30,5000" />
+          <row value="100/200,20,1000,1500,2000,N,N,100/200,100/200,10000" />
+          <row value="100/300,100,250,250,5000,25/750,25,100/300,100/300,15000" />
+          <row value="250/500,250,0,100,10000,30/900,75,250/500,250/500,20000" />
+          <row value="100/200,20,1000,1500,2000,N,N,100/200,100/200,25000" />
+        </data>
+      </table>
+      <table id="BILimitFactor" tableType="local" override="1">
+        <fields>
+          <field type="int" name="factor" />
+        </fields>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="15/30" caption="" />
+          <key value="50/100" caption="" />
+          <key value="100/200" caption="" />
+          <key value="100/300" caption="" />
+          <key value="300/300" caption="" />
+          <key value="250/500" caption="" />
+        </rowKeys>
+        <data>
+          <row value="1.00" />
+          <row value="1.24" />
+          <row value="1.44" />
+          <row value="1.45" />
+          <row value="1.64" />
+          <row value="1.63" />
+          <row value="1.00" />
+        </data>
+      </table>
+      <table id="PDLimitFactor" tableType="local" override="1">
+        <fields>
+          <field type="int" name="factor" />
+        </fields>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="5" caption="" />
+          <key value="15" caption="" />
+          <key value="20" caption="" />
+          <key value="25" caption="" />
+          <key value="50" caption="" />
+          <key value="100" caption="" />
+          <key value="150" caption="" />
+          <key value="200" caption="" />
+          <key value="250" caption="" />
+        </rowKeys>
+        <data>
+          <row value="1.01" />
+          <row value="1.02" />
+          <row value="1.03" />
+          <row value="1.04" />
+          <row value="1.07" />
+          <row value="1.11" />
+          <row value="1.14" />
+          <row value="1.16" />
+          <row value="1.18" />
+        </data>
+      </table>
+      <table id="PDMaximumLimits" tableType="local" override="1">
+        <fields>
+          <field type="int" name="Limit" />
+        </fields>
+        <rowKeys name="Bodily Injury Limit" type="string" find="eq">
+          <key value="15/30" caption="" />
+          <key value="50/100" caption="" />
+          <key value="100/200" caption="" />
+          <key value="100/300" caption="" />
+          <key value="300/300" caption="" />
+          <key value="250/500" caption="" />
+          <key value="Other" default="1" caption="" />
+        </rowKeys>
+        <data>
+          <row value="25" />
+          <row value="50" />
+          <row value="100" />
+          <row value="100" />
+          <row value="250" />
+          <row value="250" />
+          <row value="25" />
+        </data>
+      </table>
+      <table id="PDValidLimits" tableType="local" override="1">
+        <fields>
+          <field type="int" name="Limit" />
+        </fields>
+        <rowKeys name="Bodily Injury Limit" type="string" find="eq">
+          <key value="15/30" caption="" />
+          <key value="50/100" caption="" />
+          <key value="100/200" caption="" />
+          <key value="100/300" caption="" />
+          <key value="300/300" caption="" />
+          <key value="250/500" caption="" />
+          <key value="Other" default="1" caption="" />
+        </rowKeys>
+        <colKeys name="Property Damage Limit" type="int" find="eq">
+          <key value="5" caption="" />
+          <key value="10" caption="" />
+          <key value="15" caption="" />
+          <key value="20" caption="" />
+          <key value="25" caption="" />
+          <key value="50" caption="" />
+          <key value="100" caption="" />
+          <key value="150" caption="" />
+          <key value="200" caption="" />
+          <key value="250" caption="" />
+        </colKeys>
+        <data>
+          <row value="1,1,1,1,1,0,0,0,0,0" />
+          <row value="1,1,1,1,1,1,0,0,0,0" />
+          <row value="1,1,1,1,1,1,1,0,0,0" />
+          <row value="1,1,1,1,1,1,1,0,0,0" />
+          <row value="1,1,1,1,1,1,1,1,1,1" />
+          <row value="1,1,1,1,1,1,1,1,1,1" />
+          <row value="0,0,0,0,0,0,0,0,0,0" />
+        </data>
+      </table>
+      <table id="UIMBaseRate" tableType="local" override="1">
+        <fields>
+          <field type="int" name="rate" />
+        </fields>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="N" caption="" />
+          <key value="15/30" caption="" />
+          <key value="50/100" caption="" />
+          <key value="100/200" caption="" />
+          <key value="100/300" caption="" />
+          <key value="300/300" caption="" />
+          <key value="250/500" caption="" />
+        </rowKeys>
+        <data>
+          <row value="0" />
+          <row value="15" />
+          <row value="18" />
+          <row value="19" />
+          <row value="21" />
+          <row value="23" />
+          <row value="25" />
+        </data>
+      </table>
+      <table id="UMBaseRate" tableType="local" override="1">
+        <fields>
+          <field type="int" name="rate" />
+        </fields>
+        <rowKeys name="Limit" type="string" find="eq">
+          <key value="N" caption="" />
+          <key value="15/30" caption="" />
+          <key value="50/100" caption="" />
+          <key value="100/200" caption="" />
+          <key value="100/300" caption="" />
+          <key value="300/300" caption="" />
+          <key value="250/500" caption="" />
+        </rowKeys>
+        <data>
+          <row value="0" />
+          <row value="13" />
+          <row value="15" />
+          <row value="16" />
+          <row value="18" />
+          <row value="20" />
+          <row value="22" />
+          <row value="13" />
+        </data>
+      </table>
+    </object>
+  </model>
+  <revisions />
+  <topics>
+    <topic name="QuoteSummary" abstract="1">
+      <page name="QuoteSummaryRightPanel" caption="Quote Summary" pageVersion="2" metaPage="1" position="rightpanel" prevPage="" override="1">
+        <group object="data" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat">
+            <section direction="down" captionPosition="before" showCaption="repeat" caption="Your policy totals" />
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat" fldClass="x_FloatRight" readOnly="1">
+              <reference idref="LineOutputNonShredded.NumberOfDrivers" compute="1" />
+              <reference idref="LineOutputNonShredded.NumberOfVehicles" compute="1" />
+            </tableLayout>
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat" readOnly="1" class="x_MarginTop25" fldClass="x_AlignRight">
+              <reference idref="BodilyInjuryOutput.Premium" />
+              <reference idref="PropertyDamageOutput.Premium" />
+              <reference idref="UninsuredMotoristsOutput.Premium" />
+              <reference idref="MedicalPaymentsOutput.Premium" />
+              <nameValues />
+              <reference idref="PIPOutput.Premium" />
+            </tableLayout>
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat" readOnly="1" fldClass="x_AlignRight" class="x_BorderBottomThin">
+              <reference idref="LineCoveragesOutput.TotalComprehensive" />
+              <reference idref="LineCoveragesOutput.TotalCollision" />
+              <reference idref="LineCoveragesOutput.TotalTowing" />
+              <reference idref="LineCoveragesOutput.TotalRental" />
+            </tableLayout>
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat" readOnly="1" class="x_MarginTop25 x_RemoveMinHeight">
+              <reference idref="LinePremiums.Premium" caption="Total:" fldClass="x_AlignRight" />
+            </tableLayout>
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat" class="x_RemoveMinHeight">
+              <reference idref="Spacer" caption="(for six months)" capClass="x_FontXSmall x_Italic x_AlignRight" />
+            </tableLayout>
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat" readOnly="1" class="x_MarginTop15 x_RemoveMinHeight">
+              <reference idref="LineOutputNonShredded.LinePremiumOneMonth" compute="1" caption=" " fldClass="x_AlignRight" />
+            </tableLayout>
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat" class="x_RemoveMinHeight">
+              <reference idref="Spacer" caption="(per month)" capClass="x_AlignRight x_FontXSmall x_Italic" />
+            </tableLayout>
+            <tableLayout direction="down" captionPosition="before" showCaption="repeat">
+              <action command="custom" validRef="PolicyPrivate.ShowPurchaseThisPolicy" caption="Continue">
+                <nameValues>
+                  <nameValue value="1" name="ignoreValidation" />
+                  <nameValue idref="True" name="processingMsg" />
+                  <nameValue value="PolicyPrivate.BuyPolicyMessage" name="preEventField" />
+                  <nameValue value="control_play.png" name="icon" />
+                  <nameValue value="right" name="iconPosition" />
+                  <nameValue value="lightGreen" name="type" />
+                  <nameValue value="1" name="preEventFieldAlertOnly" />
+                  <nameValue idref="PolicyAdmin.ConsumerDashboardManuScriptID" name="manuscript" />
+                </nameValues>
+                <request verb="OnlineData.storePolicyRq">
+                  <nameValues>
+                    <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="manuScriptID" dataType="attribute" />
+                  </nameValues>
+                </request>
+              </action>
+              <action command="custom" caption="Save for later" displayType="hyperlink">
+                <nameValues>
+                  <nameValue value="1" name="ignoreValidation" />
+                  <nameValue value="PolicyPrivate.SaveForLaterMessage" name="preEventField" />
+                  <nameValue value="1" name="preEventFieldAlertOnly" />
+                  <nameValue value="disk.png" name="icon" />
+                </nameValues>
+                <request verb="OnlineData.storePolicyRq">
+                  <nameValues>
+                    <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="manuScriptID" dataType="attribute" />
+                  </nameValues>
+                </request>
+                <request verb="Session.resumeRq">
+                  <nameValues>
+                    <nameValue value="" name="sessionID" dataType="attribute" />
+                  </nameValues>
+                </request>
+                <request verb="Session.closeRq" />
+              </action>
+            </tableLayout>
+            <nameValues>
+              <nameValue value="MinimalLightGray" name="cc" />
+            </nameValues>
+          </section>
+        </group>
+      </page>
+    </topic>
+    <topic name="MainInterview" abstract="1">
+      <page name="Coverage" caption="Pricing &amp; Coverage" pageVersion="2.0" validRef="CoveragePage.Show" override="1" prevPage="ClaimsHistory" worksheet="False" idref="ExecutePremiums.Value" calculate="2">
+        <group object="data" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat">
+            <group iterMax="*" iterStep="1" object="Policy">
+              <section direction="down" captionPosition="before" showCaption="repeat">
+                <group iterMax="*" iterStep="1" object="Line">
+                  <section direction="down" captionPosition="before" showCaption="none" cc="WhiteRounded" icon="coins.png" caption="Pricing">
+                    <section direction="down" captionPosition="above" showCaption="repeat">
+                      <nameValues />
+                      <tableLayout direction="across" captionPosition="above" showCaption="once" captionClass="x_BackgroundLightGray">
+                        <reference idref="Spacer" fldClass="x_Width5" />
+                        <reference idref="Spacer" caption="Coverage Package Options:" />
+                      </tableLayout>
+                      <section direction="across" captionPosition="before" showCaption="repeat">
+                        <section direction="down" captionPosition="before" showCaption="repeat" caption="Coverage Calculator" icon="calculator.png">
+                          <nameValues />
+                        </section>
+                      </section>
+                      <tableLayout direction="across" captionPosition="above" showCaption="none">
+                        <section direction="across" captionPosition="before" showCaption="repeat">
+                          <reference idref="CoveragePackageDefaults.SetCurrentValues" compute="1" />
+                          <widget widgetType="comparison" showCaption="repeat" widgetFormat="slider" idref="CoveragePackage.Value" affectedValueRef="data.TotalPremiumChange" onBlur="1" affectedRatingRef="CoveragePackage.Execute" formatMaskOverride="$???,???,???.00" widgetName=" " caption=" " restoreSession="1" class="x_PaddingBottom20 x_PaddingLeft10" />
+                        </section>
+                        <section direction="down" captionPosition="before" showCaption="repeat">
+                          <reference idref="Spacer" />
+                          <reference idref="PolicyPurePremiums.Premium" caption="Policy Premium (every six months):" capClass="x_Italic x_Bold x_Width150" fldClass="x_Bold" />
+                          <action command="goto" caption="Side-By-Side Comparison" pageRef="Shopping" topic="Shopping">
+                            <nameValues>
+                              <nameValue value="GenerateShopping.Value" name="preEventField" />
+                            </nameValues>
+                          </action>
+                        </section>
+                      </tableLayout>
+                    </section>
+                    <section direction="down" captionPosition="before" showCaption="repeat">
+                      <section direction="down" captionPosition="before" showCaption="repeat">
+                        <tableLayout direction="across" captionPosition="above" showCaption="repeat" caption="Policy Coverage" capClass="x_Width150 x_Bold x_BorderLightGray" fldClass="x_Width200 x_BorderLightGray">
+                          <reference idref="BodilyInjuryInput.Limit" onBlur="1" caption=" Bodily Injury">
+                            <nameValues />
+                          </reference>
+                          <reference idref="PropertyDamageInput.Limit" onBlur="1" caption="Property Damage">
+                            <nameValues />
+                          </reference>
+                          <nameValues>
+                            <nameValue idref="CoveragePackagePrivate.IsNotCustom" name="readOnly" />
+                          </nameValues>
+                          <reference idref="PIPInput.Limit" caption="PIP" />
+                          <reference idref="UninsuredMotoristsInput.Limit" caption="Uninsured Motorists" onBlur="1">
+                            <nameValues />
+                          </reference>
+                          <reference idref="UnderInsuredMotoristsInput.Limit" onBlur="1" caption="Underinsured Motorists" />
+                        </tableLayout>
+                        <tableLayout direction="across" captionPosition="before" showCaption="repeat" class="x_BorderTop x_BorderBottom x_BackgroundLightGray x_MarginTop">
+                          <section direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width250">
+                            <reference idref="PolicyInput.Homeowner" onBlur="1" capClass="x_Width300" />
+                          </section>
+                          <section direction="down" captionPosition="before" showCaption="repeat" validRef="Context.IsUnderwriter" capClass="x_Width150">
+                            <reference idref="LineInputNonShredded.ManualDriverAssignment" onBlur="1" compute="1" />
+                          </section>
+                        </tableLayout>
+                        <nameValues />
+                      </section>
+                    </section>
+                    <section direction="down" captionPosition="before" showCaption="repeat">
+                      <group iterMax="*" iterStep="1" object="Risk">
+                        <section direction="down" captionPosition="before" showCaption="repeat" caption="Vehicle Coverage">
+                          <section direction="down" captionPosition="before" showCaption="repeat" collapsible="1">
+                            <section direction="across" captionPosition="before" showCaption="repeat" class="x_BorderTop x_BorderBottom x_BackgroundLightGray">
+                              <reference idref="VehicleInput.AssignedDriver" caption="Assigned Driver" onBlur="1" fldClass="x_Width190" capClass="x_Width100" />
+                              <reference idref="VehicleInputNonShredded.LiabilityOnly" caption="Liability Only" capClass="x_Width80" compute="0" onBlur="1">
+                                <nameValues>
+                                  <nameValue idref="CoveragePackagePrivate.IsLiability" name="readOnly" />
+                                </nameValues>
+                              </reference>
+                            </section>
+                            <tableLayout direction="across" captionPosition="before" showCaption="repeat">
+                              <tableLayout direction="down" captionPosition="before" showCaption="repeat" readOnly="1" capClass="x_Width75" fldClass="x_Width75">
+                                <reference idref="BodilyInjurySubCoverageInput.Limit" caption="Bodily Injury">
+                                  <nameValues />
+                                </reference>
+                                <reference idref="PropertyDamageSubCoverageInput.Limit" caption="Property Damage">
+                                  <nameValues />
+                                </reference>
+                                <reference idref="PIPSubCoverageInput.Limit" />
+                                <reference idref="UninsuredMotoristsSubCoverageInput.Limit" caption="Uninsured Motorist">
+                                  <nameValues />
+                                </reference>
+                                <reference idref="UnderInsuredMotoristsSubCoverageInput.Limit" />
+                              </tableLayout>
+                              <tableLayout direction="down" captionPosition="before" showCaption="none" fldClass="x_AlignRight x_Width50" class="x_Width50">
+                                <reference idref="BodilyInjurySubCoverageOutput.Premium" />
+                                <reference idref="PropertyDamageSubCoverageOutput.Premium" />
+                                <reference idref="PIPSubCoverageOutput.Premium" />
+                                <reference idref="UninsuredMotoristsSubCoverageOutput.Premium" />
+                                <reference idref="UnderInsuredMotoristsSubCoverageOutput.Premium" />
+                              </tableLayout>
+                              <tableLayout direction="down" captionPosition="before" showCaption="repeat" class="x_Width15">
+                                <reference idref="Spacer" />
+                              </tableLayout>
+                              <tableLayout direction="across" captionPosition="above" showCaption="repeat">
+                                <tableLayout direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width80 x_Height20" fldClass="x_Height20" validRef="VehiclePrivate.LiabilityOnlyFalseAndCoveragePackageIsCustom">
+                                  <widget widgetType="comparison" showCaption="repeat" widgetFormat="extended" idref="OtherThanCollisionInput.Deductible" affectedValueRef="OtherThanCollisionOutput.Premium" caption="Comprehensive" onBlur="1">
+                                    <nameValues />
+                                  </widget>
+                                  <widget widgetType="comparison" showCaption="repeat" widgetFormat="extended" caption="Collision" idref="CollisionInput.Deductible" affectedValueRef="CollisionOutput.Premium" onBlur="1">
+                                    <nameValues />
+                                  </widget>
+                                  <widget widgetType="comparison" showCaption="repeat" widgetFormat="extended" idref="TowingAndLaborInput.Limit" affectedValueRef="TowingAndLaborOutput.Premium" caption="Towing" onBlur="1">
+                                    <nameValues />
+                                  </widget>
+                                  <widget widgetType="comparison" showCaption="repeat" widgetFormat="extended" idref="RentalReimbursementInput.Limit" affectedValueRef="RentalReimbursementOutput.Premium" caption="Rental" onBlur="1">
+                                    <nameValues />
+                                  </widget>
+                                  <nameValues />
+                                </tableLayout>
+                                <tableLayout direction="down" captionPosition="before" showCaption="repeat" capClass="x_Width80" fldClass="x_Width80" readOnly="1" validRef="VehiclePrivate.LiabilityOnlyOrCoveragePackageIsNotCustom">
+                                  <nameValues />
+                                  <reference idref="OtherThanCollisionInput.Deductible" caption="Comprehensive" />
+                                  <reference idref="CollisionInput.Deductible" caption="Collision" />
+                                  <reference idref="TowingAndLaborInput.Limit" caption="Towing" />
+                                  <reference idref="RentalReimbursementInput.Limit" caption="Rental" />
+                                </tableLayout>
+                                <tableLayout direction="down" captionPosition="before" showCaption="none">
+                                  <reference idref="OtherThanCollisionOutput.Premium" fldClass="x_AlignRight" />
+                                  <reference idref="CollisionOutput.Premium" fldClass="x_AlignRight" />
+                                  <reference idref="TowingAndLaborOutput.Premium" fldClass="x_AlignRight" />
+                                  <reference idref="RentalReimbursementOutput.Premium" fldClass="x_AlignRight" />
+                                </tableLayout>
+                              </tableLayout>
+                            </tableLayout>
+                            <nameValues>
+                              <nameValue idref="VehicleOutputNonShredded.YearMakeModelDisplay" name="toggleCaption" />
+                            </nameValues>
+                          </section>
+                          <nameValues />
+                        </section>
+                      </group>
+                      <nameValues />
+                    </section>
+                    <nameValues />
+                  </section>
+                </group>
+                <nameValues />
+              </section>
+            </group>
+            <nameValues />
+            <section direction="down" captionPosition="before" showCaption="repeat" caption="Forms" icon="page.png" cc="WhiteRounded">
+              <section direction="across" captionPosition="before" showCaption="repeat">
+                <reference idref="PolicyAdmin.UseDCTFormsAndMessages" onBlur="1" />
+                <action command="custom" validRef="PricingPage.ShowWorksheetButton" caption="Rating Worksheet">
+                  <nameValues>
+                    <nameValue value="printjob:Worksheet" name="PDFPage" />
+                    <nameValue idref="True" name="suppressRefresh" />
+                  </nameValues>
+                </action>
+                <action command="custom" caption="Quote Letter" validRef="PolicyPrivate.IsQuote">
+                  <nameValues>
+                    <nameValue value="printjob:Quote" name="PDFPage" />
+                    <nameValue idref="True" name="suppressRefresh" />
+                  </nameValues>
+                </action>
+                <action command="custom" caption="Application" validRef="PolicyPrivate.IsApplication">
+                  <nameValues>
+                    <nameValue value="printjob:Application" name="PDFPage" />
+                    <nameValue idref="True" name="suppressRefresh" />
+                  </nameValues>
+                </action>
+                <action command="custom" caption="View All Forms" validRef="PolicyAdmin.UseDCTFormsAndMessages">
+                  <nameValues>
+                    <nameValue value="previewAsyncPrintJob" name="postAction" />
+                    <nameValue idref="PrintingAndForms.PrintJobNames" name="printJob" />
+                    <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="printJobManuScript" />
+                  </nameValues>
+                </action>
+              </section>
+              <nameValues />
+            </section>
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="CoveragePage.ReadOnly" name="readOnly" />
+          <nameValue idref="True" name="calculate" />
+        </nameValues>
+      </page>
+    </topic>
+  </topics>
+</ManuScript>

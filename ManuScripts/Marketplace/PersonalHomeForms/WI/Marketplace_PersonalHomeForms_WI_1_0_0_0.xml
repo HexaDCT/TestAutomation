@@ -1,0 +1,22 @@
+﻿<ManuScript>
+  <properties manuscriptID="Marketplace_PersonalHomeForms_WI_1_0_0_0" versionID="Marketplace_PersonalHomeForms_WI_1_0_0_0" versionDate="2017-07-19" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="English (United States)" caption="Personal Home Forms (WI 1.0.0.0)" inherited="Marketplace_PersonalHome_WI_1_0_0_0" inheritedForm="Carrier_ProductBase_PersonalHomeForms_1_0_0_0" image="" usePersistedState="0" dataSchema="">
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalHomeForms" />
+      <keyInfo name="state" value="WI" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Forms" />
+      <keyInfo name="cultures" value="" />
+      <keyInfo name="currencyCodes" value="None" />
+      <keyInfo name="states" value="None" />
+      <keyInfo name="type" value="None" />
+      <keyInfo name="layer" value="DuckCreek" />
+    </keys>
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+    <notes />
+  </properties>
+  <model defaultValue="data.TotalResult" />
+</ManuScript>

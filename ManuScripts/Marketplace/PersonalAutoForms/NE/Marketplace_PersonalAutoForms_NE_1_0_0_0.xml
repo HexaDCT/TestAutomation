@@ -1,0 +1,22 @@
+﻿<ManuScript>
+  <properties manuscriptID="Marketplace_PersonalAutoForms_NE_1_0_0_0" versionID="Marketplace_PersonalAutoForms_NE_1_0_0_0" versionDate="2009-03-13" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="English (United States)" caption="Personal Auto Forms (NE 1.0.0.0)" inherited="Marketplace_PersonalAuto_NE_1_0_0_0" image="" dataSchema="" usePersistedState="0" inheritedForm="Carrier_ProductBase_PersonalAutoForms_1_0_0_0">
+    <notes />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalAutoForms" />
+      <keyInfo name="state" value="NE" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Forms" />
+      <keyInfo name="cultures" value="" />
+      <keyInfo name="currencyCodes" value="" />
+      <keyInfo name="states" value="None" />
+      <keyInfo name="type" value="None" />
+      <keyInfo name="layer" value="DuckCreek" />
+    </keys>
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+  </properties>
+  <model defaultValue="data.TotalResult" />
+</ManuScript>

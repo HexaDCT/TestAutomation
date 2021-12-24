@@ -1,0 +1,259 @@
+﻿<ManuScript>
+  <properties manuscriptID="Carrier_ProductBase_PersonalAuto_1_0_0_0" versionID="Carrier_ProductBase_PersonalAuto" versionDate="2009-03-13" version="1" boolean="1" fieldCache="1" shortCircuitCond="1" cultureCode="en-US" cultureName="United States [english]" caption="Personal Auto (1.0.0.0)" inherited="DCT_Marketplace_PersonalAuto_1_0_0_0" image="" dataSchema="" usePersistedState="0">
+    <notes />
+    <keys>
+      <keyInfo name="family" value="Marketplace" />
+      <keyInfo name="lob" value="PersonalAuto" />
+      <keyInfo name="state" value="US" />
+      <keyInfo name="version" value="1.0.0.0" />
+      <keyInfo name="effectiveDateNew" value="2009-01-01" />
+      <keyInfo name="effectiveDateRenewal" value="2009-01-01" />
+      <keyInfo name="masterID" value="None" />
+      <keyInfo name="productCode" value="Pages, ViewModel" />
+      <keyInfo name="role" value="None" />
+    </keys>
+    <contexts inherited="DCT_ProductBase_1_0_0_0" />
+  </properties>
+  <model>
+    <object id="data" abstract="1">
+      <object id="Policy" abstract="1">
+        <object id="Line" abstract="1">
+          <object id="Driver" abstract="1">
+            <object id="DriverInput" abstract="1">
+              <public id="DriverInput.EducationalQualification" path="EducationalQualification" type="string">
+                <definition>
+                  <caption value="Educational Qualification" />
+                  <options>
+                    <option value="PostGraduate" caption="Post Graduate" />
+                    <option value="Graduate" caption="Graduate" />
+                    <option value="PhD" caption="Ph. D" />
+                    <option value="HighSchool" caption="High School" />
+                  </options>
+                  <required idref="True" />
+                  <formatMask idref="FormatMask.BlankOption" />
+                </definition>
+                <rules>
+                  <value>
+                    <iterator type="string" scope="all" action="count" idref="Driver" />
+                  </value>
+                </rules>
+              </public>
+              <public id="DriverInput.Message" path="Message" type="string">
+                <definition>
+                  <caption value="Message" />
+                </definition>
+                <rules>
+                  <value value="Notification" />
+                </rules>
+              </public>
+            </object>
+          </object>
+          <object id="Risk" abstract="1">
+            <object id="Vehicle" abstract="1">
+              <object id="VehicleInput" abstract="1">
+                <public id="VehicleInput.IsVehicleUsedForCarpooling" type="string" comment="" path="VehicleInputIsVehicleUsedForCarpooling">
+                  <definition>
+                    <caption value="Is Vehicle Used For Carpooling?" />
+                    <formatMask idref="FormatMask.BlankOption" />
+                    <options>
+                      <option value="No" caption="No" />
+                      <option value="Regular" caption="Regular" />
+                      <option value="Occasional" caption="Occasional" />
+                    </options>
+                    <required idref="True" />
+                  </definition>
+                </public>
+              </object>
+            </object>
+            <object id="RiskCoverages" abstract="1">
+              <object id="BodilyInjurySubCoverage" abstract="1">
+                <object id="BodilyInjurySubCoverageOutput" abstract="1">
+                  <public id="BodilyInjurySubCoverageOutput.Premium" path="Premium" type="float" alwaysRun="1" class="Premium:excludeChangeSummary" override="1">
+                    <definition>
+                      <caption value="Bodily Injury" />
+                      <maxLength value="12" />
+                      <formatMask idref="FormatMask.Premium" />
+                      <readOnly idref="True" />
+                    </definition>
+                    <rules>
+                      <value>
+                        <if>
+                          <condition>
+                            <comparison compare="eq">
+                              <operand idref="BodilyInjurySubCoverageInput.Indicator" type="boolean" />
+                              <operand idref="False" type="int" />
+                            </comparison>
+                          </condition>
+                          <then value="0" />
+                          <else>
+                            <calculation>
+                              <argument op="eq">
+                                <calculation>
+                                  <argument op="eq" idref="BodilyInjurySubCoveragePrivate.BasePremium" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="BodilyInjurySubCoveragePrivate.ClassFactor" type="float" />
+                                  <argument op="multiply" idref="VehicleFactors.ViolationFactor" type="float" />
+                                  <argument op="multiply" idref="VehicleOutput.InexperiencedOperatorSurcharge" type="float" />
+                                  <argument op="multiply" idref="VehicleOutput.GoodStudentDiscount" type="float" />
+                                  <argument op="multiply" idref="VehicleOutput.FarmOperatorDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="VehicleOutput.AirBagDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="VehicleOutput.AntiTheftDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="VehicleOutput.AntiLockBrakeDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="VehicleOutput.PassiveRestraintDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="VehicleOutput.BackupCameraDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="VehicleOutput.DaytimeRunningLightsDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="Term.TermFactor" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="CreditsAndSurcharges.PaidInFullDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="CreditsAndSurcharges.HomeownerDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="LineDiscountsAndSurcharges.MultiCarDiscount" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="LinePrivate.CreditScoreFactor" type="float" />
+                                  <argument op="multiply" round="1" roundType="round" idref="LinePrivate.TierFactor" type="float" />
+                                </calculation>
+                              </argument>
+                            </calculation>
+                          </else>
+                        </if>
+                      </value>
+                    </rules>
+                    <worksheet>
+                      <comparison idref="True" type="int" />
+                      <caption value="Bodily Injury Premium" />
+                      <summarize idref="True" />
+                    </worksheet>
+                  </public>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object id="PolicyAdmin" abstract="1">
+        <public id="PolicyAdmin.UseDCTTasks" path="UseDCTTasks" type="boolean" override="1">
+          <definition>
+            <caption value="Use DCT Task Creation" />
+          </definition>
+          <rules>
+            <value value="0" />
+          </rules>
+        </public>
+        <public id="PolicyAdmin.UseDCTBilling" path="UseDCTBilling" type="boolean" override="1">
+          <definition>
+            <caption value="Policy Admin Use DCT Billing" />
+          </definition>
+          <rules>
+            <value value="0" />
+          </rules>
+        </public>
+      </object>
+    </object>
+  </model>
+  <topics>
+    <topic name="MainInterview" abstract="1">
+    </topic>
+    <topic name="Consumer" abstract="1">
+      <page name="Driver" pageVersion="2" prevPage="Household" caption="Driver(s)" override="1">
+        <group object="Line" iterMax="*" iterStep="1">
+          <section direction="down" captionPosition="before" showCaption="repeat" caption="Tell us about your drivers">
+            <section direction="across" captionPosition="before" showCaption="repeat">
+              <reference idref="Spacer" caption="Help us give you the most accurate quote by providing the following special details about your drivers. You can add up to 4 drivers to your policy online" />
+            </section>
+            <section direction="down" captionPosition="before" showCaption="repeat">
+              <reference idref="LinePrivate.SetupForFirstDriver" compute="1" />
+              <action command="custom" caption="Add another driver" displayType="action" validRef="LinePrivate.MultipleDriver">
+                <nameValues />
+                <request verb="ManuScript.addObjectRecordRq">
+                  <nameValues>
+                    <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="manuscript" dataType="attribute" />
+                    <nameValue value="Driver" name="objectID" dataType="attribute" />
+                  </nameValues>
+                </request>
+              </action>
+              <section direction="down" captionPosition="before" showCaption="repeat" validRef="LinePrivate.MultipleDriver">
+                <group iterMax="*" iterStep="1" object="Driver">
+                  <section direction="down" captionPosition="above" showCaption="repeat">
+                    <section direction="down" captionPosition="above" showCaption="repeat" readOnly="1" cc="WhiteRounded">
+                      <tableLayout direction="across" captionPosition="above" showCaption="repeat" readOnly="1">
+                        <reference idref="DriverInput.DriversLicenseNumber" />
+                        <reference idref="DriverInput.DateOfBirth" />
+                      </tableLayout>
+                      <nameValues>
+                        <nameValue idref="DriverOutputNonShredded.Description" name="panelHeader" />
+                      </nameValues>
+                      <section direction="across" captionPosition="before" showCaption="repeat">
+                        <reference idref="Spacer" />
+                        <action command="specificIter" caption="Edit" pageRef="DriverDetail" topic="DriverDetail" displayType="action">
+                          <nameValues />
+                        </action>
+                        <action command="markForDelete" caption="Delete">
+                          <nameValues />
+                        </action>
+                      </section>
+                    </section>
+                    <nameValues />
+                  </section>
+                </group>
+                <nameValues />
+              </section>
+              <section direction="down" captionPosition="before" showCaption="repeat" validRef="LinePrivate.SingleDriver" cc="LightPanel">
+                <group iterStep="1" object="Driver" iterMax="*" validRef="DriverInput.Included">
+                  <section direction="across" captionPosition="before" showCaption="repeat">
+                    <section direction="down" captionPosition="before" showCaption="repeat" caption="Driver Information">
+                      <section direction="down" captionPosition="above" showCaption="repeat" fldClass="x_InputWidth215">
+                        <reference idref="DriverInput.FirstName" caption="First Name:" capClass="x_Width180" onBlur="1" />
+                        <reference idref="DriverInput.MiddleName" fldClass="x_MiddleInitialField" onBlur="1" caption="Middle:" />
+                        <reference idref="DriverInput.LastName" caption="Last Name:" onBlur="1" />
+                        <reference idref="DriverInput.Gender" caption="Gender:" />
+                        <reference idref="DriverInput.DateOfBirth" onBlur="1" compute="1" caption="Birth Date:" />
+                        <reference idref="DriverInput.MaritalStatus" onBlur="1" caption="Marital Status:" />
+                        <reference idref="DriverPrivate.FirstNameLastName" compute="1" />
+                      </section>
+                      <section direction="down" captionPosition="above" showCaption="repeat" fldClass="x_InputWidth215">
+                        <reference idref="DriverInput.RelationToApplicant" caption="Relation to Applicant:">
+                          <nameValues>
+                            <nameValue idref="DriverPrivate.IsPrimaryDriver" name="eliminate" />
+                          </nameValues>
+                        </reference>
+                        <reference idref="DriverInput.DriversLicenseState" />
+                        <reference idref="DriverInput.DateLicensed" caption="Date Licensed:" />
+                        <reference idref="DriverInput.DriversLicenseNumber" />
+                      </section>
+                      <section direction="down" captionPosition="above" showCaption="repeat" validRef="DriverPrivate.IsYouthful" fldClass="x_InputWidth215" capClass="x_Width200">
+                        <reference idref="DriverInput.GoodStudent">
+                          <nameValues />
+                        </reference>
+                        <reference idref="DriverInput.DistantStudent">
+                          <nameValues />
+                        </reference>
+                        <reference idref="DriverInput.DriverTraining" onBlur="1" compute="1">
+                          <nameValues />
+                        </reference>
+                      </section>
+                      <nameValues />
+                    </section>
+                    <nameValues />
+                  </section>
+                </group>
+                <nameValues />
+              </section>
+              <action command="custom" caption="Add another driver" displayType="action" validRef="LinePrivate.SingleDriver">
+                <nameValues />
+                <request verb="ManuScript.addObjectRecordRq">
+                  <nameValues>
+                    <nameValue idref="PolicyAdmin.PolicyManuScriptID" name="manuscript" dataType="attribute" />
+                    <nameValue value="Driver" name="objectID" dataType="attribute" />
+                  </nameValues>
+                </request>
+              </action>
+              <nameValues />
+              <reference idref="DriverInput.Message" />
+            </section>
+            <nameValues />
+          </section>
+        </group>
+        <nameValues>
+          <nameValue idref="AllPage.ReadOnly" name="readOnly" />
+          <nameValue idref="True" name="hideAnnotations" />
+        </nameValues>
+      </page>
+    </topic>
+  </topics>
+</ManuScript>
