@@ -1,6 +1,14 @@
 trigger:
+
 - master
 pool:
   vmImage: 'windows-latest'
 steps:
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Write your commands here
+        
+        echo 'HEXADCT.Testautomation pipeline is triggered'
   - script: java -cp RunnableTALOSJava_1.jar;.;lib/*;lib/*;lib/ext/*;CustomActions/* main.Main "20.198.92.131#$(Build.Repository.LocalPath)#1#2#1"
