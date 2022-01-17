@@ -9,4 +9,4 @@ steps:
       script: |
         # Write your commands here
         echo 'HEXADCT.Testautomation pipeline is triggered'
-  - script: java -cp RunnableTALOSJava_1.jar;.;lib/*;lib/*;lib/ext/*;CustomActions/* main.Main "20.198.92.131#$(Build.Repository.LocalPath)#1#2#1"
+  - script: java -cp C:\\Hexaware\\"TALOS Utility"\\JavaCABuild\\lib\\talosexecution.jar;.;lib/*;CustomActions/*; com.hexaware.TalosExecution.Engine.main.ExecutionLauncher -dbUrl jdbc:postgresql://34.206.31.192:5432/postgres -dbuser atop -dbpass Password123 -app Talos -pId 227 -tsId 137 -ws ws://34.206.31.192:8282//talos/socket -talosPath C:/ATOP/Automation/TALOS/TALOS_Executables -th 5 -timeout 30000
