@@ -9,4 +9,5 @@ steps:
       script: |
         # Write your commands here
         echo 'HEXADCT.Testautomation pipeline is triggered'
-  - script: java -cp C:\\Hexaware\\"TALOS Utility"\\JavaCABuild\\lib\\talosexecution.jar;.;lib/*;CustomActions/*; com.hexaware.TalosExecution.Engine.main.ExecutionLauncher -dbUrl jdbc:postgresql://34.206.31.192:5432/postgres -dbuser atop -dbpass Password123 -app Talos -pId 227 -tsId 137 -ws ws://34.206.31.192:8282//talos/socket -talosPath C:/ATOP/Automation/TALOS/TALOS_Executables -th 5 -timeout 30000
+  - script: |-
+     curl -X POST "http://34.206.31.192:8282/talos/external/executeTestSet" -H "accept: */*" -H "apiKey: 2cff6e67-d459-46c1-80c1-e8784ef4d4a4" -H "secretKey: 61f59437-0dad-4e4e-b95c-e3ca665db06b" -H "Content-Type: application/json" -d "{ \"loggedUserName\": \"Magesh\", \"maxNumberOfThreads\": 2, \"testSetId\": 137, \"triggeredFromApp\": \"app2\"}"
